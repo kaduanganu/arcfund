@@ -844,6 +844,15 @@ async function showScreen2() {
   const userBal = await getUserBalance();
   const systemBal = await getSystemBalance();
 
+  const chainLogo = {
+  "arc-testnet": "/logo/arc_logo_small2_opaq2.png",
+  "base-sepolia": "/logo/base_logo_small.png",
+  "ink-sepolia": "/logo/ink_logo_small.png",
+  "arbitrum-sepolia": "/logo/arb_logo_small.png",
+  "ethereum-sepolia": "/logo/eth_logo_small.png",
+  "avalanche-fuji": "/logo/avax_logo_small.png"
+  };
+
   document.getElementById('root').innerHTML = `
     <div class="container">
       <div style="display:flex;justify-content:flex-start;gap:8px;align-items:center;margin-bottom:8px;">
@@ -861,8 +870,108 @@ async function showScreen2() {
       </div>
 
       <div class="readonly2"">
-        🔵 what chain you want to use?</span>
+        🔵 pick your preffered chain.</span>
       </div>
+
+
+
+
+
+<div
+  id="chainModal"
+  onclick="hideChainlist()"
+  style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    z-index:8888;
+
+    justify-content:center;
+    align-items:flex-start;
+
+    overflow-y:auto;
+    padding-top:20px;
+    padding-bottom:20px;
+  "
+>
+
+  <div
+    style="
+      background:transparent;
+      width:13.33%;
+    "
+  >
+
+      <div class="readonly2" style="text-align:center;">
+        🔵
+      </div>
+
+    <div class="flex-row" style="flex-direction: column;">
+
+      <div
+        class="option-btn-circle ${selectedChain==='arc-testnet' ? 'active' : ''}"
+        onclick="changeChainAndClose('arc-testnet')"
+      >
+        <img src="/logo/arc_logo_small2_opaq2.png" width="32" style="position: relative; top: 1px;">
+      </div>
+
+      <div
+        class="option-btn-circle ${selectedChain==='base-sepolia' ? 'active' : ''}"
+        onclick="changeChainAndClose('base-sepolia')"
+      >
+        <img src="/logo/base_logo_small.png" width="32" style="position: relative; top: 1px;">
+      </div>
+
+      <div
+        class="option-btn-circle-unsupported ${selectedChain==='eth-sepolia' ? 'active' : ''}"
+        onclick="event.stopPropagation(); gekunsupported();"
+      >
+        <img src="/logo/eth_logo_small.png" width="32" style="position: relative; top: 1px;">
+      </div>
+
+      <div
+        class="option-btn-circle ${selectedChain==='arbitrum-sepolia' ? 'active' : ''}"
+        onclick="changeChainAndClose('arbitrum-sepolia')"
+      >
+        <img src="/logo/arb_logo_small.png" width="32" style="position: relative; top: 1px;">
+      </div>
+
+      <div
+        class="option-btn-circle-unsupported ${selectedChain==='avalanche-fuji"' ? 'active' : ''}"
+        onclick="event.stopPropagation(); gekunsupported();"
+      >
+        <img src="/logo/avax_logo_small.png" width="32" style="position: relative; top: 1px;">
+      </div>
+
+      <div
+        class="option-btn-circle ${selectedChain==='ink-sepolia' ? 'active' : ''}"
+        onclick="changeChainAndClose('ink-sepolia')"
+      >
+        <img src="/logo/ink_logo_small.png" width="32" style="position: relative; top: 1px;">
+      </div>
+    </div>
+
+      <div class="readonly2" style="text-align:center;">
+        🔵
+      </div>
+
+<div class="flex-row" style="flex-direction: column; display:none;">
+  <button
+    class="btn"
+    onclick="hideChainlist()"
+  >
+    back
+  </button>
+</div>
+
+  </div>
+
+</div>
+
+
+
+
 
 <div class="flex-row">
 
@@ -884,23 +993,15 @@ async function showScreen2() {
          style="position: relative; top: 1px;">
   </div>
 
-  <div
-    class="option-btn-circle ${selectedChain==='ink-sepolia' ? 'active' : ''}"
-    onclick="changeChain('ink-sepolia')"
-  >
-    <img src="/logo/ink_logo_small.png"
-         width="32"
+<button
+    class="btn_op_rev"
+    onclick="showChainlist()">
+    <img src="/logo/all_logo_small.png"
+         height="20"
          style="position: relative; top: 1px;">
-  </div>
 
-  <div
-    class="option-btn-circle ${selectedChain==='arbitrum-sepolia' ? 'active' : ''}"
-    onclick="changeChain('arbitrum-sepolia')"
-  >
-    <img src="/logo/arb_logo_small.png"
-         width="32"
-         style="position: relative; top: 1px;">
-  </div>
+  </button>
+
 
 </div>
 
@@ -1070,6 +1171,50 @@ balanceInterval =
 
 let livePriceInterval = null;
 let isPredictionStarted = false;
+
+function showChainlist() {
+
+  document.getElementById(
+    "chainModal"
+  ).style.display = "flex";
+
+}
+
+function hideChainlist() {
+
+  document.getElementById(
+    "chainModal"
+  ).style.display = "none";
+
+}
+
+function changeChainAndClose(chain) {
+
+  changeChain(chain);
+
+  hideChainlist();
+
+}
+
+function gekunsupported() {
+      alert("❌ Chain offline.");
+      return;
+  }
+
+window.showChainlist = function () {
+  document.getElementById("chainModal").style.display = "flex";
+};
+
+window.hideChainlist = function () {
+  document.getElementById("chainModal").style.display = "none";
+};
+
+window.changeChainAndClose = function (chain) {
+  changeChain(chain);
+  hideChainlist();
+};
+
+window.gekunsupported = gekunsupported;
 
 function startLivePriceUpdates() {
   if (livePriceInterval) {

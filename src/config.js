@@ -4,8 +4,9 @@ const CONFIG = {
     "base-sepolia": true,
     "base-mainnet": false,
     "eth-sepolia": true,
-    "ink-sepolia": false,
-    "arbitrum-sepolia": true
+    "ink-sepolia": true,
+    "arbitrum-sepolia": true,
+    "avalanche-fuji": true
   },
 
   chains: {
@@ -56,7 +57,15 @@ const CONFIG = {
       name: "Arbitrum Sepolia",
       explorer: "https://sepolia.arbiscan.io",
       usdcAddress: "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"
-    }
+    },
+
+"avalanche-fuji": {
+  chainId: "43113",
+  rpcUrl: "https://api.avax-test.network/ext/bc/C/rpc",
+  name: "Avalanche Fuji",
+  explorer: "https://testnet.snowtrace.io",
+  usdcAddress: "0x5425890298aed601595a70AB815c96711a31Bc65"
+}
   },
 
   defaultChain: "arc-testnet"

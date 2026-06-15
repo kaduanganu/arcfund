@@ -162,3 +162,43 @@ function showScreen1() {
   left: 50%;
   transform: translateX(-50%);
 }
+
+  <div
+    class="option-btn-circle ${selectedChain==='ink-sepolia' ? 'active' : ''}"
+    onclick="changeChain('ink-sepolia')"
+  >
+    <img src="/logo/ink_logo_small.png"
+         width="32"
+         style="position: relative; top: 1px;">
+  </div>
+
+  <div
+    class="option-btn-circle ${selectedChain==='arbitrum-sepolia' ? 'active' : ''}"
+    onclick="changeChain('arbitrum-sepolia')"
+  >
+    <img src="/logo/arb_logo_small.png"
+         width="32"
+         style="position: relative; top: 1px;">
+  </div>
+
+
+  
+<div style="display:flex; justify-content:center; width:50%; margin:0 auto;">
+<button
+    class="btn"
+    style="flex:1;"
+    onclick="showChainlist()">
+    <img src="${chainLogo[selectedChain]}" alt="higher_logo" width="48" filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+    style="position: relative; top: 1px;">
+
+  </button>
+</div>
+
+
+<button
+    class="btn_op_rev"
+    onclick="showChainlist()">
+    <img src="${chainLogo[selectedChain]}" alt="higher_logo" width="32" filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+    style="position: relative; top: 1px;">
+
+  </button>

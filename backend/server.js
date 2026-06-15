@@ -407,7 +407,8 @@ const CHAINS = {
   "base-sepolia": { rpc: process.env.BASE_SEPOLIA_RPC, usdc: process.env.BASE_SEPOLIA_USDC, decimals: 6 },
   "eth-sepolia": { rpc: process.env.ETH_SEPOLIA_RPC, usdc: process.env.ETH_SEPOLIA_USDC, decimals: 6 },
   "ink-sepolia": { rpc: process.env.INK_SEPOLIA_RPC, usdc: process.env.INK_SEPOLIA_USDC, decimals: 6 },
-  "arbitrum-sepolia": { rpc: process.env.ARBITRUM_SEPOLIA_RPC, usdc: process.env.ARBITRUM_SEPOLIA_USDC, decimals: 6 }
+  "arbitrum-sepolia": { rpc: process.env.ARBITRUM_SEPOLIA_RPC, usdc: process.env.ARBITRUM_SEPOLIA_USDC, decimals: 6 },
+  "avalanche-fuji": { rpc: process.env.AVAX_FUJI_RPC, usdc: process.env.AVAX_FUJI_USDC, decimals: 6 }
 };
 
 const CHAIN_MAP = {
@@ -415,7 +416,8 @@ const CHAIN_MAP = {
   "base-sepolia": "Base_Sepolia",
   "eth-sepolia": "Ethereum_Sepolia",
   "ink-sepolia": "Ink_Sepolia",
-  "arbitrum-sepolia": "Arbitrum_Sepolia"
+  "arbitrum-sepolia": "Arbitrum_Sepolia",
+  "avalanche-fuji" : "Avalanche_Fuji"
 };
 
 const CHAIN_CONFIG = {
@@ -466,7 +468,15 @@ const CHAIN_CONFIG = {
       name: "Arbitrum Sepolia",
       explorer: "https://sepolia.arbiscan.io",
       usdcAddress: "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"
-    }
+    },
+
+"avalanche-fuji": {
+  chainId: "43113",
+  rpcUrl: "https://api.avax-test.network/ext/bc/C/rpc",
+  name: "Avalanche Fuji",
+  explorer: "https://testnet.snowtrace.io",
+  usdcAddress: "0x5425890298aed601595a70AB815c96711a31Bc65"
+}
   };
 
 function jsonBigInt(obj) {
