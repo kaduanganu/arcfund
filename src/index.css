@@ -774,6 +774,21 @@ select.rounded-select:hover {
   color: rgb(0, 100, 200);
 }
 
+.readonly2X {
+  background: transparent; /*#f8f8f8;*/
+  border: none; /*2px solid #ddd*/
+  font-size: 1.1rem;
+  text-align: right;
+  padding: 10px;
+  width: 100%;
+  margin: 6px 0;
+  border-radius: 0px;
+  /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+
+  color: rgb(0, 100, 200);
+}
+
 .readonly3 {
   background: transparent; /*#f8f8f8;*/
   border: none; /*2px solid #ddd*/
@@ -927,7 +942,11 @@ input[readonly_txt2] {
   }
   .readonly2 {
     font-size: 16px;
-  }  .readonly {
+  }
+  .readonly2X {
+    font-size: 16px;
+  }  
+  .readonly {
     font-size: 16px;
   }
   .readonly3 {

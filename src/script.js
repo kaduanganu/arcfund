@@ -869,9 +869,33 @@ async function showScreen2() {
         </div>
       </div>
 
-      <div class="readonly2"">
-        🔵 pick your preffered chain.</span>
+      <div class="readonly2">
+        🔵 pick your prefered chain.</span>
       </div>
+
+<div
+  style="
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    class="readonly33"
+  "
+>
+      <div class="readonly2X">
+        🔵</span>
+      </div>
+  <img
+    src="${chainLogo[selectedChain]}"
+    width="64"
+    height=auto
+  >
+      <div class="readonly2">
+        🔵</span>
+      </div>
+</div>
+
+<div style="height:20px;"></div>
 
 
 
