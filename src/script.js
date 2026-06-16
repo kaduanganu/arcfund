@@ -503,7 +503,7 @@ function repositionToasts() {
     .forEach((toast, index) => {
 
       toast.style.top =
-        `${20 + index * 70}px`;
+        `${20 + index * 60}px`;
 
     });
 
@@ -520,7 +520,7 @@ function showToast(
   toast.innerHTML = `
     <div style="
       position:fixed;
-      top:${20 + document.querySelectorAll('.toast').length * 70}px;
+      top:${20 + document.querySelectorAll('.toast').length * 60}px;
       left:50%;
       transform:translateX(-50%);
       background:rgba(0, 100, 200, 0.9);
