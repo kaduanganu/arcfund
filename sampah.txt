@@ -211,3 +211,287 @@ function showScreen1() {
                <div class="readonly2" style="font-size:1.8rem; text-align:center;">
         ●</span>
       </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+async function showLeaderboard() {
+  showLoading();
+  const response =
+    await fetch(
+      `${BACKEND_URL}/api/leaderboard`
+    );
+
+  const result =
+    await response.json();
+
+  if (!result.success) {
+
+    //alert("Failed to load leaderboard.");
+    showToast(
+    "❌ Leaderboard fail to load.",
+    3000,
+    0
+    );
+    return;
+  }
+
+  let data =
+    [...result.leaderboard];
+
+  // remove treasury wallet
+data = data.filter(
+  row =>
+    row.wallet.toLowerCase() !==
+    process.env.ARC_TREASURY
+);
+
+// remove 0x0000... wallet
+data = data.filter(
+  row =>
+    row.wallet.toLowerCase() !==
+    "0x0000000000000000000000000000000000000000"
+);
+
+  let myRow = null;
+
+if (userAddress) {
+
+  myRow = data.find(
+    x =>
+      x.wallet.toLowerCase() ===
+      userAddress.toLowerCase()
+  );
+
+}
+
+  const rows =
+    data.map((row, idx) => {
+
+      const isMe =
+        userAddress &&
+        row.wallet.toLowerCase() ===
+        userAddress.toLowerCase();
+
+      let rankDisplay;
+
+      const actualRank =
+        row.actualRank ||
+        row.rank;
+
+      if (actualRank === 1) {
+
+        rankDisplay =
+          '🌟' //`<img src="/logo/arc_logo_small2_opaq2.png" width="28">`
+
+      } else if (
+        actualRank === 2
+      ) {
+
+        rankDisplay =
+          `⭐`;
+
+      } else if (
+        actualRank === 3
+      ) {
+
+        rankDisplay =
+          `✨`;
+
+      }
+      else if (
+        actualRank > 999
+      ) {
+
+        rankDisplay =
+          "...";
+
+      } else {
+
+        rankDisplay =
+          ""+ actualRank;
+
+      }
+
+let rankHtml;
+
+if (actualRank === 1 || actualRank === 2 || actualRank === 3) {
+  rankHtml = `
+    <div style="width:40px;margin-left:0px;margin-right:22px;text-align:right;transform:translateX(7px);">
+      ${rankDisplay}
+    </div>
+  `;
+} else {
+  rankHtml = `
+    <div style="width:40px;margin-left:0px;margin-right:22px;text-align:right;">
+      ${rankDisplay}
+    </div>
+  `;
+}
+
+      return `
+
+      <div
+        class="readonly2"
+        style="
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          padding:10px;
+          margin-bottom:6px;
+          border-radius:9999px;
+          color:${
+            isMe
+            ? "rgb(255, 0, 0)"
+            : "rgb(0, 100, 200)"
+          };
+        "
+      >
+
+ ${rankHtml}
+
+        <div style="flex:1;">
+          ${shortWallet(row.wallet)}
+          ${
+            isMe
+            ? " <b> • 😁</b>"
+            : ""
+          }
+        </div>
+
+        <div style="width:80px;text-align:right;">
+          ${row.pnl}
+        </div>
+
+        <div style="width:70px;text-align:right;">
+          ${row.totalVolume}
+        </div>
+
+        <div style="width:60px;text-align:right;">
+          ${row.totalWins}
+        </div>
+
+        <div style="width:60px;text-align:right;margin-right:12px;">
+          ${row.totalBets}
+        </div>
+
+      </div>
+
+      `;
+
+    }).join("");
+
+  document.getElementById(
+    "root"
+  ).innerHTML = `
+
+    <div class="container">
+
+      <div
+        class="readonly33"
+        style="
+          text-align:center;
+          margin-bottom:15px;
+        "
+      >
+        leaderboard
+      </div>
+
+      <div
+        class="readonly2"
+        style="
+          display:flex;
+          justify-content:space-between;
+          padding:8px;
+          font-weight:bold;
+        "
+      >
+        <div style="width:40px;margin-left:0px;margin-right:22px;text-align:right;">#</div>
+        <div style="flex:1;">wallet</div>
+        <div style="width:80px;text-align:right;">pnl</div>
+        <div style="width:70px;text-align:right;">vol</div>
+        <div style="width:60px;text-align:right;">win</div>
+        <div style="width:60px;text-align:right;margin-right:12px;">bet</div>
+      </div>
+
+      ${myRow ? `
+
+<div
+  class="readonly2"
+  style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px;
+    margin-bottom:15px;
+    border-radius:9999px;
+    color:rgb(0, 100, 200);
+  "
+>
+
+  <div style="width:40px;margin-left:0px;margin-right:22px;text-align:right;">
+    ${myRow.rank}
+  </div>
+
+  <div style="flex:1;">
+    ${shortWallet(myRow.wallet)}
+    <b></b>
+  </div>
+
+  <div style="width:80px;text-align:right;">
+    ${myRow.pnl}
+  </div>
+
+  <div style="width:70px;text-align:right;">
+    ${myRow.totalVolume}
+  </div>
+
+  <div style="width:60px;text-align:right;">
+    ${myRow.totalWins}
+  </div>
+
+  <div style="width:60px;text-align:right;margin-right:12px;">
+    ${myRow.totalBets}
+  </div>
+
+</div>
+
+` : ""}
+
+
+
+<hr>
+
+      ${rows}
+
+      <div style="height:20px;"></div>
+      <button
+        class="btn"
+        onclick="showScreen2()"
+      >
+        back
+      </button>
+
+    </div>
+
+  `;
+  hideLoading();
+}

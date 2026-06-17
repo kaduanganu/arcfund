@@ -496,6 +496,12 @@ currentBet.betId = Date.now();
 }
 */
 
+function closeAllToasts() {
+  document.querySelectorAll(".toast").forEach(toast => {
+    toast.remove();
+  });
+}
+
 function repositionToasts() {
 
   document
@@ -506,6 +512,7 @@ function repositionToasts() {
         `${20 + index * 60}px`;
 
     });
+  let top = 20;
 
 }
 
@@ -532,6 +539,11 @@ function showToast(
       display:flex;
       align-items:center;
       gap:10px;
+      width:fit-content;
+  width:max-content;
+  max-width:90vw;
+  white-space:nowrap;
+  box-sizing:border-box;
       box-shadow:0 4px 12px rgba(0,0,0,0.4);
       transition: top 1s ease;
     ">
@@ -1028,13 +1040,14 @@ async function showScreen2() {
   "avalanche-fuji": "/logo/avax_logo_small.png"
   };
 
+  const logoWidth = window.innerWidth <= 768 ? '80%' : '50%';
+
   document.getElementById('root').innerHTML = `
     <div class="container">
       <div style="display:flex;justify-content:flex-start;gap:8px;align-items:center;margin-bottom:8px;">
         <div style="margin:0" class="readonly33">
          <img src="/logo/logo_judul_333_fit.png"
-         width:90%; height:auto;
-         style="position: relative; top: 0px;"></div>
+         style="width:${logoWidth}; height:auto; position: relative; top: 0px;"></div>
         <div onclick="showLeaderboard()" class="btn_smol_ns">
         🌟
         </div>
@@ -1091,13 +1104,15 @@ async function showScreen2() {
     overflow-y:auto;
     padding-top:20px;
     padding-bottom:20px;
+    box-sizing:border-box;
   "
 >
 
   <div
     style="
       background:transparent;
-      width:13.33%;
+      width:90vw;
+      max-width:228px;
     "
   >
 
@@ -1337,7 +1352,8 @@ async function showScreen2() {
   `;
 
   hideLoading();
-  
+  closeAllToasts();
+
     // Disable Predict Button
   const predictBtn = document.getElementById('predictBtn');
   if (predictBtn) {
@@ -1405,10 +1421,12 @@ window.showChainlist = function () {
 };
 
 window.hideChainlist = function () {
+  closeAllToasts();
   document.getElementById("chainModal").style.display = "none";
 };
 
 window.changeChainAndClose = function (chain) {
+  closeAllToasts();
   changeChain(chain);
   hideChainlist();
 };
@@ -2682,55 +2700,81 @@ if (actualRank === 1 || actualRank === 2 || actualRank === 3) {
   `;
 }
 
-      return `
+return `
+<div
+  class="readonly2"
+  style="
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:20px;
+    color:${
+      isMe
+      ? "rgb(0, 255, 255)"
+      : "rgb(0, 100, 200)"
+    };
+  "
+>
 
-      <div
-        class="readonly2"
-        style="
-          display:flex;
-          justify-content:space-between;
-          align-items:center;
-          padding:10px;
-          margin-bottom:6px;
-          border-radius:9999px;
-          color:${
-            isMe
-            ? "rgb(255, 0, 0)"
-            : "rgb(0, 100, 200)"
-          };
-        "
-      >
+  <div
+    style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:10px;
+      font-size:1.2rem;
+      font-weight:bold;
+    "
+  >
+  
+<div style="white-space:nowrap;">
+  🔵 
+  ${shortWallet(row.wallet)}
+  ${
+    actualRank <= 3
+      ? ` • ${rankDisplay}`
+      : ""
+  }
+  ${isMe ? " • 😁" : ""}
+</div>
 
- ${rankHtml}
+    <div>
+      ${actualRank}
+    </div>
+  </div>
 
-        <div style="flex:1;">
-          ${shortWallet(row.wallet)}
-          ${
-            isMe
-            ? " <b> • 😁</b>"
-            : ""
-          }
-        </div>
+  <div
+    style="
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:6px 20px;
+      font-size:0.9rem;
+    "
+  >
 
-        <div style="width:80px;text-align:right;">
-          ${row.pnl}
-        </div>
+    <div style="display:flex;justify-content:space-between;">
+      <span>● pnl</span>
+      <span>${row.pnl}</span>
+    </div>
 
-        <div style="width:70px;text-align:right;">
-          ${row.totalVolume}
-        </div>
+    <div style="display:flex;justify-content:space-between;">
+      <span>● win</span>
+      <span>${row.totalWins}</span>
+    </div>
 
-        <div style="width:60px;text-align:right;">
-          ${row.totalWins}
-        </div>
+    <div style="display:flex;justify-content:space-between;">
+      <span>● vol</span>
+      <span>${row.totalVolume}</span>
+    </div>
 
-        <div style="width:60px;text-align:right;margin-right:12px;">
-          ${row.totalBets}
-        </div>
+    <div style="display:flex;justify-content:space-between;">
+      <span>● bet</span>
+      <span>${row.totalBets}</span>
+    </div>
 
-      </div>
+  </div>
 
-      `;
+</div>
+`;
 
     }).join("");
 
@@ -2750,65 +2794,83 @@ if (actualRank === 1 || actualRank === 2 || actualRank === 3) {
         leaderboard
       </div>
 
-      <div
-        class="readonly2"
-        style="
-          display:flex;
-          justify-content:space-between;
-          padding:8px;
-          font-weight:bold;
-        "
-      >
-        <div style="width:40px;margin-left:0px;margin-right:22px;text-align:right;">#</div>
-        <div style="flex:1;">wallet</div>
-        <div style="width:80px;text-align:right;">pnl</div>
-        <div style="width:70px;text-align:right;">vol</div>
-        <div style="width:60px;text-align:right;">win</div>
-        <div style="width:60px;text-align:right;margin-right:12px;">bet</div>
-      </div>
 
-      ${myRow ? `
 
+${myRow ? `
 <div
   class="readonly2"
   style="
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:10px;
+    padding:12px;
     margin-bottom:15px;
-    border-radius:9999px;
+    border-radius:20px;
     color:rgb(0, 100, 200);
   "
 >
 
-  <div style="width:40px;margin-left:0px;margin-right:22px;text-align:right;">
-    ${myRow.rank}
+  <div
+    style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:10px;
+      font-size:1.2rem;
+      font-weight:bold;
+    "
+  >
+
+<div style="white-space:nowrap;">
+  🔵 
+  ${shortWallet(myRow.wallet)}
+  ${
+    myRow.rank === 1
+      ? " • 🌟"
+      : myRow.rank === 2
+      ? " • ⭐"
+      : myRow.rank === 3
+      ? " • ✨"
+      : ""
+  }
+</div>
+<div>
+  ${
+    myRow.rank
+  }
+</div>
+
   </div>
 
-  <div style="flex:1;">
-    ${shortWallet(myRow.wallet)}
-    <b></b>
-  </div>
+  <div
+    style="
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:6px 20px;
+      font-size:0.9rem;
+    "
+  >
 
-  <div style="width:80px;text-align:right;">
-    ${myRow.pnl}
-  </div>
+    <div style="display:flex;justify-content:space-between;">
+      <span>● pnl</span>
+      <span>${myRow.pnl}</span>
+    </div>
 
-  <div style="width:70px;text-align:right;">
-    ${myRow.totalVolume}
-  </div>
+    <div style="display:flex;justify-content:space-between;">
+      <span>● win</span>
+      <span>${myRow.totalWins}</span>
+    </div>
 
-  <div style="width:60px;text-align:right;">
-    ${myRow.totalWins}
-  </div>
+    <div style="display:flex;justify-content:space-between;">
+      <span>● vol</span>
+      <span>${myRow.totalVolume}</span>
+    </div>
 
-  <div style="width:60px;text-align:right;margin-right:12px;">
-    ${myRow.totalBets}
+    <div style="display:flex;justify-content:space-between;">
+      <span>● bet</span>
+      <span>${myRow.totalBets}</span>
+    </div>
+
   </div>
 
 </div>
-
 ` : ""}
 
 
@@ -2817,19 +2879,25 @@ if (actualRank === 1 || actualRank === 2 || actualRank === 3) {
 
       ${rows}
 
-      <div style="height:20px"></div>
-
-      <button
-        class="btn"
-        onclick="showScreen2()"
-      >
-        back
-      </button>
+      <div style="height:20px;"></div>
+<div style="text-align:center;">
+  <button
+    class="btn"
+    onclick="showScreen2()"
+    style="
+      width:228px !important;
+      display:inline-block;
+    "
+  >
+    back
+  </button>
+</div>
 
     </div>
 
   `;
   hideLoading();
+  closeAllToasts();
 }
 
 window.showLeaderboard =
