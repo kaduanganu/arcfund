@@ -1139,7 +1139,7 @@ async function showScreen2() {
 
       <div
         class="option-btn-circle-unsupported ${selectedChain==='eth-sepolia' ? 'active' : ''}"
-        onclick="changeChainAndClose('eth-sepolia')"
+        onclick="event.stopPropagation(); gekunsupported();"
       >
         <img src="/logo/eth_logo_small.png" width="32" style="position: relative; top: 1px;">
       </div>
@@ -1214,7 +1214,7 @@ async function showScreen2() {
   </div>
 
 <button
-    class="btn_op_rev2" style="font-size:1.3rem;"
+    class="btn_op_rev2" style="font-size:1.1rem;"
     onclick="showChainlist()">
         all chain</span>
   </button>
@@ -2762,22 +2762,22 @@ return `
   >
 
     <div style="display:flex;justify-content:space-between;">
-      <span>● total pnl</span>
+      <span>● pnl</span>
       <span>${row.pnl}</span>
     </div>
 
     <div style="display:flex;justify-content:space-between;">
-      <span>● total win</span>
+      <span>● win</span>
       <span>${row.totalWins}</span>
     </div>
 
     <div style="display:flex;justify-content:space-between;">
-      <span>● total volume</span>
+      <span>● volume</span>
       <span>${row.totalVolume}</span>
     </div>
 
     <div style="display:flex;justify-content:space-between;">
-      <span>● total bet</span>
+      <span>● bet</span>
       <span>${row.totalBets}</span>
     </div>
 
@@ -2859,22 +2859,22 @@ ${myRow ? `
   >
 
     <div style="display:flex;justify-content:space-between;">
-      <span>● total pnl</span>
+      <span>● pnl</span>
       <span>${myRow.pnl}</span>
     </div>
 
     <div style="display:flex;justify-content:space-between;">
-      <span>● total win</span>
+      <span>● win</span>
       <span>${myRow.totalWins}</span>
     </div>
 
     <div style="display:flex;justify-content:space-between;">
-      <span>● total volume</span>
+      <span>● volume</span>
       <span>${myRow.totalVolume}</span>
     </div>
 
     <div style="display:flex;justify-content:space-between;">
-      <span>● total bet</span>
+      <span>● bet</span>
       <span>${myRow.totalBets}</span>
     </div>
 

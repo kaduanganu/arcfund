@@ -498,3 +498,4 @@ if (actualRank === 1 || actualRank === 2 || actualRank === 3) {
 
 
         onclick="event.stopPropagation(); gekunsupported();"
+        onclick="changeChainAndClose('eth-sepolia')"
