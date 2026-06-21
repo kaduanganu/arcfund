@@ -1216,7 +1216,7 @@ async function showScreen2() {
 <button
     class="btn_op_rev2" style="font-size:1.1rem;"
     onclick="showChainlist()">
-        all chain</span>
+        all chains</span>
   </button>
 
 
