@@ -528,8 +528,6 @@ function showToast(
     <div style="
       position:fixed;
       top:${20 + document.querySelectorAll('.toast').length * 60}px;
-      left:50%;
-      transform:translateX(-50%);
       background:rgba(0, 100, 200, 0.9);
       color:white;
       padding:12px 20px;
@@ -562,6 +560,34 @@ function showToast(
 
   const box = toast.firstElementChild;
   box.classList.add("toast");
+
+  // ADD THIS HERE
+const chainModal =
+  document.getElementById("chainModal");
+
+if (
+  chainModal &&
+  chainModal.style.display !== "none"
+) {
+
+  const content =
+    chainModal.firstElementChild;
+
+  const rect =
+    content.getBoundingClientRect();
+
+  box.style.left =
+    `${rect.left + rect.width / 2}px`;
+
+} else {
+
+  box.style.left = "50%";
+
+}
+
+box.style.transform =
+  "translateX(-50%)";
+  // ADD THIS HERE
 
   setTimeout(() => {
 
