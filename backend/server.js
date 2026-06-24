@@ -396,7 +396,7 @@ const vault =
       //"function owner() view returns (address)"
 
       "function deposit(bytes32 keyHash,uint256 amount)",
-      "function withdraw(bytes32 keyHash,uint256 amount)",
+      "function withdraw(bytes32 keyHash,uint256 amount,address recipient)",
       "function getBalance(bytes32 keyHash) view returns(uint256)",
       "function creditBridgeDeposit(bytes32 keyHash, uint256 amount)",
       "function vaultUSDCBalance() view returns (uint256)",
@@ -1392,7 +1392,7 @@ app.post( "/api/vault/withdraw", async (req,res) => {
   const keyHash = ethers.keccak256( ethers.toUtf8Bytes( secret ) ); 
   const amount6 = ethers.parseUnits( amount, 6 ); 
   /* const tx = await vault.withdraw( userAddress, keyHash, amount6, userAddress ); */ 
-  const tx = await vault.withdraw( keyHash, amount6 ); 
+  const tx = await vault.withdraw( keyHash, amount6, userAddress ); 
   await tx.wait(); res.json({ success:true }); } 
   catch(err) { res.status(500).json({ success:false, message:err.message }); } });
 

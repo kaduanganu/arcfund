@@ -408,7 +408,7 @@ const VAULT_ABI = [
       //"function owner() view returns (address)"
 
       "function deposit(bytes32 keyHash,uint256 amount)",
-      "function withdraw(bytes32 keyHash,uint256 amount)",
+      "function withdraw(bytes32 keyHash,uint256 amount,address recipient)",
       "function getBalance(bytes32 keyHash) view returns(uint256)",
       "function creditBridgeDeposit(bytes32 keyHash, uint256 amount)",
       "function vaultUSDCBalance() view returns (uint256)",
