@@ -1375,7 +1375,7 @@ async function refreshWithdrawAmount() {
 
     const response =
       await fetch(
-        `${BACKEND_URL}/api/vault-balance-by-key?address=${userAddress}&keyHash=${keyHash}`
+        `${BACKEND_URL}/api/vault-balance-by-key?keyHash=${keyHash}`
       );
 
     const data =
