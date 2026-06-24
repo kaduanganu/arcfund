@@ -1043,10 +1043,18 @@ app.get(
 
       const { address } = req.query;
 
+      console.log("address =", req.query.address);
+      console.log("address2 =", address);
+
       const balance =
         await vault.getTotalBalance(
           address
         );
+
+            console.log(
+      "raw balance =",
+      balance.toString()
+    );
 
       res.json({
         success:true,
@@ -1061,6 +1069,11 @@ app.get(
 
       console.error(err);
 
+          console.error(
+      "VAULT BALANCE ERROR:",
+      err
+    );
+    
       res.status(500).json({
         success:false,
         message:err.message
