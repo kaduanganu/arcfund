@@ -400,9 +400,9 @@ const VAULT_ADDRESS_USDC =
   import.meta.env.VITE_VAULT_ADDRESS_USDC;
 
 const VAULT_ABI = [
-  "function deposit(bytes32 keyHash, uint256 amount)",
-  "function withdraw(bytes32 keyHash, uint256 amount)",
-  "function getBalance(bytes32 keyHash) view returns(uint256)"
+  "function deposit(address user,bytes32 keyHash,uint256 amount)",
+  "function withdraw(address user,bytes32 keyHash,uint256 amount,address recipient)",
+  "function getBalance(address user,bytes32 keyHash)view returns(uint256)"
 ];
 
 async function getVaultContract() {

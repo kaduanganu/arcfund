@@ -21,6 +21,31 @@ let priceCache = {
 
 let lastUpdate = 0;
 
+const provider =
+  new ethers.JsonRpcProvider(
+    process.env.ARC_RPC_URL
+  );
+
+const wallet =
+  new ethers.Wallet(
+    process.env.PRIVATE_KEY,
+    provider
+  );
+
+const vault =
+  new ethers.Contract(
+    process.env.VAULT_ADDRESS,
+    VAULT_ABI,
+    wallet
+  );
+
+const usdc =
+  new ethers.Contract(
+    process.env.ARC_USDC,
+    USDC_ABI,
+    wallet
+  );
+  
 // smart_contract
 const BET_RECORDER_ADDRESS =
   "0xa45EEE463D60fAea777a4516BB5Af1A828F2cE8c";
@@ -373,6 +398,28 @@ app.use((req, res, next) => {
 
 console.log("SERVER STARTING...");
 
+const provider =
+  new ethers.JsonRpcProvider(
+    process.env.ARC_RPC_URL
+  );
+
+const wallet =
+  new ethers.Wallet(
+    process.env.PRIVATE_KEY,
+    provider
+  );
+
+const vault =
+  new ethers.Contract(
+    process.env.VAULT_ADDRESS,
+    [
+      "function deposit(address user, bytes32 keyHash, uint256 amount)",
+      "function withdraw(address user, bytes32 keyHash, uint256 amount, address recipient)",
+      "function getBalance(address user, bytes32 keyHash) view returns(uint256)"
+    ],
+    wallet
+  );
+  
 //app.get('/', (req, res) => {
   //res.send('SERVER WORKING');
 //});
@@ -1213,81 +1260,91 @@ app.get("/api/vault/test", (req, res) => {
 /*
 DEPOSIT
 */
-app.post("/api/vault/deposit", async (req, res) => {
+app.post(
+  "/api/vault/deposit",
+  async (req,res) => {
 
-  try {
+    try {
 
-    const {
-      amount,
-      chain,
-      keyHash,
-      userAddress
-    } = req.body;
+      const {
+        amount,
+        chain,
+        keyHash,
+        userAddress
+      } = req.body;
 
-    console.log("Deposit request:", {
-      amount,
-      chain,
-      keyHash,
-      userAddress
-    });
+      const amount6 =
+        ethers.parseUnits(
+          amount,
+          6
+        );
 
-    res.json({
-      success: true
-    });
+      //
+      // bridge first if needed
+      //
 
-  } catch (err) {
+      if (
+        chain !==
+        "arc-testnet"
+      ) {
 
-    console.error(err);
+        await bridgeToArc(
+          chain,
+          amount
+        );
 
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
+      }
 
-  }
+      //
+      // treasury -> vault
+      //
+
+      const transferTx =
+        await usdc.transfer(
+          process.env.VAULT_ADDRESS,
+          amount6
+        );
+
+      await transferTx.wait();
+
+      //
+      // record ownership
+      //
+
+      const depositTx =
+        await vault.deposit(
+          userAddress,
+          keyHash,
+          amount6
+        );
+
+      await depositTx.wait();
+
+      res.json({
+        success:true
+      });
+
+    } catch(err) {
+
+      console.error(err);
+
+      res.status(500).json({
+        success:false,
+        message:err.message
+      });
+
+    }
 
 });
 
-/*
-WITHDRAW
-*/
-app.post("/api/vault/withdraw", async (req, res) => {
-
-  try {
-
-    const {
-      secret,
-      amount,
-      userAddress
-    } = req.body;
-
-    const keyHash =
-      ethers.keccak256(
-        ethers.toUtf8Bytes(secret)
-      );
-
-    console.log("Withdraw request:", {
-      keyHash,
-      amount,
-      userAddress
-    });
-
-    res.json({
-      success: true
-    });
-
-  } catch (err) {
-
-    console.error(err);
-
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
-
-  }
-
-});
+/* WITHDRAW */ 
+app.post( "/api/vault/withdraw", async (req,res) => { 
+  try { const { secret, amount, userAddress } = req.body; 
+  const keyHash = ethers.keccak256( ethers.toUtf8Bytes( secret ) ); 
+  const amount6 = ethers.parseUnits( amount, 6 ); 
+  const tx = await vault.withdraw( userAddress, keyHash, amount6, userAddress ); 
+  await tx.wait(); res.json({ success:true }); } 
+  catch(err) { res.status(500).json({ success:false, message:err.message }); } });
 
 app.post('/api/claim', async (req, res) => {
 
