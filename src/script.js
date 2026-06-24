@@ -400,9 +400,12 @@ const VAULT_ADDRESS_USDC =
   import.meta.env.VITE_VAULT_ADDRESS_USDC;
 
 const VAULT_ABI = [
-  "function deposit(address user,bytes32 keyHash,uint256 amount)",
-  "function withdraw(address user,bytes32 keyHash,uint256 amount,address recipient)",
-  "function getBalance(address user,bytes32 keyHash)view returns(uint256)"
+      "function deposit(bytes32 keyHash,uint256 amount)",
+      "function withdraw(bytes32 keyHash,uint256 amount)",
+      "function getBalance(address user,bytes32 keyHash) view returns(uint256)",
+      "function getTotalBalance(address user) view returns(uint256)",
+      "function creditBridgeDeposit(address user, bytes32 keyHash, uint256 amount)",
+      "function owner() view returns (address)"
 ];
 
 async function getVaultContract() {
@@ -1389,22 +1392,6 @@ async function refreshWithdrawAmount() {
 
 }
 
-window.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    document
-      .getElementById(
-        "livePrice111keyWD"
-      )
-      .addEventListener(
-        "input",
-        refreshWithdrawAmount
-      );
-
-  }
-);
-
 async function withdrawUSDC() {
 
   try {
@@ -1849,32 +1836,24 @@ function setupKeyInput() {
   };
 }
 
-const withdrawKeyInput =
-  document.getElementById(
-    "livePrice111keyWD"
+ const keyInput =
+    document.getElementById(
+      "livePrice111keyWD"
+    );
+
+  console.log(
+    "key input =",
+    keyInput
   );
 
-withdrawKeyInput.addEventListener(
-  "input",
-  async () => {
+  if (keyInput) {
 
-    const secret =
-      withdrawKeyInput.value;
-
-    if (!secret) return;
-
-    const keyHash =
-      getKeyHash(secret);
-
-    const balance =
-      await vaultContract.getBalance(
-        keyHash
-      );
-
-    console.log(balance);
+    keyInput.addEventListener(
+      "input",
+      refreshWithdrawAmount
+    );
 
   }
-);
 
   hideLoading();
   closeAllToasts();
