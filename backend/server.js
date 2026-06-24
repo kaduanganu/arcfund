@@ -1202,7 +1202,7 @@ res.json({
 TEST
 https://your-backend/api/vault/test
 */
-app.get("/vault/test", (req, res) => {
+router.get("/vault/test", (req, res) => {
 
   res.json({
     success: true,
@@ -1214,7 +1214,7 @@ app.get("/vault/test", (req, res) => {
 /*
 DEPOSIT
 */
-app.post("/vault/deposit", async (req, res) => {
+router.post("/vault/deposit", async (req, res) => {
 
   try {
 
@@ -1258,7 +1258,7 @@ app.post("/vault/deposit", async (req, res) => {
 /*
 WITHDRAW
 */
-app.post("/vault/withdraw", async (req, res) => {
+router.post("/vault/withdraw", async (req, res) => {
 
   try {
 
@@ -1284,6 +1284,97 @@ app.post("/vault/withdraw", async (req, res) => {
       check vault balance
       call withdraw contract
     */
+
+    res.json({
+      success: true
+    });
+
+  } catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+
+  }
+
+});
+
+/*
+TEST
+*/
+app.get("/api/vault/test", (req, res) => {
+
+  res.json({
+    success: true,
+    message: "Vault route working"
+  });
+
+});
+
+/*
+DEPOSIT
+*/
+app.post("/api/vault/deposit", async (req, res) => {
+
+  try {
+
+    const {
+      amount,
+      chain,
+      keyHash,
+      userAddress
+    } = req.body;
+
+    console.log("Deposit request:", {
+      amount,
+      chain,
+      keyHash,
+      userAddress
+    });
+
+    res.json({
+      success: true
+    });
+
+  } catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+
+  }
+
+});
+
+/*
+WITHDRAW
+*/
+app.post("/api/vault/withdraw", async (req, res) => {
+
+  try {
+
+    const {
+      secret,
+      amount,
+      userAddress
+    } = req.body;
+
+    const keyHash =
+      ethers.keccak256(
+        ethers.toUtf8Bytes(secret)
+      );
+
+    console.log("Withdraw request:", {
+      keyHash,
+      amount,
+      userAddress
+    });
 
     res.json({
       success: true
