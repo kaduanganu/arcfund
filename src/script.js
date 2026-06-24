@@ -411,7 +411,8 @@ const VAULT_ABI = [
       "function withdraw(bytes32 keyHash,uint256 amount)",
       "function getBalance(bytes32 keyHash) view returns(uint256)",
       "function creditBridgeDeposit(bytes32 keyHash, uint256 amount)",
-      "function vaultUSDCBalance() view returns (uint256)"
+      "function vaultUSDCBalance() view returns (uint256)",
+      "function owner() view returns(address)"
 ];
 
 async function getVaultContract() {
