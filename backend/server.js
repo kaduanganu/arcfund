@@ -391,7 +391,9 @@ const vault =
       "function deposit(bytes32 keyHash,uint256 amount)",
       "function withdraw(bytes32 keyHash,uint256 amount)",
       "function getBalance(address user,bytes32 keyHash) view returns(uint256)",
-      "function getTotalBalance(address user) view returns(uint256)"
+      "function getTotalBalance(address user) view returns(uint256)",
+      "function creditBridgeDeposit(address user, bytes32 keyHash, uint256 amount)",
+      "function owner() view returns (address)"
     ],
     wallet
   );
@@ -1073,7 +1075,7 @@ app.get(
       "VAULT BALANCE ERROR:",
       err
     );
-    
+
       res.status(500).json({
         success:false,
         message:err.message
@@ -1343,8 +1345,18 @@ app.post(
       // record ownership
       //
 
+      console.log(
+  "backend wallet:",
+  await wallet.getAddress()
+);
+
+console.log(
+  "vault owner:",
+  await vault.owner()
+);
+
       const depositTx =
-        await vault.deposit(
+        await vault.creditBridgeDeposit(
           userAddress,
           keyHash,
           amount6

@@ -1212,6 +1212,8 @@ async function depositUSDC() {
     // SEND TO TREASURY
     //
 
+    console.log("STEP 1 transfer");
+
     const tx =
       await usdc.transfer(
         TREASURY_ADDRESS,
@@ -1219,6 +1221,8 @@ async function depositUSDC() {
       );
 
     await tx.wait();
+
+    console.log("STEP 2 transfer done");
 
     //
     // TELL BACKEND
@@ -1242,8 +1246,16 @@ async function depositUSDC() {
         }
       );
 
+      console.log("STEP 3 backend response");
+
     const result =
       await response.json();
+
+      console.log(
+  "vault result",
+  result
+);
+
 
     if (!result.success) {
 
@@ -1251,6 +1263,8 @@ async function depositUSDC() {
         result.message
       );
     }
+
+    console.log("STEP 4 vault ok");
 
     //
     // BRIDGE ONLY IF NEEDED
@@ -1261,6 +1275,8 @@ async function depositUSDC() {
       "arc-testnet"
     ) {
 
+        console.log("STEP 5 bridge");
+        
       const bridgeResponse =
         await fetch(
           `${BACKEND_URL}/api/bridge-to-arc`,
@@ -1279,6 +1295,11 @@ async function depositUSDC() {
 
       const bridgeResult =
         await bridgeResponse.json();
+
+          console.log(
+    "bridge result",
+    bridgeResult
+  );
 
       if (
         bridgeResult.state ===
@@ -1299,6 +1320,11 @@ async function depositUSDC() {
 
   } catch (err) {
 
+      console.error(
+    "DEPOSIT ERROR:",
+    err
+  );
+  
     console.error(err);
 
     showToast(
