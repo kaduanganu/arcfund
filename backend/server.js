@@ -21,13 +21,6 @@ let priceCache = {
 
 let lastUpdate = 0;
 
-const usdc =
-  new ethers.Contract(
-    process.env.ARC_USDC,
-    USDC_ABI,
-    wallet
-  );
-  
 // smart_contract
 const BET_RECORDER_ADDRESS =
   "0xa45EEE463D60fAea777a4516BB5Af1A828F2cE8c";
@@ -401,6 +394,14 @@ const vault =
     ],
     wallet
   );
+  
+const usdc =
+  new ethers.Contract(
+    process.env.ARC_USDC,
+    USDC_ABI,
+    wallet
+  );
+  
   
 //app.get('/', (req, res) => {
   //res.send('SERVER WORKING');
