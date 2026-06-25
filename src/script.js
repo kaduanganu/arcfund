@@ -1496,7 +1496,7 @@ async function depositUSDC() {
     if (amount <= 0 || amount == null) {
 
       showToast(
-        "❌ Empty deposit not allowed.",
+        "❌ Empty deposit are not allowed.",
         3000,
         0
       );
@@ -1692,6 +1692,30 @@ async function createTicket() {
             "livePriceXXX"
         ).value;
 
+    if (amount <= 0 || amount == null) {
+
+      showToast(
+        "❌ Empty ticket are not allowed.",
+        3000,
+        0
+      );
+
+      return;
+    }
+
+    const systemBalX = await refreshVaultBalance();
+    
+    if (systemBalX < amount) {
+
+      showToast(
+        "❌ Insufficient ● USDC on Vault.",
+        3000,
+        0
+      );
+
+      return;
+    }
+
     let secret =
         document.getElementById(
             "livePriceXXXkey"
@@ -1708,6 +1732,8 @@ async function createTicket() {
         ).value = secret;
     }
 
+    showLoading();
+    
     const res =
         await fetch(
             `${BACKEND_URL}/api/vault/create-ticket`,
@@ -1727,11 +1753,19 @@ async function createTicket() {
     const data =
         await res.json();
 
-    alert(
-        data.success
-            ? "Ticket created"
-            : data.message
+    hideLoading();
+
+    showToast(
+      "✅ Ticket created.",
+      3000,
+      1
     );
+
+    //alert(
+        //data.success
+            //? "Ticket created"
+            //: data.message
+    //);
 }
 
 window.createTicket = createTicket;
