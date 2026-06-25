@@ -673,6 +673,14 @@ const vault =
     wallet
   );
   
+console.log("Vault address:", VAULT_ADDRESS);
+
+console.log(
+    vault.interface.fragments
+        .filter(f => f.type === "function")
+        .map(f => f.name)
+);
+
 const usdc =
   new ethers.Contract(
     process.env.ARC_TESTNET_USDC,
@@ -865,6 +873,11 @@ async (req,res) => {
         });
 
     } catch(err) {
+
+            console.error(
+        "CREATE TICKET ERROR:",
+        err
+      );
 
         res.status(500).json({
             success:false,
