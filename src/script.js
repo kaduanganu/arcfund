@@ -1496,7 +1496,7 @@ async function depositUSDC() {
     if (amount <= 0 || amount == null) {
 
       showToast(
-        "❌ Empty deposit are not allowed.",
+        "❌ Empty deposit not allowed.",
         3000,
         0
       );
@@ -1695,7 +1695,7 @@ async function createTicket() {
     if (amount <= 0 || amount == null) {
 
       showToast(
-        "❌ Empty ticket are not allowed.",
+        "❌ Empty ticket not allowed.",
         3000,
         0
       );
@@ -1829,10 +1829,50 @@ async function withdrawUSDC() {
         "livePrice111WD"
       ).value;
 
+    if (amount <= 0 || amount == null) {
+
+      showToast(
+        "❌ Empty withdrawal not allowed.",
+        3000,
+        0
+      );
+
+      return;
+    }
+
     const secret =
       document.getElementById(
         "livePrice111keyWD"
       ).value;
+
+      const res =
+        await fetch(
+            `${BACKEND_URL}/api/vault/ticket-balance`,
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+                body:JSON.stringify({
+                    secret
+                })
+            }
+        );
+
+    const data =
+        await res.json();
+
+    if (amount > data.balance) {
+
+      showToast(
+        "❌ Request above the limit.",
+        3000,
+        0
+      );
+
+      return;
+    }
 
     const chainKey =
       selectedChain;
@@ -1840,6 +1880,8 @@ async function withdrawUSDC() {
     //
     // WITHDRAW FROM VAULT
     //
+
+    showLoading();
 
     const response =
       await fetch(
@@ -1911,6 +1953,8 @@ async function withdrawUSDC() {
 
     }
 
+    hideLoading();
+
     showToast(
       "✅ Withdrawal succeed.",
       3000,
@@ -1920,6 +1964,8 @@ async function withdrawUSDC() {
   } catch(err) {
 
     console.error(err);
+
+    hideLoading();
 
     showToast(
       "❌ Fail to withdraw.",
@@ -2173,11 +2219,11 @@ async function showScreen2() {
 <hr>
 
       <div class="readonly3" style="display:flex; justify-content:space-between; align-items:center;">
-        ○ on vault • <span id="systemBalanceDisplay"> ${systemBalX} ● USDC</span>
+        ○ vault treasury • <span id="systemBalanceDisplay"> ${systemBalX} ● USDC</span>
       </div>
 
       <div class="readonly3" style="display:flex; justify-content:space-between; align-items:center;">
-        ○ on wallet • <span id="userBalanceDisplay"> ${userBal} ● USDC</span>
+        ○ yours • <span id="userBalanceDisplay"> ${userBal} ● USDC</span>
       </div>
 
 <hr>
@@ -2188,7 +2234,7 @@ async function showScreen2() {
       
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
-         ○ how many? •
+         ○ how much? •
         </div>
         <input type="text"
         inputmode="numeric"
@@ -2228,7 +2274,7 @@ async function showScreen2() {
 
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
-         ○ set ● USDC limit •
+         ○ fund the ticket •
         </div>
         <input type="text"
         inputmode="numeric"
@@ -2238,9 +2284,13 @@ async function showScreen2() {
       </div>
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
-         ○ click to copy the key •
+         ○ copy the key •
         </div>
         <input type="text" id="livePriceXXXkey" class="inputan_readonly" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+      </div>
+
+      <div class="readonly3smaller" style="flex: 50%; text-align:center;">
+        *click the key to copy
       </div>
 
 <div style="height:20px;"></div>
@@ -2264,7 +2314,7 @@ async function showScreen2() {
       
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
-         ○ how many? •
+         ○ how much? •
         </div>
         <input type="text"
         inputmode="numeric"
@@ -2751,7 +2801,7 @@ if (chainKey !== "arc-testnet") {
     if (bridgeResult.state === "error")
     {
     showToast(
-    "❌ Fail to send fund to treasury.",
+    "❌ Fail to fund the treasury.",
     3000,
     0
     );
@@ -3578,7 +3628,7 @@ async function autoClaimReward() {
   } catch (error) {
     console.error("Fetch Error:", error);
     showToast(
-    "❌ Cannot find to backend.",
+    "❌ Cannot find backend.",
     3000,
     0
     );
