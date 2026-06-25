@@ -407,13 +407,266 @@ const VAULT_ABI = [
       //"function creditBridgeDeposit(address user, bytes32 keyHash, uint256 amount)",
       //"function owner() view returns (address)"
 
-      "function deposit(bytes32 keyHash,uint256 amount)",
-      "function withdraw(bytes32 keyHash,uint256 amount,address recipient)",
-      "function getBalance(bytes32 keyHash) view returns(uint256)",
-      "function creditBridgeDeposit(bytes32 keyHash, uint256 amount)",
-      "function vaultUSDCBalance() view returns (uint256)",
-      "function owner() view returns(address)"
+      //"function deposit(bytes32 keyHash,uint256 amount)",
+      //"function withdraw(bytes32 keyHash,uint256 amount,address recipient)",
+      //"function getBalance(bytes32 keyHash) view returns(uint256)",
+      //"function creditBridgeDeposit(bytes32 keyHash, uint256 amount)",
+      //"function vaultUSDCBalance() view returns (uint256)",
+      //"function owner() view returns(address)"
+ {
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "usdcAddress",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "creditBridgeDeposit",
+    "inputs": [
+      {
+        "name": "keyHash",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "deposit",
+    "inputs": [
+      {
+        "name": "keyHash",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "getBalance",
+    "inputs": [
+      {
+        "name": "keyHash",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "owner",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "transferOwnership",
+    "inputs": [
+      {
+        "name": "newOwner",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "usdc",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IERC20"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "vaultUSDCBalance",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "withdraw",
+    "inputs": [
+      {
+        "name": "keyHash",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "recipient",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "BridgeCredit",
+    "inputs": [
+      {
+        "name": "keyHash",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Deposit",
+    "inputs": [
+      {
+        "name": "keyHash",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Withdraw",
+    "inputs": [
+      {
+        "name": "keyHash",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "recipient",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  }
 ];
+
+async function createTicket() {
+
+    const amount =
+        document.getElementById(
+            "livePriceXXX"
+        ).value;
+
+    let secret =
+        document.getElementById(
+            "livePriceXXXkey"
+        ).value;
+
+    if (!secret) {
+
+        secret =
+            crypto.randomUUID()
+                .replace(/-/g,'');
+
+        document.getElementById(
+            "livePriceXXXkey"
+        ).value = secret;
+    }
+
+    const res =
+        await fetch(
+            API_BASE + "/api/vault/create-ticket",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type":
+                    "application/json"
+                },
+                body: JSON.stringify({
+                    secret,
+                    amount
+                })
+            }
+        );
+
+    const data =
+        await res.json();
+
+    alert(
+        data.success
+            ? "Ticket created"
+            : data.message
+    );
+}
 
 async function getVaultContract() {
 
@@ -428,6 +681,44 @@ async function getVaultContract() {
     VAULT_ABI,
     signer
   );
+}
+
+async function loadTicketBalance() {
+
+    const secret =
+        document.getElementById(
+            "livePrice111keyWD"
+        ).value;
+
+    if (!secret)
+        return;
+
+    const res =
+        await fetch(
+            API_BASE +
+            "/api/vault/ticket-balance",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+                body:JSON.stringify({
+                    secret
+                })
+            }
+        );
+
+    const data =
+        await res.json();
+
+    if(data.success) {
+
+        document.getElementById(
+            "livePrice111WD"
+        ).value =
+            data.balance;
+    }
 }
 
 // smart_contract
@@ -1742,6 +2033,51 @@ async function showScreen2() {
 
 <div style="height:20px;"></div>
 
+  <button
+    class="btn_red"
+    style="flex:1;"
+    onclick="depositUSDC();">
+    <img src="/logo/down_logo_small_white.png" alt="higher_logo" width="48" height="48" filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+    style="position: relative; top: 1px;">
+
+  </button>
+
+<div style="height:20px;"></div>
+
+      <div id="livePriceXXXTicket" class="readonly3" style="text-align:center;">
+        create ticket</span>
+      </div>
+      
+      <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
+        <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
+         ○ set ● USDC limit •
+        </div>
+        <input type="text"
+        inputmode="numeric"
+        placeholder=""
+        id="livePriceXXX" class="inputan" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
+        <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
+         ○ click to copy the key •
+        </div>
+        <input type="text" id="livePriceXXXkey" class="inputan_readonly" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+      </div>
+
+<div style="height:20px;"></div>
+
+  <button
+    class="btn_red"
+    style="flex:1;"
+    onclick="createTicket();">
+    <img src="/logo/down_logo_small_white.png" alt="higher_logo" width="48" height="48" filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+    style="position: relative; top: 1px;">
+
+  </button>
+
+<div style="height:20px;"></div>
+
 <hr>
 
       <div id="livePrice111Withdraw" class="readonly3" style="text-align:center;">
@@ -1776,14 +2112,6 @@ async function showScreen2() {
   <div></div>
   </div>
 
-  <button
-    class="btn_red"
-    style="flex:1;"
-    onclick="depositUSDC();">
-    <img src="/logo/down_logo_small_white.png" alt="higher_logo" width="48" height="48" filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
-    style="position: relative; top: 1px;">
-
-  </button>
     <button
     class="btn_green"
     style="flex:1;"
@@ -1861,6 +2189,19 @@ function setupKeyInput() {
     );
 
   }
+
+  function generateTicketKey() {
+
+    const key =
+        crypto.randomUUID()
+            .replace(/-/g,'');
+
+    document.getElementById(
+        "livePriceXXXkey"
+    ).value = key;
+}
+
+generateTicketKey();
 
   hideLoading();
   closeAllToasts();
@@ -3469,6 +3810,15 @@ window.hideCustomAlert = function () {
     "customAlert"
   ).style.display = "none";
 };
+
+document
+.getElementById(
+    "livePrice111keyWD"
+)
+.addEventListener(
+    "input",
+    loadTicketBalance
+);
 
 //console.log("System Wallet Address:", 
   //new ethers.Wallet("0x123456789123456789123456789123456789123456789123456789").address);

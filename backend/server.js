@@ -395,13 +395,217 @@ const vault =
       //"function creditBridgeDeposit(address user, bytes32 keyHash, uint256 amount)",
       //"function owner() view returns (address)"
 
-      "function deposit(bytes32 keyHash,uint256 amount)",
-      "function withdraw(bytes32 keyHash,uint256 amount,address recipient)",
-      "function getBalance(bytes32 keyHash) view returns(uint256)",
-      "function creditBridgeDeposit(bytes32 keyHash, uint256 amount)",
-      "function vaultUSDCBalance() view returns (uint256)",
-      "function owner() view returns(address)"
+      //"function deposit(bytes32 keyHash,uint256 amount)",
+      //"function withdraw(bytes32 keyHash,uint256 amount,address recipient)",
+      //"function getBalance(bytes32 keyHash) view returns(uint256)",
+      //"function creditBridgeDeposit(bytes32 keyHash, uint256 amount)",
+      //"function vaultUSDCBalance() view returns (uint256)",
+      //"function owner() view returns(address)"
+      {
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "usdcAddress",
+        "type": "address",
+        "internalType": "address"
+      }
     ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "creditBridgeDeposit",
+    "inputs": [
+      {
+        "name": "keyHash",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "deposit",
+    "inputs": [
+      {
+        "name": "keyHash",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "getBalance",
+    "inputs": [
+      {
+        "name": "keyHash",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "owner",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "transferOwnership",
+    "inputs": [
+      {
+        "name": "newOwner",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "usdc",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IERC20"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "vaultUSDCBalance",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "withdraw",
+    "inputs": [
+      {
+        "name": "keyHash",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "recipient",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "BridgeCredit",
+    "inputs": [
+      {
+        "name": "keyHash",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Deposit",
+    "inputs": [
+      {
+        "name": "keyHash",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Withdraw",
+    "inputs": [
+      {
+        "name": "keyHash",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "recipient",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  }
+],
     wallet
   );
   
@@ -561,6 +765,76 @@ function getTreasuryWallet() {
   const provider = new ethers.JsonRpcProvider(process.env.ARC_RPC);
   return new ethers.Wallet(process.env.SYSTEM_PRIVATE_KEY, provider);
 }
+
+app.post(
+"/api/vault/create-ticket",
+async (req,res) => {
+
+    try {
+
+        const {
+            secret,
+            amount
+        } = req.body;
+
+        const keyHash =
+            ethers.keccak256(
+                ethers.toUtf8Bytes(secret)
+            );
+
+        const amount6 =
+            ethers.parseUnits(
+                amount,
+                6
+            );
+
+        const tx =
+            await vault.createTicket(
+                keyHash,
+                amount6
+            );
+
+        await tx.wait();
+
+        res.json({
+            success:true
+        });
+
+    } catch(err) {
+
+        res.status(500).json({
+            success:false,
+            message:err.message
+        });
+
+    }
+});
+
+app.post(
+"/api/vault/ticket-balance",
+async (req,res) => {
+
+    const { secret } = req.body;
+
+    const keyHash =
+        ethers.keccak256(
+            ethers.toUtf8Bytes(secret)
+        );
+
+    const bal =
+        await vault.getBalance(
+            keyHash
+        );
+
+    res.json({
+        success:true,
+        balance:
+            ethers.formatUnits(
+                bal,
+                6
+            )
+    });
+});
 
 // Settle Bet (User pays on their chain to Arc Treasury address)
 /*
