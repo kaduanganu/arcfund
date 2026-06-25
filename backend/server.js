@@ -1331,7 +1331,125 @@ if (result.state === "error") {
 
     console.log("Retry Result:", retryResult);
 
-    return retryResult;
+    return res.send(
+  JSON.stringify(
+    retryResult,
+    (_, v) =>
+      typeof v === "bigint"
+        ? v.toString()
+        : v
+  )
+);
+  }
+}
+
+
+
+    console.log("BRIDGE SUCCESS");
+    console.dir(result, { depth: null });
+
+    res.send(
+      JSON.stringify(
+        result,
+        (_, v) =>
+          typeof v === "bigint"
+            ? v.toString()
+            : v
+      )
+    );
+
+  } catch (e) {
+
+    console.error("BRIDGE FAILED:");
+    console.error(e);
+
+    res.status(500).json({
+      error: e.message
+    });
+
+  }
+
+});
+
+app.post('/api/bridge-from-arc', async (req, res) => {
+
+  try {
+
+    const {
+      chain,
+      amount,
+      userAddress
+    } = req.body;
+
+    console.log("BRIDGE REQUEST:");
+    console.log("chain =", chain);
+    console.log("amount =", amount);
+
+    // Skip bridge if already on Arc
+    if (chain === "arc-testnet") {
+
+      return res.json({
+        success: true
+      });
+
+    }
+
+    const adapter = getAdapter();
+
+    console.log("calling kit.bridge()");
+
+    const result = await kit.bridge({
+
+      from: {
+        adapter,
+        chain: "Arc_Testnet"
+      },
+
+      to: {
+        adapter,
+        chain: CHAIN_MAP[chain],
+        recipientAddress:
+          userAddress
+      },
+
+      amount: amount.toString(),
+      token: "USDC"
+
+    });
+
+
+    
+if (result.state === "error") {
+
+  const failedStep = result.steps.find(
+    s => s.state === "error"
+  );
+
+  if (
+    failedStep?.error?.recoverability === "RETRYABLE"
+  ) {
+
+    console.log("Retrying bridge...");
+
+    const retryResult = await kit.retryBridge(
+      result,
+      {
+        from: adapter,
+        to: adapter
+      }
+    );
+
+    console.log("Retry Result:", retryResult);
+
+    return res.send(
+  JSON.stringify(
+    retryResult,
+    (_, v) =>
+      typeof v === "bigint"
+        ? v.toString()
+        : v
+  )
+);
   }
 }
 

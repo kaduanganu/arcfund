@@ -1834,27 +1834,27 @@ async function withdrawUSDC() {
         "livePrice111keyWD"
       ).value;
 
+    const chainKey =
+      selectedChain;
+
+    //
+    // WITHDRAW FROM VAULT
+    //
+
     const response =
       await fetch(
         `${BACKEND_URL}/api/vault/withdraw`,
         {
           method:"POST",
-
           headers:{
             "Content-Type":
               "application/json"
           },
-
           body: JSON.stringify({
-
             amount,
-
             secret,
-
             userAddress
-
           })
-
         }
       );
 
@@ -1869,8 +1869,50 @@ async function withdrawUSDC() {
 
     }
 
+    //
+    // BRIDGE BACK IF NOT ARC
+    //
+
+    if (
+      chainKey !==
+      "arc-testnet"
+    ) {
+
+      const bridgeResponse =
+        await fetch(
+          `${BACKEND_URL}/api/bridge-from-arc`,
+          {
+            method:"POST",
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
+            body: JSON.stringify({
+              amount,
+              chain: chainKey,
+              userAddress
+            })
+          }
+        );
+
+      const bridgeResult =
+        await bridgeResponse.json();
+
+      if (
+        bridgeResult.state ===
+        "error"
+      ) {
+
+        throw new Error(
+          "Bridge failed"
+        );
+
+      }
+
+    }
+
     showToast(
-      "✅ Withdraw complete",
+      "✅ Withdrawal succeed.",
       3000,
       1
     );
@@ -1880,7 +1922,7 @@ async function withdrawUSDC() {
     console.error(err);
 
     showToast(
-      "❌ Withdraw failed",
+      "❌ Fail to withdraw.",
       3000,
       0
     );
@@ -2154,11 +2196,11 @@ async function showScreen2() {
         id="livePrice111" class="inputan" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
 
       </div>
-      <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
+      <div style="display:none; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
          ○ click to copy the key •
         </div>
-        <input type="text" id="livePrice111key" class="inputan_readonly" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+        <input type="text" id="livePrice111key" class="inputan_readonly" value="" style="display:none; flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
       </div>
 
 <div style="height:20px;"></div>
@@ -2177,9 +2219,13 @@ async function showScreen2() {
 <hr>
 
       <div id="livePriceXXXTicket" class="readonly3" style="text-align:center;">
-        create ticket</span>
+        create ticket for ● USDC withdraw</span>
       </div>
       
+      <div class="readonly3smaller" style="flex: 50%; text-align:center;">
+        *don't lose your key, you • WILL • lose your fund for good
+      </div>
+
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
          ○ set ● USDC limit •
