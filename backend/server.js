@@ -1830,6 +1830,14 @@ app.post("/api/vault/withdraw", async (req, res) => {
       });
     }
 
+    const ticketBalance = await vault.ticketBalances(
+  userAddress,
+  keyHash
+);
+
+console.log("ticket balance =", ticketBalance.toString());
+console.log("withdraw amount =", amount.toString());
+
     const tx = await vault.withdraw(
       keyHash,
       amount6,
