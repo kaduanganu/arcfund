@@ -904,7 +904,7 @@ select.rounded-select:hover {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  cursor: default;                /* Show normal cursor */
+  cursor: pointer;                /* Show normal cursor */
   outline: none;                  /* Remove focus outline */
 
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);

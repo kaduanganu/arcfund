@@ -1713,17 +1713,17 @@ app.post(
       // bridge first if needed
       //
 
-      if (
-        chain !==
-        "arc-testnet"
-      ) {
+      //if (
+        //chain !==
+        //"arc-testnet"
+      //) {
 
-        await bridgeToArc(
-          chain,
-          amount
-        );
+       // await bridgeToArc(
+          //chain,
+          //amount
+        //);
 
-      }
+      //}
 
       //
       // treasury -> vault

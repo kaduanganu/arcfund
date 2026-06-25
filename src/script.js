@@ -859,7 +859,7 @@ currentBet.betId = Date.now();
 
 function generateSecretKey() {
   return ethers.hexlify(
-    ethers.randomBytes(32)
+    ethers.randomBytes(8)
   );
 }
 
@@ -1494,6 +1494,17 @@ async function depositUSDC() {
         "livePrice111"
       ).value;
 
+    if (amount <= 0 || amount == null) {
+
+      showToast(
+        "❌ Empty deposit not allowed.",
+        3000,
+        0
+      );
+
+      return;
+    }
+
     const secret =
       document.getElementById(
         "livePrice111key"
@@ -1543,6 +1554,8 @@ async function depositUSDC() {
       return;
     }
 
+    showLoading();
+    
     //
     // SEND TO TREASURY
     //
@@ -1647,23 +1660,22 @@ async function depositUSDC() {
       }
     }
 
+    hideLoading();
+
     showToast(
-      "✅ Deposit successful.",
+      "✅ Deposit succeed.",
       3000,
       1
     );
 
   } catch (err) {
 
-      console.error(
-    "DEPOSIT ERROR:",
-    err
-  );
+    hideLoading();
 
     console.error(err);
 
     showToast(
-      "❌ Deposit failed.",
+      "❌ Fail to deposit.",
       3000,
       0
     );
@@ -2215,6 +2227,7 @@ setupKeyInput();
 
 const input = document.getElementById('livePrice111');
 const input2 = document.getElementById('livePrice111WD');
+const input3 = document.getElementById('livePriceXXX');
 
 function formatCurrencyInput(e) {
   let raw = e.target.value.replace(/\D/g, '');
@@ -2229,10 +2242,15 @@ function formatCurrencyInput(e) {
 
 input?.addEventListener('input', formatCurrencyInput);
 input2?.addEventListener('input', formatCurrencyInput);
+input3?.addEventListener('input', formatCurrencyInput);
 
 function setupKeyInput() {
-  const keyInput = document.getElementById('livePrice111key');
+  const keyInputs = [
+    document.getElementById('livePrice111key'),
+    document.getElementById('livePriceXXXkey'),
+  ];
 
+  keyInputs.forEach(keyInput => {
   if (!keyInput) return;
 
   keyInput.value = generateSecretKey();
@@ -2247,15 +2265,16 @@ function setupKeyInput() {
         0
       );
     } catch (err) {
-      console.error(err);
+        console.error(err);
 
-      showToast(
-        "❌ Key copy failed.",
-        3000,
-        0
-      );
-    }
-  };
+        showToast(
+          "❌ Key copy failed.",
+          3000,
+          0
+        );
+      }
+    };
+  });
 }
 
  const keyInput =
@@ -2277,18 +2296,18 @@ function setupKeyInput() {
 
   }
 
-  function generateTicketKey() {
+  //function generateTicketKey() {
 
-    const key =
-        crypto.randomUUID()
-            .replace(/-/g,'');
+    //const key =
+        //crypto.randomUUID()
+            //.replace(/-/g,'');
 
-    document.getElementById(
-        "livePriceXXXkey"
-    ).value = key;
-}
+    //document.getElementById(
+        //"livePriceXXXkey"
+    //).value = key;
+//}
 
-generateTicketKey();
+//generateTicketKey();
 
   hideLoading();
   closeAllToasts();
