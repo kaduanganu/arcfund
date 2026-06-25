@@ -700,6 +700,7 @@ const VAULT_ABI = [
     "anonymous": false
   }
 ]
+
 ;
 
 async function getVaultContract() {
@@ -1660,6 +1661,7 @@ async function depositUSDC() {
     }
 
     hideLoading();
+showScreen2()
 
     showToast(
       "✅ Deposit succeed.",
@@ -1670,6 +1672,7 @@ async function depositUSDC() {
   } catch (err) {
 
     hideLoading();
+showScreen2()
 
     console.error(err);
 
@@ -1688,17 +1691,17 @@ window.depositUSDC = depositUSDC;
 async function createTicket() {
 
     const amount =
-        document.getElementById(
+        Number(document.getElementById(
             "livePriceXXX"
-        ).value;
+        ).value);
     const amount1 =
-        document.getElementById(
+        Number(document.getElementById(
             "livePriceXXX1"
-        ).value;
+        ).value);
     const amount2 =
-        document.getElementById(
+        Number(document.getElementById(
             "livePriceXXX2"
-        ).value;
+        ).value);
 
     if ((amount+amount1+amount2) <= 0 || amount == null && amount1 == null && amount2 == null) {
 
@@ -1711,10 +1714,9 @@ async function createTicket() {
       return;
     }
 
-    const systemBalX = await refreshVaultBalance();
-    
-    if (systemBalX < amount) {
-
+    const systemBalXX = await refreshLiquidityBalance();
+    if (systemBalXX < (amount+amount1+amount2)) {
+alert(systemBalXX)
       showToast(
         "❌ Insufficient ● USDC on Vault.",
         3000,
@@ -1842,6 +1844,7 @@ if (amount2 <= 0 || amount2 == null) {} else {
       1
     );
 
+    showScreen2()
     //alert(
         //data.success
             //? "Ticket created"
@@ -1910,17 +1913,6 @@ async function withdrawUSDC() {
         "livePrice111WD"
       ).value;
 
-    if (amount <= 0 || amount == null) {
-
-      showToast(
-        "❌ Empty withdrawal not allowed.",
-        3000,
-        0
-      );
-
-      return;
-    }
-
     const secret =
       document.getElementById(
         "livePrice111keyWD"
@@ -1943,6 +1935,28 @@ async function withdrawUSDC() {
 
     const data =
         await res.json();
+
+    if (data.balance <= 0 || data.balance == null) {
+
+      showToast(
+        "❌ Invalid ticket • No balance.",
+        3000,
+        0
+      );
+
+      return;
+    }
+
+    if (amount <= 0 || amount == null) {
+
+      showToast(
+        "❌ Empty withdrawal not allowed.",
+        3000,
+        0
+      );
+
+      return;
+    }
 
     if (amount > data.balance) {
 
@@ -2035,6 +2049,7 @@ async function withdrawUSDC() {
     }
 
     hideLoading();
+showScreen2()
 
     showToast(
       "✅ Withdrawal succeed.",
@@ -2047,6 +2062,7 @@ async function withdrawUSDC() {
     console.error(err);
 
     hideLoading();
+showScreen2()
 
     showToast(
       "❌ Fail to withdraw.",
@@ -2059,6 +2075,23 @@ async function withdrawUSDC() {
 }
 
 window.withdrawUSDC = withdrawUSDC;
+
+async function refreshLiquidityBalance() {
+  try {
+  const response =
+    await fetch(
+      `${BACKEND_URL}/api/vault-liquidity?address=${userAddress}`
+    );
+
+  const data =
+    await response.json();
+
+    return parseFloat(data.balance).toFixed(4);
+
+  } catch(e) {
+    return "0.0000";
+  }
+}
 
 async function refreshVaultBalance() {
   try {
@@ -2082,6 +2115,7 @@ async function showScreen2() {
   const userBal = await getUserBalance();
   //const systemBal = await getSystemBalance();
   const systemBalX = await refreshVaultBalance();
+  const systemBalXX = await refreshLiquidityBalance();
 
   const chainLogo = {
   "arc-testnet": "/logo/arc_logo_small2_opaq2.png",
@@ -2302,9 +2336,11 @@ async function showScreen2() {
       <div class="readonly3" style="display:flex; justify-content:space-between; align-items:center;">
         ○ vault treasury • <span id="systemBalanceDisplay"> ${systemBalX} ● USDC</span>
       </div>
-
       <div class="readonly3" style="display:flex; justify-content:space-between; align-items:center;">
-        ○ yours • <span id="userBalanceDisplay"> ${userBal} ● USDC</span>
+        ○ vault availibility • <span id="systemBalanceDisplayLiq"> ${systemBalXX} ● USDC</span>
+      </div>
+      <div class="readonly3" style="display:flex; justify-content:space-between; align-items:center;">
+        ○ your wallet • <span id="userBalanceDisplay"> ${userBal} ● USDC</span>
       </div>
 
 <hr>
@@ -2355,7 +2391,7 @@ async function showScreen2() {
 
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
-         ○ fund the ticket • 1 •
+         ○ fund ticket • 1 •
         </div>
         <input type="text"
         inputmode="numeric"
@@ -2365,7 +2401,7 @@ async function showScreen2() {
       </div>
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
-         ○ copy the key • 1 •
+         ○ copy key • 1 •
         </div>
         <input type="text" id="livePriceXXXkey" class="inputan_readonly" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
       </div>
@@ -2380,7 +2416,7 @@ async function showScreen2() {
 
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
-         ○ fund the ticket • 2 •
+         ○ fund ticket • 2 •
         </div>
         <input type="text"
         inputmode="numeric"
@@ -2390,7 +2426,7 @@ async function showScreen2() {
       </div>
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
-         ○ copy the key • 2 •
+         ○ copy key • 2 •
         </div>
         <input type="text" id="livePriceXXXkey1" class="inputan_readonly" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
       </div>
@@ -2405,7 +2441,7 @@ async function showScreen2() {
 
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
-         ○ fund the ticket • 3 •
+         ○ fund ticket • 3 •
         </div>
         <input type="text"
         inputmode="numeric"
@@ -2415,7 +2451,7 @@ async function showScreen2() {
       </div>
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
-         ○ copy the key • 3 •
+         ○ copy key • 3 •
         </div>
         <input type="text" id="livePriceXXXkey2" class="inputan_readonly" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
       </div>
@@ -3673,6 +3709,7 @@ async function updateBalances() {
   //if (systemEl) systemEl.innerHTML = `${systemBal} ● USDC`;
 
   const systemBalX = await refreshVaultBalance();
+  const systemBalXX = await refreshLiquidityBalance();
   const systemElX = document.getElementById('systemBalanceDisplay');
   if (systemElX) systemElX.innerHTML = `${systemBalX} ● USDC`;
 }

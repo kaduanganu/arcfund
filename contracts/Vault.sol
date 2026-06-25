@@ -210,7 +210,7 @@ function ticketBalance(
             "insufficient liquidity"
         );
 
-        balances[keyHash] += amount;
+        //balances[keyHash] += amount;
 
         // totalAllocated += amount;
 

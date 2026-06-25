@@ -688,6 +688,7 @@ const vault =
     "anonymous": false
   }
 ]
+
 ,
     wallet
   );
@@ -1552,6 +1553,52 @@ res.json(
 
 });
 */
+
+app.get(
+  "/api/vault-liquidity",
+  async (req,res) => {
+
+    try {
+
+      const { address } = req.query;
+
+      console.log("address =", req.query.address);
+      console.log("address2 =", address);
+
+      const balance =
+        await vault.availableLiquidity();
+
+            console.log(
+      "liquidity balance =",
+      balance.toString()
+    );
+
+      res.json({
+        success:true,
+        balance:
+          ethers.formatUnits(
+            balance,
+            6
+          )
+      });
+
+    } catch(err) {
+
+      console.error(err);
+
+          console.error(
+      "LIQUIDITY BALANCE ERROR:",
+      err
+    );
+
+      res.status(500).json({
+        success:false,
+        message:err.message
+      });
+
+    }
+
+});
 
 app.get(
   "/api/vault-balance",
