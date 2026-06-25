@@ -2,23 +2,39 @@
 pragma solidity ^0.8.20;
 
 import "forge-std/Script.sol";
-import "../contracts/Vault2.sol";
+import "../contracts/Vault.sol";
 
-contract Deploy is Script {
+contract DeployVault is Script {
 
-    function run() external {
+    function run() external returns (Vault vault) {
 
-        vm.startBroadcast();
+        uint256 privateKey =
+            vm.envUint("PRIVATE_KEY");
 
-        Vault vault = new Vault(
-            0x3600000000000000000000000000000000000000
-        );
+        address usdcAddress =
+            vm.envAddress("USDC_ADDRESS");
 
-        console.log(
-            "Vault deployed:",
-            address(vault)
+        vm.startBroadcast(privateKey);
+
+        vault = new Vault(
+            usdcAddress
         );
 
         vm.stopBroadcast();
+
+        console.log(
+            "Vault deployed at:",
+            address(vault)
+        );
+
+        console.log(
+            "USDC:",
+            usdcAddress
+        );
+
+        console.log(
+            "Owner:",
+            vault.owner()
+        );
     }
 }

@@ -2101,7 +2101,7 @@ async function showScreen2() {
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
          ○ paste the key •
         </div>
-        <input type="text" id="livePrice111keyWD" class="inputan" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+        <input type="text" id="livePrice111keyWD" oninput="loadTicketBalance()" class="inputan" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
       </div>
 
 <div style="height:20px;"></div>
@@ -3813,15 +3813,6 @@ window.hideCustomAlert = function () {
     "customAlert"
   ).style.display = "none";
 };
-
-document
-.getElementById(
-    "livePrice111keyWD"
-)
-.addEventListener(
-    "input",
-    loadTicketBalance
-);
 
 //console.log("System Wallet Address:", 
   //new ethers.Wallet("0x123456789123456789123456789123456789123456789123456789").address);
