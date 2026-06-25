@@ -700,7 +700,6 @@ const VAULT_ABI = [
     "anonymous": false
   }
 ]
-
 ;
 
 async function getVaultContract() {
