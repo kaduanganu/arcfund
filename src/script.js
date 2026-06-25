@@ -1691,8 +1691,16 @@ async function createTicket() {
         document.getElementById(
             "livePriceXXX"
         ).value;
+    const amount1 =
+        document.getElementById(
+            "livePriceXXX1"
+        ).value;
+    const amount2 =
+        document.getElementById(
+            "livePriceXXX2"
+        ).value;
 
-    if (amount <= 0 || amount == null) {
+    if ((amount+amount1+amount2) <= 0 || amount == null && amount1 == null && amount2 == null) {
 
       showToast(
         "❌ Empty ticket not allowed.",
@@ -1732,8 +1740,41 @@ async function createTicket() {
         ).value = secret;
     }
 
+    let secret1 =
+        document.getElementById(
+            "livePriceXXXkey1"
+        ).value;
+
+    if (!secret1) {
+
+        secret1 =
+            crypto.randomUUID()
+                .replace(/-/g,'');
+
+        document.getElementById(
+            "livePriceXXXkey1"
+        ).value = secret1;
+    }
+
+    let secret2 =
+        document.getElementById(
+            "livePriceXXXkey2"
+        ).value;
+
+    if (!secret2) {
+
+        secret2 =
+            crypto.randomUUID()
+                .replace(/-/g,'');
+
+        document.getElementById(
+            "livePriceXXXkey2"
+        ).value = secret2;
+    }
+
     showLoading();
     
+if (amount <= 0 || amount == null) {} else {
     const res =
         await fetch(
             `${BACKEND_URL}/api/vault/create-ticket`,
@@ -1749,9 +1790,49 @@ async function createTicket() {
                 })
             }
         );
-
     const data =
         await res.json();
+      }
+
+if (amount1 <= 0 || amount1 == null) {} else {
+    const res1 =
+        await fetch(
+            `${BACKEND_URL}/api/vault/create-ticket`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type":
+                    "application/json"
+                },
+                body: JSON.stringify({
+                    secret: secret1,
+                    amount: amount1
+                })
+            }
+        );
+    const data1 =
+        await res1.json();
+      }
+
+if (amount2 <= 0 || amount2 == null) {} else {
+    const res2 =
+        await fetch(
+            `${BACKEND_URL}/api/vault/create-ticket`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type":
+                    "application/json"
+                },
+                body: JSON.stringify({
+                    secret: secret2,
+                    amount: amount2
+                })
+            }
+        );
+    const data2 =
+        await res2.json();
+      }
 
     hideLoading();
 
@@ -2274,7 +2355,7 @@ async function showScreen2() {
 
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
-         ○ fund the ticket •
+         ○ fund the ticket • 1 •
         </div>
         <input type="text"
         inputmode="numeric"
@@ -2284,16 +2365,70 @@ async function showScreen2() {
       </div>
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
-         ○ copy the key •
+         ○ copy the key • 1 •
         </div>
         <input type="text" id="livePriceXXXkey" class="inputan_readonly" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
       </div>
 
+      <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
+        <div class="readonly3" style="flex: 50%; text-align:center;" margin-left: 120px;>
+        </div>
       <div class="readonly3smaller" style="flex: 50%; text-align:center;">
         *click the key to copy
       </div>
+      </div>
 
-<div style="height:20px;"></div>
+      <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
+        <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
+         ○ fund the ticket • 2 •
+        </div>
+        <input type="text"
+        inputmode="numeric"
+        placeholder=""
+        id="livePriceXXX1" class="inputan" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
+        <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
+         ○ copy the key • 2 •
+        </div>
+        <input type="text" id="livePriceXXXkey1" class="inputan_readonly" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+      </div>
+
+      <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
+        <div class="readonly3" style="flex: 50%; text-align:center;" margin-left: 120px;>
+        </div>
+      <div class="readonly3smaller" style="flex: 50%; text-align:center;">
+        *click the key to copy
+      </div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
+        <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
+         ○ fund the ticket • 3 •
+        </div>
+        <input type="text"
+        inputmode="numeric"
+        placeholder=""
+        id="livePriceXXX2" class="inputan" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
+        <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
+         ○ copy the key • 3 •
+        </div>
+        <input type="text" id="livePriceXXXkey2" class="inputan_readonly" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+      </div>
+
+      <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
+        <div class="readonly3" style="flex: 50%; text-align:center;" margin-left: 120px;>
+        </div>
+      <div class="readonly3smaller" style="flex: 50%; text-align:center;">
+        *click the key to copy
+      </div>
+      </div>
+
+      <div style="height:20px;"></div>
 
   <button
     class="btn_red"
@@ -2328,10 +2463,6 @@ async function showScreen2() {
         </div>
         <input type="text" id="livePrice111keyWD" oninput="loadTicketBalance()" class="inputan" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
       </div>
-
-<div style="height:20px;"></div>
-
-<hr>
 
 <div style="height:20px;"></div>
 
@@ -2377,6 +2508,8 @@ function setupKeyInput() {
   const keyInputs = [
     document.getElementById('livePrice111key'),
     document.getElementById('livePriceXXXkey'),
+    document.getElementById('livePriceXXXkey1'),
+    document.getElementById('livePriceXXXkey2')
   ];
 
   keyInputs.forEach(keyInput => {
