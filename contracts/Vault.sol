@@ -131,6 +131,16 @@ contract Vault {
         );
     }
 
+function ticketBalance(
+    bytes32 keyHash
+)
+    external
+    view
+    returns (uint256)
+{
+    return balances[keyHash];
+}
+
     // ----------------------------------
     // WITHDRAW
     // ----------------------------------

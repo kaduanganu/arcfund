@@ -513,6 +513,25 @@ const vault =
   },
   {
     "type": "function",
+    "name": "ticketBalance",
+    "inputs": [
+      {
+        "name": "keyHash",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
     "name": "totalAllocated",
     "inputs": [],
     "outputs": [
@@ -669,7 +688,6 @@ const vault =
     "anonymous": false
   }
 ]
-
 ,
     wallet
   );
