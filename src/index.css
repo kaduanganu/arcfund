@@ -1,3 +1,9 @@
+:root {
+  --warna_tombol: #58a3e9;
+  --warna_text: rgb(0, 100, 200);
+  --warna_bayangan_sorot: rgba(0, 255, 255, 0.6)
+}
+
 .main-container {
   max-width: 480px;
   width: 90%;
@@ -34,7 +40,7 @@ h1 { font-size: 2.1rem; text-align: center; margin: 10px 0; }
 h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
 
 .btn {
-  background: #FF8800;
+  background: var(--warna_tombol);
   color: rgb(255, 255, 255);
   /* text-shadow: 1px 1px 2px rgb(0, 0, 0), 0 0 1px black, 0 0 1px black; */
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
@@ -48,8 +54,8 @@ h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
   border: 3px solid transparent;
   border-radius: 3px;
   background: 
-    linear-gradient(#FF8800, #FF8800) padding-box, /* Inner background color */
-    linear-gradient(to right, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
+    linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
   padding: 14px;
   font-size: 1.1rem;
@@ -62,7 +68,7 @@ h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
-.btn:hover {text-shadow: 1px 1px 2px rgba(0, 255, 255, 0.6); box-shadow: 0 8px 16px 0 rgba(0, 255, 255, 0.6);}
+.btn:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .btn.disabledbtn {
   opacity: 0.6;
   cursor: not-allowed;
@@ -73,7 +79,7 @@ h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
 
 .btn_hide {
   display: none;
-  background: #FF8800;
+  background: var(--warna_tombol);
   color: rgb(255, 255, 255);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black, 0 0 1px black; */
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
@@ -87,8 +93,8 @@ h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
   border: 3px solid transparent;
   border-radius: 3px;
   background: 
-    linear-gradient(#FF8800, #FF8800) padding-box, /* Inner background color */
-    linear-gradient(to left, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
+    linear-gradient(to left, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
   padding: 14px;
   font-size: 1.1rem;
@@ -130,7 +136,7 @@ h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
-.btn_green:hover {text-shadow: 1px 1px 2px rgba(0, 255, 255, 0.6); box-shadow: 0 8px 16px 0 rgba(0, 255, 255, 0.6);}
+.btn_green:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .btn_green.disabledbtn {
   opacity: 0.6;
   cursor: not-allowed;
@@ -168,7 +174,7 @@ h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
-.btn_red:hover {text-shadow: 1px 1px 2px rgba(0, 255, 255, 0.6); box-shadow: 0 8px 16px 0 rgba(0, 255, 255, 0.6);}
+.btn_red:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .btn_red.disabledbtn {
   opacity: 0.6;
   cursor: not-allowed;
@@ -178,7 +184,7 @@ h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
 }
 
 .btn_rev {
-  background: #FF8800;
+  background: var(--warna_tombol);
   color: rgb(255, 255, 255);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black, 0 0 1px black; */
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
@@ -192,8 +198,8 @@ h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
   border: 3px solid transparent;
   border-radius: 3px;
   background: 
-    linear-gradient(#FF8800, #FF8800) padding-box, /* Inner background color */
-    linear-gradient(to left, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
+    linear-gradient(to left, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
   padding: 14px;
   font-size: 1.1rem;
@@ -206,7 +212,7 @@ h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
-.btn_rev:hover {text-shadow: 1px 1px 2px rgba(0, 255, 255, 0.6); box-shadow: 0 8px 16px 0 rgba(0, 255, 255, 0.6);}
+.btn_rev:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .btn_rev.disabledbtn {
   opacity: 0.6;
   cursor: not-allowed;
@@ -216,8 +222,8 @@ h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
 }
 
 .btn_op_rev {
-background: #FF8800;
-  color: rgb(0, 100, 200);
+background: var(--warna_tombol);
+  color: var(--warna_text);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
   /*
@@ -229,8 +235,8 @@ background: #FF8800;
   border: 3px solid transparent;
   border-radius: 3px;
   background: 
-    linear-gradient(#FF8800, #FF8800) padding-box, /* Inner background color */
-    linear-gradient(to right, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
+    linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
   filter: drop-shadow(1px 1px 2px black, 0 0 1px black, 0 0 1px black);
 
@@ -245,7 +251,7 @@ background: #FF8800;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
-.btn_op_rev:hover {text-shadow: 1px 1px 2px rgba(0, 255, 255, 0.6); box-shadow: 0 8px 16px 0 rgba(0, 255, 255, 0.6);}
+.btn_op_rev:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .btn_op_rev.disabledbtn {
   opacity: 0.6;
   cursor: not-allowed;
@@ -255,7 +261,7 @@ background: #FF8800;
 }
 
 .btn_op_rev2 {
-background: #FF8800;
+background: var(--warna_tombol);
   color: rgb(255, 255, 255);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
@@ -268,8 +274,8 @@ background: #FF8800;
   border: 3px solid transparent;
   border-radius: 3px;
   background: 
-    linear-gradient(#FF8800, #FF8800) padding-box, /* Inner background color */
-    linear-gradient(to right, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
+    linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
   filter: drop-shadow(1px 1px 2px black, 0 0 1px black, 0 0 1px black);
 
@@ -284,7 +290,7 @@ background: #FF8800;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
-.btn_op_rev2:hover {text-shadow: 1px 1px 2px rgba(0, 255, 255, 0.6); box-shadow: 0 8px 16px 0 rgba(0, 255, 255, 0.6);}
+.btn_op_rev2:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .btn_op_rev2.disabledbtn {
   opacity: 0.6;
   cursor: not-allowed;
@@ -297,11 +303,11 @@ background: #FF8800;
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 
-  color: rgb(0, 100, 200);
+  color: var(--warna_text);
 }
 
 .btn_smol_ns {
-  background: #FF8800;
+  background: var(--warna_tombol);
   color: rgb(255, 255, 255);
   /*
   text-shadow: 1px 1px 2px black, 0 0 1px black, 0 0 1px black;
@@ -314,8 +320,8 @@ background: #FF8800;
   border: 3px solid transparent;
   border-radius: 3px;
   background: 
-    linear-gradient(#FF8800, #FF8800) padding-box, /* Inner background color */
-    linear-gradient(to right, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
+    linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
   padding: 6px 12px;
   font-size: 0.95rem;
@@ -328,7 +334,7 @@ background: #FF8800;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
-.btn_smol_ns:hover {box-shadow: 0 8px 16px 0 rgba(0, 255, 255, 0.6);}
+.btn_smol_ns:hover {box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .btn_smol_ns.disabledbtn {
   opacity: 0.6;
   cursor: not-allowed;
@@ -338,7 +344,7 @@ background: #FF8800;
 }
 
 .btn_smol {
-  background: #FF8800;
+  background: var(--warna_tombol);
   color: rgb(255, 255, 255);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black, 0 0 1px black; */
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
@@ -353,8 +359,8 @@ background: #FF8800;
   border: 3px solid transparent;
   border-radius: 3px;
   background: 
-    linear-gradient(#FF8800, #FF8800) padding-box, /* Inner background color */
-    linear-gradient(to right, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
+    linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
   padding: 6px 12px;
   font-size: 0.95rem;
@@ -367,7 +373,7 @@ background: #FF8800;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
-.btn_smol:hover {text-shadow: 1px 1px 2px rgba(0, 255, 255, 0.6); box-shadow: 0 8px 16px 0 rgba(0, 255, 255, 0.6);}
+.btn_smol:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .btn_smol.disabledbtn {
   opacity: 0.6;
   cursor: not-allowed;
@@ -377,7 +383,7 @@ background: #FF8800;
 }
 
 .btn_smol_M {
-  background: #FF8800;
+  background: var(--warna_tombol);
   color: rgb(255, 255, 255);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black, 0 0 1px black; */
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
@@ -391,8 +397,8 @@ background: #FF8800;
 
   border: 3px solid transparent;
   background: 
-    linear-gradient(#FF8800, #FF8800) padding-box, /* Inner background color */
-    linear-gradient(to right, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
+    linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
   padding: 6px 12px;
   font-size: 0.95rem;
@@ -415,7 +421,7 @@ background: #FF8800;
   transform: translateX(-50%);
 }
 
-.btn_smol_M:hover {text-shadow: 1px 1px 2px rgba(0, 255, 255, 0.6); box-shadow: 0 8px 16px 0 rgba(0, 255, 255, 0.6);}
+.btn_smol_M:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .btn_smol_M.disabledbtn {
   opacity: 0.6;
   cursor: not-allowed;
@@ -438,7 +444,7 @@ background: #FF8800;
 
 .option-btn {
   background: white;
-  color: rgb(0, 100, 200);
+  color: var(--warna_text);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
   /*
@@ -451,7 +457,7 @@ background: #FF8800;
   border-radius: 3px;
   background: 
     linear-gradient(#ffffff, #ffffff) padding-box, /* Inner background color */
-    linear-gradient(to right, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
   padding: 10px 12px;
   margin: 4px;
@@ -464,7 +470,7 @@ background: #FF8800;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 .option-btn.active {
-  background: #FF8800;
+  background: var(--warna_tombol);
 
   color: rgb(255, 255, 255);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black, 0 0 1px black; */
@@ -479,12 +485,12 @@ background: #FF8800;
   border: 3px solid transparent;
   border-radius: 3px;
   background: 
-    linear-gradient(#FF8800, #FF8800) padding-box, /* Inner background color */
-    linear-gradient(to right, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
+    linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
     
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
-.option-btn:hover {text-shadow: 1px 1px 2px rgba(0, 255, 255, 0.6); box-shadow: 0 8px 16px 0 rgba(0, 255, 255, 0.6);}
+.option-btn:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .option-btn.disabledbtn {
   opacity: 0.6;
   cursor: not-allowed;
@@ -493,7 +499,7 @@ background: #FF8800;
 .option-btn-circle {
   
   background: white;
-  color: rgb(0, 100, 200);
+  color: var(--warna_text);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
   /*
@@ -506,7 +512,7 @@ background: #FF8800;
   border-radius: 3px;
   background: 
     linear-gradient(#ffffff, #ffffff) padding-box, /* Inner background color */
-    linear-gradient(to right, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
   filter: drop-shadow(1px 1px 2px black, 0 0 1px black, 0 0 1px black);
 
@@ -521,7 +527,7 @@ background: #FF8800;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 .option-btn-circle.active {
-  background: #FF8800;
+  background: var(--warna_tombol);
 
   color: rgb(255, 255, 255);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black, 0 0 1px black; */
@@ -536,12 +542,12 @@ background: #FF8800;
   border: 3px solid transparent;
   border-radius: 3px;
   background: 
-    linear-gradient(#FF8800, #FF8800) padding-box, /* Inner background color */
-    linear-gradient(to right, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
+    linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
     
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
-.option-btn-circle:hover {text-shadow: 1px 1px 2px rgba(0, 255, 255, 0.6); box-shadow: 0 8px 16px 0 rgba(0, 255, 255, 0.6);}
+.option-btn-circle:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .option-btn-circle.disabledbtn {
   opacity: 0.6;
   cursor: not-allowed;
@@ -550,7 +556,7 @@ background: #FF8800;
 .option-btn-circle-unsupported {
   
   background: white;
-  color: rgb(0, 100, 200);
+  color: var(--warna_text);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
   /*
@@ -598,7 +604,7 @@ background: #FF8800;
     
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
-.option-btn-circle-unsupported:hover {text-shadow: 1px 1px 2px rgba(0, 255, 255, 0.6); box-shadow: 0 8px 16px 0 rgba(0, 255, 255, 0.6);}
+.option-btn-circle-unsupported:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .option-btn-circle-unsupported.disabledbtn {
   opacity: 0.6;
   cursor: not-allowed;
@@ -607,7 +613,7 @@ background: #FF8800;
 .option-btn-circle2 {
   
   background: white;
-  color: rgb(0, 100, 200);
+  color: var(--warna_text);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
   /*
@@ -622,7 +628,7 @@ background: #FF8800;
   border-radius: 3px;
   background: 
     linear-gradient(#ffffff, #ffffff) padding-box, /* Inner background color */
-    linear-gradient(to right, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
   filter: drop-shadow(1px 1px 2px black, 0 0 1px black, 0 0 1px black);
 
@@ -637,7 +643,7 @@ background: #FF8800;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 .option-btn-circle2.active {
-  background: #FF8800;
+  background: var(--warna_tombol);
 
   color: rgb(255, 255, 255);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black, 0 0 1px black; */
@@ -652,12 +658,12 @@ background: #FF8800;
   border: 3px solid transparent;
   border-radius: 3px;
   background: 
-    linear-gradient(#FF8800, #FF8800) padding-box, /* Inner background color */
-    linear-gradient(to right, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
+    linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
     
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
-.option-btn-circle2:hover {text-shadow: 1px 1px 2px rgba(0, 255, 255, 0.6); box-shadow: 0 8px 16px 0 rgba(0, 255, 255, 0.6);}
+.option-btn-circle2:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .option-btn-circle2.disabledbtn {
   opacity: 0.6;
   cursor: not-allowed;
@@ -666,7 +672,7 @@ background: #FF8800;
 .option-btn-circle-tenanan {
   
   background: white;
-  color: rgb(0, 100, 200);
+  color: var(--warna_text);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
   /*
@@ -687,7 +693,7 @@ background: #FF8800;
   border: 3px solid transparent;
   background: 
     linear-gradient(#ffffff, #ffffff) padding-box, /* Inner background color */
-    linear-gradient(to right, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
   filter: drop-shadow(1px 1px 2px black, 0 0 1px black, 0 0 1px black);
 
@@ -701,7 +707,7 @@ background: #FF8800;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 .option-btn-circle-tenanan.active {
-  background: #FF8800;
+  background: var(--warna_tombol);
 
   color: rgb(255, 255, 255);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black, 0 0 1px black; */
@@ -722,12 +728,12 @@ background: #FF8800;
 
   border: 3px solid transparent;
   background: 
-    linear-gradient(#FF8800, #FF8800) padding-box, /* Inner background color */
-    linear-gradient(to right, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
+    linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
     
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
-.option-btn-circle-tenanan:hover {text-shadow: 1px 1px 2px rgba(0, 255, 255, 0.6); box-shadow: 0 8px 16px 0 rgba(0, 255, 255, 0.6);}
+.option-btn-circle-tenanan:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .option-btn-circle-tenanan.disabledbtn {
   opacity: 0.6;
   cursor: not-allowed;
@@ -735,7 +741,7 @@ background: #FF8800;
 
 .option-btn_old {
   background: white;
-  border: 3px solid #FF8800;
+  border: 3px solid var(--warna_tombol);
   padding: 10px 12px;
   margin: 4px;
   text-align: center;
@@ -748,7 +754,7 @@ background: #FF8800;
 }
 
 .option-btn_old.active {
-  background: #FF8800;
+  background: var(--warna_tombol);
   color: black;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
@@ -762,10 +768,10 @@ select.rounded-select {
 
   border: 3px solid transparent;
   background: 
-    linear-gradient(#FF8800, #FF8800) padding-box, /* Inner background color */
-    linear-gradient(to right, #FF8800, #ffffff) border-box; /* Border gradient */
+    linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
+    linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
-  background: rgb(0, 100, 200);
+  background: var(--warna_text);
   color: rgb(255, 255, 255);;
   /* text-shadow: 1px 1px 2px black, 0 0 1px black, 0 0 1px black; */
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
@@ -780,7 +786,7 @@ select.rounded-select {
 
 select.rounded-select:hover {
   /* border-color: #1E40AF; */
-  text-shadow: 1px 1px 2px rgba(0, 255, 255, 0.6); box-shadow: 0 8px 16px 0 rgba(0, 255, 255, 0.6);
+  text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);
 }
 
 .readonly {
@@ -795,7 +801,7 @@ select.rounded-select:hover {
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 
-  color: rgb(0, 100, 200);
+  color: var(--warna_text);
 }
 
 .readonly2 {
@@ -810,7 +816,7 @@ select.rounded-select:hover {
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 
-  color: rgb(0, 100, 200);
+  color: var(--warna_text);
 }
 
 .readonly2X {
@@ -825,7 +831,7 @@ select.rounded-select:hover {
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 
-  color: rgb(0, 100, 200);
+  color: var(--warna_text);
 }
 
 .readonly3 {
@@ -840,7 +846,7 @@ select.rounded-select:hover {
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 
-  color: rgb(0, 100, 200);
+  color: var(--warna_text);
 }
 
 .readonly3smaller {
@@ -870,12 +876,12 @@ select.rounded-select:hover {
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 
-  color: rgb(0, 100, 200);
+  color: var(--warna_text);
 }
 
 .inputan {
   background: rgb(255, 255, 255); /*rgba(0, 0, 0, 0.6); #f8f8f8;*/
-  border: 2px solid rgb(0, 100, 200);
+  border: 2px solid var(--warna_text);
   font-size: 1.5rem;
   text-align: center;
   padding: 10px;
@@ -888,14 +894,14 @@ select.rounded-select:hover {
 
   background: 
     linear-gradient(#ffffff, #ffffff) padding-box, /* Inner background color */
-    linear-gradient(to right, rgb(0, 100, 200), rgb(0, 100, 200)) border-box; /* Border gradient */
+    linear-gradient(to right, var(--warna_text), var(--warna_text)) border-box; /* Border gradient */
 
-  color: rgb(0, 100, 200);
+  color: var(--warna_text);
 
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 .inputan_readonly {
-  background: rgb(0, 100, 200); /*rgba(0, 0, 0, 0.6); #f8f8f8;*/
+  background: var(--warna_text); /*rgba(0, 0, 0, 0.6); #f8f8f8;*/
   border: 2px solid rgb(255, 255, 255);
   font-size: 1.5rem;
   text-align: center;
@@ -908,7 +914,7 @@ select.rounded-select:hover {
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 
   background: 
-    linear-gradient(rgb(0, 100, 200), rgb(0, 100, 200)) padding-box, /* Inner background color */
+    linear-gradient(var(--warna_text), var(--warna_text)) padding-box, /* Inner background color */
     linear-gradient(to right, #ffffff, #ffffff) border-box; /* Border gradient */
 
   color: rgb(255, 255, 255);
@@ -925,7 +931,7 @@ select.rounded-select:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 .readonly_txt {
-  background: rgb(0, 100, 200); /*rgba(0, 0, 0, 0.6); #f8f8f8;*/
+  background: var(--warna_text); /*rgba(0, 0, 0, 0.6); #f8f8f8;*/
   border: 2px solid rgb(255, 255, 255);
   font-size: 1.5rem;
   text-align: center;
@@ -938,7 +944,7 @@ select.rounded-select:hover {
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 
   background: 
-    linear-gradient(rgb(0, 100, 200), rgb(0, 100, 200)) padding-box, /* Inner background color */
+    linear-gradient(var(--warna_text), var(--warna_text)) padding-box, /* Inner background color */
     linear-gradient(to right, #ffffff, #ffffff) border-box; /* Border gradient */
 
   color: rgb(255, 255, 255);
@@ -966,7 +972,7 @@ select.rounded-select:hover {
   /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 
-  color: rgb(0, 100, 200);
+  color: var(--warna_text);
 
 /* Make it completely non-interactive */
   pointer-events: none;           /* Disable all mouse events */
@@ -978,7 +984,7 @@ select.rounded-select:hover {
   outline: none;                  /* Remove focus outline */
 }
 .readonly_txt22 {
-  background: rgb(0, 100, 200);
+  background: var(--warna_text);
   border: 2px solid #ffffff;
   font-size: 1.3rem;
   text-align: center;

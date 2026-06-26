@@ -1317,7 +1317,7 @@ async function connectWallet() {
 function showScreen1() {
   document.getElementById('root').innerHTML = `
     <div class="container" style="display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:0px;background:transparent;padding:0px"; padding-top:40px>
-      <img src="/logo/arc_mascot_title333_fit.png"
+      <img src="/logo/arc_mascot_title333Xfit.png"
            alt="arcdicted_mascot" 
            style="margin-top:40px; margin-bottom:30px; max-width:480px; width:90%; height:auto;">
       
@@ -1344,16 +1344,26 @@ function showScreen1() {
       <div style="height:0px;"></div>
 
 <!-- GitHub Icon - Centered at the very bottom -->
-      <a href="https://github.com/kaduanganu/eth-predict-arc" 
-         target="_blank"
-         style="position:absolute; bottom:35px; left:50%; transform:translateX(-50%); 
-                color:#555; text-decoration:none; font-size:0.9rem; 
-                display:flex; align-items:center; gap:8px;">
-      <img src="https://github.githubassets.com/favicons/favicon.png" 
-              width="32" height="32" 
-              style="vertical-align:middle; 
-                     filter: brightness(0.9) saturate(2) hue-rotate(200deg);">
-      </a>
+<div style="text-align:center; margin-top:20px;">
+  <a href="https://github.com/kaduanganu/eth-predict-arc-lama"
+     target="_blank"
+     style="
+       color:#555;
+       text-decoration:none;
+       font-size:0.9rem;
+       display:inline-flex;
+       align-items:center;
+       gap:8px;
+     ">
+    <img src="https://github.githubassets.com/favicons/favicon.png"
+         width="32"
+         height="32"
+         style="
+           vertical-align:middle;
+           filter: brightness(0.9) saturate(2) hue-rotate(200deg);
+         ">
+  </a>
+</div>
     </div>
   `;
 }
@@ -2241,7 +2251,7 @@ function formatUSDC(value) {
     <div class="container">
       <div style="display:flex;justify-content:flex-start;gap:8px;align-items:center;margin-bottom:8px;">
         <div style="margin:0" class="readonly33">
-         <img src="/logo/logo_judul_333_fit.png"
+         <img src="/logo/logo_judul_333X1.png"
          style="width:${logoWidth}; height:auto; position: relative; top: 0px;"></div>
         <div onclick="showLeaderboard()" class="btn_smol_ns" style="display:none">
         🌟
@@ -2601,7 +2611,7 @@ function formatUSDC(value) {
   </button>
 </div>
 
-<div style="height:20px;"></div>
+<div style="height:10px;"></div>
 
     </div>
   `;
@@ -4322,6 +4332,8 @@ ${myRow ? `
     back
   </button>
 </div>
+
+<div style="height:10px;"></div>
 
     </div>
 
