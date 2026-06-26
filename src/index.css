@@ -895,8 +895,8 @@ select.rounded-select:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 .inputan_readonly {
-  background: rgb(255, 255, 255); /*rgba(0, 0, 0, 0.6); #f8f8f8;*/
-  border: 2px solid rgb(0, 100, 200);
+  background: rgb(0, 100, 200); /*rgba(0, 0, 0, 0.6); #f8f8f8;*/
+  border: 2px solid rgb(255, 255, 255);
   font-size: 1.5rem;
   text-align: center;
   padding: 10px;
@@ -908,10 +908,10 @@ select.rounded-select:hover {
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 
   background: 
-    linear-gradient(#ffffff, #ffffff) padding-box, /* Inner background color */
-    linear-gradient(to right, rgb(0, 100, 200), rgb(0, 100, 200)) border-box; /* Border gradient */
+    linear-gradient(rgb(0, 100, 200), rgb(0, 100, 200)) padding-box, /* Inner background color */
+    linear-gradient(to right, #ffffff, #ffffff) border-box; /* Border gradient */
 
-  color: rgb(0, 100, 200);
+  color: rgb(255, 255, 255);
 
 /* Make it completely non-interactive */
   /* pointer-events: none;           /* Disable all mouse events */

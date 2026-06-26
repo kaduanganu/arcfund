@@ -719,7 +719,6 @@ async function getVaultContract() {
 }
 
 async function loadTicketBalance() {
-
     const secret =
         document.getElementById(
             "livePrice111keyWD"
@@ -747,11 +746,10 @@ async function loadTicketBalance() {
         await res.json();
 
     if(data.success) {
-
         document.getElementById(
             "livePrice111WD"
         ).value =
-            data.balance;
+              data.balance;
     }
 }
 
@@ -1937,6 +1935,13 @@ async function refreshWithdrawAmount() {
 
   try {
 
+function formatUSDC(value) {
+  return Number(value).toLocaleString('en-US', {
+    minimumFractionDigits: 4,
+    maximumFractionDigits: 4
+  });
+}
+
     if (!userAddress) return;
 
     const secret =
@@ -1967,11 +1972,10 @@ async function refreshWithdrawAmount() {
       await response.json();
 
     if (data.success) {
-
       document.getElementById(
         "livePrice111WD"
       ).value =
-        data.balance;
+        formatUSDC(data.balance);
 
     }
 
@@ -2196,6 +2200,17 @@ async function showScreen2() {
   const systemBalX = await refreshVaultBalance();
   const systemBalXX = await refreshLiquidityBalance();
 
+function formatUSDC(value) {
+  return Number(value).toLocaleString('en-US', {
+    minimumFractionDigits: 4,
+    maximumFractionDigits: 4
+  });
+}
+
+  const systemBalXFormatted = formatUSDC(systemBalX);
+  const systemBalXXFormatted = formatUSDC(systemBalXX);
+  const userBalFormatted = formatUSDC(userBal);
+
   const chainLogo = {
   "arc-testnet": "/logo/arc_logo_small2_opaq2.png",
   "base-sepolia": "/logo/base_logo_small.png",
@@ -2228,7 +2243,7 @@ async function showScreen2() {
         <div style="margin:0" class="readonly33">
          <img src="/logo/logo_judul_333_fit.png"
          style="width:${logoWidth}; height:auto; position: relative; top: 0px;"></div>
-        <div onclick="showLeaderboard()" class="btn_smol_ns">
+        <div onclick="showLeaderboard()" class="btn_smol_ns" style="display:none">
         🌟
         </div>
 
@@ -2413,13 +2428,13 @@ async function showScreen2() {
 <hr>
 
       <div class="readonly3" style="display:flex; justify-content:space-between; align-items:center;">
-        ○ on vault • <span id="systemBalanceDisplay"> ${systemBalX} ● USDC</span>
+        ○ on vault • <span id="systemBalanceDisplay"> ${systemBalXFormatted} ● USDC</span>
       </div>
       <div class="readonly3" style="display:flex; justify-content:space-between; align-items:center;">
-        ○ available on vault • <span id="systemBalanceDisplayLiq"> ${systemBalXX} ● USDC</span>
+        ○ available on vault • <span id="systemBalanceDisplayLiq"> ${systemBalXXFormatted} ● USDC</span>
       </div>
       <div class="readonly3" style="display:flex; justify-content:space-between; align-items:center;">
-        ○ on wallet • <span id="userBalanceDisplay"> ${userBal} ● USDC</span>
+        ○ on wallet • <span id="userBalanceDisplay"> ${userBalFormatted} ● USDC</span>
       </div>
 
 <hr>
@@ -2434,8 +2449,8 @@ async function showScreen2() {
         </div>
         <input type="text"
         inputmode="numeric"
-        placeholder=""
-        id="livePrice111" class="inputan" value="1" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+        placeholder="0"
+        id="livePrice111" class="inputan" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
 
       </div>
       <div style="display:none; align-items:center; gap:10px; margin:10px 0 6px 0;">
@@ -2447,14 +2462,18 @@ async function showScreen2() {
 
 <div style="height:20px;"></div>
 
+<div style="text-align:center;">
   <button
-    class="btn_red"
-    style="flex:1;"
-    onclick="depositUSDC();">
-    <img src="/logo/down_logo_small_white.png" alt="higher_logo" width="48" height="48" filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
-    style="position: relative; top: 1px;">
-
+    class="btn"
+    onclick="depositUSDC()"
+    style="
+      width:50% !important;
+      display:inline-block;
+    "
+  >
+    deposit
   </button>
+</div>
 
 <div style="height:20px;"></div>
 
@@ -2481,40 +2500,40 @@ async function showScreen2() {
         <input type="text" id="livePriceXXXkey" class="inputan_readonly" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
         <input type="text"
         inputmode="numeric"
-        placeholder=""
-        id="livePriceXXX" class="inputan" value="1" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+        placeholder="0"
+        id="livePriceXXX" class="inputan" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
       </div>
 
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <input type="text" id="livePriceXXXkey1" class="inputan_readonly" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
         <input type="text"
         inputmode="numeric"
-        placeholder=""
-        id="livePriceXXX1" class="inputan" value="1" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+        placeholder="0"
+        id="livePriceXXX1" class="inputan" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
       </div>
 
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <input type="text" id="livePriceXXXkey2" class="inputan_readonly" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
         <input type="text"
         inputmode="numeric"
-        placeholder=""
-        id="livePriceXXX2" class="inputan" value="1" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+        placeholder="0"
+        id="livePriceXXX2" class="inputan" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
       </div>
 
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <input type="text" id="livePriceXXXkey3" class="inputan_readonly" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
         <input type="text"
         inputmode="numeric"
-        placeholder=""
-        id="livePriceXXX3" class="inputan" value="1" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+        placeholder="0"
+        id="livePriceXXX3" class="inputan" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
       </div>
 
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <input type="text" id="livePriceXXXkey4" class="inputan_readonly" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
         <input type="text"
         inputmode="numeric"
-        placeholder=""
-        id="livePriceXXX4" class="inputan" value="1" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+        placeholder="0"
+        id="livePriceXXX4" class="inputan" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
       </div>
 
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
@@ -2525,14 +2544,18 @@ async function showScreen2() {
       </div>
       </div>
 
+<div style="text-align:center;">
   <button
-    class="btn_red"
-    style="flex:1;"
-    onclick="createTicket();">
-    <img src="/logo/down_logo_small_white.png" alt="higher_logo" width="48" height="48" filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
-    style="position: relative; top: 1px;">
-
+    class="btn"
+    onclick="createTicket()"
+    style="
+      width:50% !important;
+      display:inline-block;
+    "
+  >
+    create ticket
   </button>
+</div>
 
 <div style="height:20px;"></div>
 
@@ -2544,9 +2567,9 @@ async function showScreen2() {
       
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
-         ○ paste the key •
+         ○ input/paste key •
         </div>
-        <input type="text" id="livePrice111keyWD" oninput="loadTicketBalance()" class="inputan" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+        <input type="text" id="livePrice111keyWD" class="inputan" placeholder="0x0000" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
       </div>
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <div class="readonly3" style="flex: 50%; text-align:left;" margin-left: 120px;>
@@ -2554,8 +2577,8 @@ async function showScreen2() {
         </div>
         <input type="text"
         inputmode="numeric"
-        placeholder=""
-        id="livePrice111WD" class="inputan" value="1" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
+        placeholder="0"
+        id="livePrice111WD" class="inputan" value="" style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;">
       </div>
 
 <div style="height:20px;"></div>
@@ -2565,14 +2588,20 @@ async function showScreen2() {
   <div></div>
   </div>
 
-    <button
-    class="btn_green"
-    style="flex:1;"
-    onclick="withdrawUSDC();">
-    <img src="/logo/down_logo_small_white.png" alt="higher_logo" width="48" height="48" filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
-    style="position: relative; top: 1px;">
-
+<div style="text-align:center;">
+  <button
+    class="btn"
+    onclick="withdrawUSDC()"
+    style="
+      width:50% !important;
+      display:inline-block;
+    "
+  >
+    withdraw
   </button>
+</div>
+
+<div style="height:20px;"></div>
 
     </div>
   `;
@@ -2587,7 +2616,7 @@ const input5 = document.getElementById('livePriceXXX2');
 const input6 = document.getElementById('livePriceXXX3');
 const input7 = document.getElementById('livePriceXXX4');
 
-function formatCurrencyInput(e) {
+function formatCurrencyInputX(e) {
   let raw = e.target.value.replace(/\D/g, '');
   raw = raw.slice(0, 6);
 
@@ -2596,6 +2625,47 @@ function formatCurrencyInput(e) {
   e.target.value = raw
     ? new Intl.NumberFormat('id-ID').format(raw)
     : '';
+}
+
+function formatCurrencyInput(e) {
+  let raw = e.target.value;
+  raw = raw.slice(0, 19);
+
+  // Remove everything except digits, dots, commas
+  raw = raw.replace(/[^\d.,]/g, '');
+
+  // Remove thousands separators entered by user
+  raw = raw.replace(/,/g, '');
+
+  // Keep only the first decimal point
+  const parts = raw.split('.');
+  if (parts.length > 2) {
+    raw = parts[0] + '.' + parts.slice(1).join('');
+  }
+
+  // Limit decimal places (optional)
+  if (parts.length > 1) {
+    raw = parts[0] + '.' + parts[1].slice(0, 4);
+  }
+
+  // Store raw value
+  e.target.dataset.rawValue = raw;
+
+  if (!raw) {
+    e.target.value = '';
+    return;
+  }
+
+  const [integer, decimal] = raw.split('.');
+
+  const formattedInteger = new Intl.NumberFormat('en-US').format(
+    Number(integer || 0)
+  );
+
+  e.target.value =
+    decimal !== undefined
+      ? `${formattedInteger}.${decimal}`
+      : formattedInteger;
 }
 
 input?.addEventListener('input', formatCurrencyInput);
