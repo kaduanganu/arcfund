@@ -7,24 +7,15 @@ const db =
 db.exec(`
 CREATE TABLE IF NOT EXISTS history (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-
     address TEXT NOT NULL,
-
     type TEXT NOT NULL,
-
     amount TEXT,
-
     keyHash TEXT,
-
+    encryptedSecret TEXT,
     txHash TEXT NOT NULL,
-
     blockNumber INTEGER,
-
     timestamp INTEGER
 );
-
-ALTER TABLE history
-ADD COLUMN encryptedSecret TEXT;
 
 CREATE INDEX IF NOT EXISTS idx_history_address
 ON history(address);
