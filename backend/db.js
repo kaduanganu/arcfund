@@ -2,7 +2,7 @@ const Database =
     require("better-sqlite3");
 
 const db =
-    new Database("backend/vault.db");
+    new Database("vault.db");
 
 db.exec(`
 CREATE TABLE IF NOT EXISTS history (
