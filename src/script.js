@@ -4305,7 +4305,7 @@ async function showHistory() {
       word-break:break-all;
     "
   >
-    🔑 ${t.keyHash}
+    🔑 ${t.secret}
   </div>
 
   <div
