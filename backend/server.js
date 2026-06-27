@@ -1817,16 +1817,13 @@ app.get(
 
       const { address } = req.query;
 
-      console.log("address =", req.query.address);
-      console.log("address2 =", address);
+      //console.log("address =", req.query.address);
+      //console.log("address2 =", address);
 
       const balance =
         await vault.availableLiquidity();
 
-            console.log(
-      "liquidity balance =",
-      balance.toString()
-    );
+      //console.log("liquidity balance =",balance.toString());
 
       res.json({
         success:true,
@@ -1863,16 +1860,13 @@ app.get(
 
       const { address } = req.query;
 
-      console.log("address =", req.query.address);
-      console.log("address2 =", address);
+      //console.log("address =", req.query.address);
+      //console.log("address2 =", address);
 
       const balance =
         await vault.vaultUSDCBalance();
 
-            console.log(
-      "raw balance =",
-      balance.toString()
-    );
+      //console.log("raw balance =",balance.toString());
 
       res.json({
         success:true,
