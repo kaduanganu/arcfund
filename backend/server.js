@@ -946,34 +946,30 @@ console.log(
                 6
             );
 
-        const tx =
-await vault.createTicket(
+const tx = await vault.createTicket(
     keyHash,
     amount6,
-    address
+    userAddress
 );
 
-        await tx.wait();
+await tx.wait();
 
 db.prepare(`
-INSERT INTO history (
-    address,
-    type,
-    amount,
-    keyHash,
-    txHash,
-    blockNumber,
-    timestamp
-)
-VALUES (?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO history
+    (
+        address,
+        type,
+        amount,
+        txHash,
+        timestamp
+    )
+    VALUES (?, ?, ?, ?, ?)
 `).run(
-    address.toLowerCase(),
+    userAddress.toLowerCase(),
     "ticket",
-    amount6.toString(),
-    keyHash,
-    receipt.hash,
-    receipt.blockNumber,
-    Math.floor(Date.now() / 1000)
+    amount,
+    tx.hash,
+    Date.now()
 );
 
         res.json({
