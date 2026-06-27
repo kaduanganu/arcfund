@@ -946,13 +946,14 @@ console.log(
                 6
             );
 
-const tx = await vault.createTicket(
+        const tx =
+await vault.createTicket(
     keyHash,
     amount6,
-    userAddress
+    address
 );
 
-await tx.wait();
+        await tx.wait();
 
 db.prepare(`
     INSERT INTO history
@@ -965,7 +966,7 @@ db.prepare(`
     )
     VALUES (?, ?, ?, ?, ?)
 `).run(
-    userAddress.toLowerCase(),
+    address,
     "ticket",
     amount,
     tx.hash,
