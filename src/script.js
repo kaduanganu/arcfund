@@ -771,9 +771,7 @@ async function loadHistory() {
   );
 
 }
-function renderDeposits(
-  items
-) {
+function renderDeposits(items) {
 
   const container =
     document.getElementById(
@@ -782,30 +780,29 @@ function renderDeposits(
 
   container.innerHTML = "";
 
-  items.forEach(
-    item => {
+  items.forEach(item => {
 
-      container.innerHTML += `
-        <div class="historyRow">
-          <div>
-            ${new Date(
-              item.date * 1000
-            ).toLocaleString()}
-          </div>
+    container.innerHTML += `
+      <div class="historyRow">
 
-          <div>
-            ${item.amount} USDC
-          </div>
+        <div>
+          ${new Date(
+            item.timestamp * 1000
+          ).toLocaleString()}
         </div>
-      `;
 
-    }
-  );
+        <div>
+          ${Number(item.amount) / 1e6}
+          USDC
+        </div>
+
+      </div>
+    `;
+
+  });
 
 }
-function renderTickets(
-  items
-) {
+function renderTickets(items) {
 
   const container =
     document.getElementById(
@@ -814,36 +811,33 @@ function renderTickets(
 
   container.innerHTML = "";
 
-  items.forEach(
-    item => {
+  items.forEach(item => {
 
-      container.innerHTML += `
-        <div class="historyRow">
+    container.innerHTML += `
+      <div class="historyRow">
 
-          <div>
-            ${new Date(
-              item.date * 1000
-            ).toLocaleString()}
-          </div>
-
-          <div>
-            ${item.keyHash}
-          </div>
-
-          <div>
-            ${item.amount} USDC
-          </div>
-
+        <div>
+          ${new Date(
+            item.timestamp * 1000
+          ).toLocaleString()}
         </div>
-      `;
 
-    }
-  );
+        <div>
+          ${item.keyHash}
+        </div>
+
+        <div>
+          ${Number(item.amount) / 1e6}
+          USDC
+        </div>
+
+      </div>
+    `;
+
+  });
 
 }
-function renderWithdrawals(
-  items
-) {
+function renderWithdrawals(items) {
 
   const container =
     document.getElementById(
@@ -852,31 +846,30 @@ function renderWithdrawals(
 
   container.innerHTML = "";
 
-  items.forEach(
-    item => {
+  items.forEach(item => {
 
-      container.innerHTML += `
-        <div class="historyRow">
+    container.innerHTML += `
+      <div class="historyRow">
 
-          <div>
-            ${new Date(
-              item.date * 1000
-            ).toLocaleString()}
-          </div>
-
-          <div>
-            ${item.keyHash}
-          </div>
-
-          <div>
-            ${item.amount} USDC
-          </div>
-
+        <div>
+          ${new Date(
+            item.timestamp * 1000
+          ).toLocaleString()}
         </div>
-      `;
 
-    }
-  );
+        <div>
+          ${item.keyHash}
+        </div>
+
+        <div>
+          ${Number(item.amount) / 1e6}
+          USDC
+        </div>
+
+      </div>
+    `;
+
+  });
 
 }
 
@@ -2012,7 +2005,8 @@ if (amount <= 0 || amount == null) {} else {
                 },
                 body: JSON.stringify({
                     secret,
-                    amount
+                    amount,
+                    address: userAddress
                 })
             }
         );
@@ -2032,7 +2026,8 @@ if (amount1 <= 0 || amount1 == null) {} else {
                 },
                 body: JSON.stringify({
                     secret: secret1,
-                    amount: amount1
+                    amount: amount1,
+                    address: userAddress
                 })
             }
         );
@@ -2052,7 +2047,8 @@ if (amount2 <= 0 || amount2 == null) {} else {
                 },
                 body: JSON.stringify({
                     secret: secret2,
-                    amount: amount2
+                    amount: amount2,
+                    address: userAddress
                 })
             }
         );
@@ -2072,7 +2068,8 @@ if (amount3 <= 0 || amount3 == null) {} else {
                 },
                 body: JSON.stringify({
                     secret: secret3,
-                    amount: amount3
+                    amount: amount3,
+                    address: userAddress
                 })
             }
         );
@@ -2092,7 +2089,8 @@ if (amount4 <= 0 || amount4 == null) {} else {
                 },
                 body: JSON.stringify({
                     secret: secret4,
-                    amount: amount4
+                    amount: amount4,
+                    address: userAddress
                 })
             }
         );
