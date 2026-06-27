@@ -970,7 +970,7 @@ db.prepare(`
     "ticket",
     amount,
     tx.hash,
-    Date.now()
+    Math.floor(Date.now() / 1000)
 );
 
         res.json({
@@ -1134,7 +1134,7 @@ app.get("/api/history/:address", (req, res) => {
             ORDER BY timestamp DESC
         `).all(address);
 
-console.log(rows[0]);
+    console.log("HISTORY ROWS:", rows);
 
     res.json({
         success: true,
