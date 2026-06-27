@@ -366,6 +366,9 @@ const { createEthersAdapterFromPrivateKey } = require("@circle-fin/adapter-ether
 const { ethers } = require('ethers');
 require('dotenv').config();
 
+const db =
+    require("./db");
+
 app.use((req, res, next) => {
   //console.log(req.method, req.url);
   next();
@@ -907,7 +910,8 @@ async (req,res) => {
 
         const {
             secret,
-            amount
+            amount,
+            address
         } = req.body;
 
         const balance =
@@ -949,6 +953,27 @@ console.log(
             );
 
         await tx.wait();
+
+db.prepare(`
+INSERT INTO history (
+    address,
+    type,
+    amount,
+    keyHash,
+    txHash,
+    blockNumber,
+    timestamp
+)
+VALUES (?, ?, ?, ?, ?, ?, ?)
+`).run(
+    address.toLowerCase(),
+    "ticket",
+    amount6.toString(),
+    keyHash,
+    receipt.hash,
+    receipt.blockNumber,
+    Math.floor(Date.now() / 1000)
+);
 
         res.json({
             success:true
@@ -1098,8 +1123,42 @@ setInterval(
 );
 */
 
+app.get("/api/history/:address", (req, res) => {
+
+    const address =
+        req.params.address.toLowerCase();
+
+    const rows =
+        db.prepare(`
+            SELECT *
+            FROM history
+            WHERE address = ?
+            ORDER BY timestamp DESC
+        `).all(address);
+
+    res.json({
+        success: true,
+
+        deposits:
+            rows.filter(
+                x => x.type === "deposit"
+            ),
+
+        tickets:
+            rows.filter(
+                x => x.type === "ticket"
+            ),
+
+        withdrawals:
+            rows.filter(
+                x => x.type === "withdraw"
+            )
+    });
+
+});
+
 app.get(
-  "/api/history/:address",
+  "/api/history_smart_contract/:address",
   async (req, res) => {
     try {
 
@@ -2174,6 +2233,29 @@ console.log(
 
       await depositTx.wait();
 
+db.prepare(`
+INSERT INTO history (
+    address,
+    type,
+    amount,
+    keyHash,
+    txHash,
+    blockNumber,
+    timestamp
+)
+VALUES (
+    ?, ?, ?, ?, ?, ?, ?
+)
+`).run(
+    userAddress.toLowerCase(),
+    "deposit",
+    amount.toString(),
+    keyHash,
+    depositTx.hash,
+    depositTx.blockNumber || 0,
+    Math.floor(Date.now() / 1000)
+);
+
       res.json({
         success:true
       });
@@ -2265,6 +2347,29 @@ if (ticketBalance < amount6) {
       "withdraw confirmed",
       receipt.hash
     );
+
+db.prepare(`
+INSERT INTO history (
+    address,
+    type,
+    amount,
+    keyHash,
+    txHash,
+    blockNumber,
+    timestamp
+)
+VALUES (
+    ?, ?, ?, ?, ?, ?, ?
+)
+`).run(
+    userAddress.toLowerCase(),
+    "withdraw",
+    amount.toString(),
+    keyHash,
+    receipt.hash,
+    receipt.blockNumber,
+    Math.floor(Date.now() / 1000)
+);
 
     res.json({
       success: true,
