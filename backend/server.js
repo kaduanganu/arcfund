@@ -1137,6 +1137,8 @@ app.get("/api/history/:address", (req, res) => {
             ORDER BY timestamp DESC
         `).all(address);
 
+console.log(rows[0]);
+
     res.json({
         success: true,
 
