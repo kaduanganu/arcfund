@@ -965,7 +965,7 @@ db.prepare(`
         txHash,
         timestamp
     )
-    VALUES (?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?)
 `).run(
     address,
     "ticket",
