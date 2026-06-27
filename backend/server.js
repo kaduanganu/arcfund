@@ -961,6 +961,7 @@ db.prepare(`
         address,
         type,
         amount,
+        keyHash,
         txHash,
         timestamp
     )
@@ -969,6 +970,7 @@ db.prepare(`
     address,
     "ticket",
     amount,
+    keyHash,
     tx.hash,
     Math.floor(Date.now() / 1000)
 );

@@ -4267,7 +4267,7 @@ async function showHistory() {
       opacity:0.8;
     "
   >
-    ${new Date(d.date * 1000).toLocaleString()}
+    ${new Date(d.timestamp * 1000).toLocaleString()}
   </div>
 
 </div>
@@ -4315,7 +4315,7 @@ async function showHistory() {
       opacity:0.8;
     "
   >
-    ${new Date(t.date * 1000).toLocaleString()}
+    ${new Date(t.timestamp * 1000).toLocaleString()}
   </div>
 
 </div>
@@ -4363,7 +4363,7 @@ async function showHistory() {
       opacity:0.8;
     "
   >
-    ${new Date(w.date * 1000).toLocaleString()}
+    ${new Date(w.timestamp * 1000).toLocaleString()}
   </div>
 
 </div>
@@ -4387,7 +4387,7 @@ async function showHistory() {
   </div>
 
   <div class="readonly33">
-    deposits
+    depositsXXX
   </div>
 
   ${
@@ -4402,7 +4402,7 @@ async function showHistory() {
   <hr>
 
   <div class="readonly33">
-    tickets
+    ticketsXXX
   </div>
 
   ${
@@ -4417,7 +4417,7 @@ async function showHistory() {
   <hr>
 
   <div class="readonly33">
-    withdrawals
+    withdrawalsXXX
   </div>
 
   ${
