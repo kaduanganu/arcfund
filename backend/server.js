@@ -1104,6 +1104,8 @@ app.get(
 
     try {
 
+      const DEPLOY_BLOCK = 48923618; // replace with actual deployment block
+
       const address =
         req.params.address
           .toLowerCase();
@@ -1120,7 +1122,7 @@ app.get(
       const depositEvents =
         await vault.queryFilter(
           depositFilter,
-          0,
+          DEPLOY_BLOCK,
           "latest"
         );
 
@@ -1136,7 +1138,7 @@ app.get(
       const ticketEvents =
         await vault.queryFilter(
           ticketFilter,
-          0,
+          DEPLOY_BLOCK,
           "latest"
         );
 
@@ -1152,7 +1154,7 @@ app.get(
       const withdrawEvents =
         await vault.queryFilter(
           withdrawFilter,
-          0,
+          DEPLOY_BLOCK,
           "latest"
         );
 
