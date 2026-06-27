@@ -1337,7 +1337,7 @@ app.get(
                 date:
                   block.timestamp,
                 keyHash:
-                  decrypt(e.args.encryptedSecret),
+                  e.args.keyHash,
                 amount:
                   ethers.formatUnits(
                     e.args.amount,
@@ -1363,7 +1363,7 @@ app.get(
                 date:
                   block.timestamp,
                 keyHash:
-                  e.args.keyHash,
+                  decrypt(e.args.encryptedSecret),
                 amount:
                   ethers.formatUnits(
                     e.args.amount,
