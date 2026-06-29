@@ -4249,25 +4249,15 @@ async function showHistory() {
   "
 >
 
-  <div
+    <div
     style="
       display:flex;
       justify-content:space-between;
-      font-weight:bold;
+      font-weight:normal;
     "
   >
-    <span>deposit</span>
-    <span>${d.amount} USDC</span>
-  </div>
-
-  <div
-    style="
-      margin-top:8px;
-      font-size:0.9rem;
-      opacity:0.8;
-    "
-  >
-    ${new Date(d.timestamp * 1000).toLocaleString()}
+    <span>○ ${new Date(d.timestamp * 1000).toLocaleString()}</span>
+    <span>○ ${d.amount} ● USDC</span>
   </div>
 
 </div>
@@ -4294,28 +4284,19 @@ async function showHistory() {
       font-weight:bold;
     "
   >
-    <span>ticket</span>
-    <span>${t.amount} USDC</span>
+    <span>○ ${t.secret}</span>
+    <span></span>
   </div>
-
+<div style="height:10px;"></div>
   <div
     style="
-      margin-top:8px;
-      font-size:0.85rem;
-      word-break:break-all;
+      display:flex;
+      justify-content:space-between;
+      font-weight:normal;
     "
   >
-    🔑 ${t.secret}
-  </div>
-
-  <div
-    style="
-      margin-top:8px;
-      font-size:0.9rem;
-      opacity:0.8;
-    "
-  >
-    ${new Date(t.timestamp * 1000).toLocaleString()}
+    <span>○ ${new Date(t.timestamp * 1000).toLocaleString()}</span>
+    <span>○ ${t.amount} ● USDC</span>
   </div>
 
 </div>
@@ -4342,28 +4323,19 @@ async function showHistory() {
       font-weight:bold;
     "
   >
-    <span>withdraw</span>
-    <span>${w.amount} USDC</span>
+    <span>○ ${w.secret}</span>
+    <span></span>
   </div>
-
+<div style="height:10px;"></div>
   <div
     style="
-      margin-top:8px;
-      font-size:0.85rem;
-      word-break:break-all;
+      display:flex;
+      justify-content:space-between;
+      font-weight:normal;
     "
   >
-    🔑 ${w.keyHash}
-  </div>
-
-  <div
-    style="
-      margin-top:8px;
-      font-size:0.9rem;
-      opacity:0.8;
-    "
-  >
-    ${new Date(w.timestamp * 1000).toLocaleString()}
+    <span>○ ${new Date(w.timestamp * 1000).toLocaleString()}</span>
+    <span>○ ${w.amount} ● USDC</span>
   </div>
 
 </div>
@@ -4387,45 +4359,66 @@ async function showHistory() {
   </div>
 
   <div class="readonly33">
-    depositsXXX
+    🔵 your deposit/s.
   </div>
 
   ${
     depositRows ||
     `
-<div class="readonly2">
-  no deposits found
-</div>
+  <div
+    style="
+      display:flex;
+      justify-content:space-between;
+      font-weight:normal;
+    "
+  >
+    <span>○ none</span>
+    <span></span>
+  </div>
 `
   }
 
   <hr>
 
   <div class="readonly33">
-    ticketsXXX
+    🔵 ticket/s you create.
   </div>
 
   ${
     ticketRows ||
     `
-<div class="readonly2">
-  no tickets found
-</div>
+  <div
+    style="
+      display:flex;
+      justify-content:space-between;
+      font-weight:normal;
+    "
+  >
+    <span>○ none</span>
+    <span></span>
+  </div>
 `
   }
 
   <hr>
 
   <div class="readonly33">
-    withdrawalsXXX
+    🔵 your withdrawal.
   </div>
 
   ${
     withdrawRows ||
     `
-<div class="readonly2">
-  no withdrawals found
-</div>
+  <div
+    style="
+      display:flex;
+      justify-content:space-between;
+      font-weight:normal;
+    "
+  >
+    <span>○ none</span>
+    <span></span>
+  </div>
 `
   }
 

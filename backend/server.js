@@ -1196,6 +1196,14 @@ app.get("/api/history/:address", (req, res) => {
                 secret: decrypt(x.encryptedSecret)
             }));
 
+        const withdraws =
+        rows
+            .filter(x => x.type === "withdraw")
+            .map(x => ({
+                ...x,
+                secret: decrypt(x.encryptedSecret)
+            }));
+
     res.json({
         success: true,
 
@@ -1206,10 +1214,7 @@ app.get("/api/history/:address", (req, res) => {
 
 tickets,
 
-        withdrawals:
-            rows.filter(
-                x => x.type === "withdraw"
-            )
+withdraws
     });
 
 });
@@ -2405,11 +2410,15 @@ if (ticketBalance < amount6) {
       receipt.hash
     );
 
+const encryptedSecret =
+  encrypt(secret);
+
 db.prepare(`
 INSERT INTO history (
     address,
     type,
     amount,
+    encryptedSecret,
     keyHash,
     txHash,
     blockNumber,
@@ -2422,6 +2431,7 @@ VALUES (
     userAddress.toLowerCase(),
     "withdraw",
     amount.toString(),
+    encryptedSecret,
     keyHash,
     receipt.hash,
     receipt.blockNumber,
