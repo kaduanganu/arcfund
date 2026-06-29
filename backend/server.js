@@ -2434,7 +2434,7 @@ INSERT INTO history (
     timestamp
 )
 VALUES (
-    ?, ?, ?, ?, ?, ?, ?
+    ?, ?, ?, ?, ?, ?, ?, ?
 )
 `).run(
     userAddress.toLowerCase(),

@@ -4365,6 +4365,16 @@ async function showHistory() {
   ${
     depositRows ||
     `
+<div
+  class="readonly2"
+  style="
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:20px;
+    color:rgb(0,100,200);
+  "
+>
+
   <div
     style="
       display:flex;
@@ -4372,9 +4382,11 @@ async function showHistory() {
       font-weight:normal;
     "
   >
-    <span>○ none</span>
+    <span>○ -</span>
     <span></span>
   </div>
+
+</div>
 `
   }
 
@@ -4387,6 +4399,16 @@ async function showHistory() {
   ${
     ticketRows ||
     `
+<div
+  class="readonly2"
+  style="
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:20px;
+    color:rgb(0,100,200);
+  "
+>
+
   <div
     style="
       display:flex;
@@ -4394,9 +4416,11 @@ async function showHistory() {
       font-weight:normal;
     "
   >
-    <span>○ none</span>
+    <span>○ -</span>
     <span></span>
   </div>
+
+</div>
 `
   }
 
@@ -4409,6 +4433,16 @@ async function showHistory() {
   ${
     withdrawRows ||
     `
+<div
+  class="readonly2"
+  style="
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:20px;
+    color:rgb(0,100,200);
+  "
+>
+
   <div
     style="
       display:flex;
@@ -4416,11 +4450,15 @@ async function showHistory() {
       font-weight:normal;
     "
   >
-    <span>○ none</span>
+    <span>○ -</span>
     <span></span>
   </div>
+
+</div>
 `
   }
+
+  <hr>
 
   <div style="height:20px;"></div>
 
