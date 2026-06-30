@@ -499,3 +499,22 @@ if (actualRank === 1 || actualRank === 2 || actualRank === 3) {
 
         onclick="event.stopPropagation(); gekunsupported();"
         onclick="changeChainAndClose('eth-sepolia')"
+
+
+  <button
+    class="btn_op_rev2" style="font-size:1.1rem;"
+    onclick="showSection('deposit')">
+        Deposit</span>
+  </button>
+
+  <button
+    class="btn_op_rev2" style="font-size:1.1rem;"
+    onclick="showSection('ticket')">
+        Create Ticket</span>
+  </button>
+
+  <button
+    class="btn_op_rev2" style="font-size:1.1rem;"
+    onclick="showSection('withdraw')">
+        Withdraw</span>
+  </button>

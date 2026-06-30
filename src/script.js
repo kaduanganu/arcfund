@@ -2226,7 +2226,7 @@ async function withdrawUSDC() {
       return;
     }
 
-    if (amount > data.balance) {
+    if (Number(amount) > Number(data.balance)) {
 
       showToast(
         "❌ Request above the limit.",
@@ -2429,7 +2429,7 @@ function formatUSDC(value) {
          <img src="/logo/logo_judul_333X1.png"
          style="width:${logoWidth}; height:auto; position: relative; top: 0px;"></div>
         <div onclick="showHistory()" class="btn_smol_ns">
-        🌟
+        📖
         </div>
 
         <div onclick="disconnectWallet()" class="btn_smol">
@@ -2613,16 +2613,45 @@ function formatUSDC(value) {
 <hr>
 
       <div class="readonly3" style="display:flex; justify-content:space-between; align-items:center;">
+        ○ on wallet • <span id="userBalanceDisplay"> ${userBalFormatted} ● USDC</span>
+      </div>
+      <div class="readonly3" style="display:flex; justify-content:space-between; align-items:center;">
         ○ on vault • <span id="systemBalanceDisplay"> ${systemBalXFormatted} ● USDC</span>
       </div>
       <div class="readonly3" style="display:flex; justify-content:space-between; align-items:center;">
         ○ available on vault • <span id="systemBalanceDisplayLiq"> ${systemBalXXFormatted} ● USDC</span>
       </div>
-      <div class="readonly3" style="display:flex; justify-content:space-between; align-items:center;">
-        ○ on wallet • <span id="userBalanceDisplay"> ${userBalFormatted} ● USDC</span>
-      </div>
 
 <hr>
+
+<div style="height:20px;"></div>
+
+<div class="flex-row">
+
+  <div
+    class="option-btn-circle" id="depositBtn"
+    onclick="showSection('deposit')">
+    Deposit</span>
+  </div>
+
+  <div
+    class="option-btn-circle" id="ticketBtn" 
+    onclick="showSection('ticket')">
+    Ticket</span>
+  </div>
+
+  <div
+    class="option-btn-circle" id="withdrawBtn"
+    onclick="showSection('withdraw')">
+    Withdraw</span>
+  </div>
+
+</div>
+
+<div style="height:20px;"></div>
+
+<div id="depositSection">
+<!-- deposit html here -->
 
       <div id="livePrice111Deposit" class="readonly3" style="text-align:center;">
         deposit ● USDC</span>
@@ -2660,15 +2689,17 @@ function formatUSDC(value) {
   </button>
 </div>
 
-<div style="height:20px;"></div>
+<!-- deposit html here -->
+</div>
 
-<hr>
+<div id="ticketSection" style="display:none;">
+  <!-- create ticket html here -->
 
       <div id="livePriceXXXTicket" class="readonly3" style="text-align:center;">
         create ticket for ● USDC withdraw</span>
       </div>
       
-      <div class="readonly3smaller" style="flex: 50%; text-align:center;">
+      <div class="readonly3smaller" style="flex: 50%; text-align:center; font-weight:bold;">
         *don't lose your key, you • WILL • lose your fund for good
       </div>
 
@@ -2722,7 +2753,7 @@ function formatUSDC(value) {
       </div>
 
       <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
-      <div class="readonly3smaller" style="flex: 50%; text-align:center;">
+      <div class="readonly3smaller" style="flex: 50%; text-align:center; font-weight:bold;">
         *click the key to copy
       </div>
       <div class="readonly3smaller" style="flex: 50%; text-align:center;">
@@ -2742,9 +2773,11 @@ function formatUSDC(value) {
   </button>
 </div>
 
-<div style="height:20px;"></div>
+<!-- create ticket html here -->
+</div>
 
-<hr>
+<div id="withdrawSection" style="display:none;">
+  <!-- withdraw html here -->
 
       <div id="livePrice111Withdraw" class="readonly3" style="text-align:center;">
         withdraw ● USDC</span>
@@ -2768,11 +2801,6 @@ function formatUSDC(value) {
 
 <div style="height:20px;"></div>
 
-  <div id="loadingScreen">
-  <img src="/logo/usdc_logo.png" width="120">
-  <div></div>
-  </div>
-
 <div style="text-align:center;">
   <button
     class="btn"
@@ -2786,10 +2814,50 @@ function formatUSDC(value) {
   </button>
 </div>
 
+<!-- withdraw html here -->
+</div>
+
 <div style="height:10px;"></div>
 
     </div>
+
+
+  <div id="loadingScreen">
+  <img src="/logo/usdc_logo.png" width="120">
+  <div></div>
+  </div>
+
+
   `;
+
+function showSection(type) {
+
+  document.getElementById("depositSection").style.display = "none";
+  document.getElementById("ticketSection").style.display = "none";
+  document.getElementById("withdrawSection").style.display = "none";
+
+  document.getElementById("depositBtn").classList.remove("active");
+  document.getElementById("ticketBtn").classList.remove("active");
+  document.getElementById("withdrawBtn").classList.remove("active");
+
+  if (type === "deposit") {
+    document.getElementById("depositSection").style.display = "block";
+    document.getElementById("depositBtn").classList.add("active");
+  }
+
+  if (type === "ticket") {
+    document.getElementById("ticketSection").style.display = "block";
+    document.getElementById("ticketBtn").classList.add("active");
+  }
+
+  if (type === "withdraw") {
+    document.getElementById("withdrawSection").style.display = "block";
+    document.getElementById("withdrawBtn").classList.add("active");
+  }
+
+}
+
+window.showSection = showSection;
 
 setupKeyInput();
 
@@ -2930,6 +2998,7 @@ function setupKeyInput() {
 
 //generateTicketKey();
 
+  showSection('deposit')
   hideLoading();
   closeAllToasts();
 
@@ -4281,10 +4350,10 @@ async function showHistory() {
     style="
       display:flex;
       justify-content:space-between;
-      font-weight:bold;
+      font-weight:normal ;
     "
   >
-    <span>○ ${t.secret}</span>
+    <span>🎟️ ❗ <span style="color:red;">${t.secret}</span></span>
     <span></span>
   </div>
 <div style="height:10px;"></div>
@@ -4320,10 +4389,10 @@ async function showHistory() {
     style="
       display:flex;
       justify-content:space-between;
-      font-weight:bold;
+      font-weight:normal;
     "
   >
-    <span>○ ${w.secret}</span>
+    <span>🎟️ ${w.secret}</span>
     <span></span>
   </div>
 <div style="height:10px;"></div>
@@ -4342,9 +4411,9 @@ async function showHistory() {
 
 `).join("");
 
-    document.getElementById(
-      "root"
-    ).innerHTML = `
+document.getElementById(
+  "root"
+).innerHTML = `
 
 <div class="container">
 
@@ -4358,13 +4427,47 @@ async function showHistory() {
     history
   </div>
 
-  <div class="readonly33">
-    🔵 your deposit/s.
+  <div class="flex-row">
+
+    <div
+      id="depositBtnH"
+      class="option-btn-circle active"
+      onclick="showHistoryTab('deposit')"
+    >
+      Deposit
+    </div>
+
+    <div
+      id="ticketBtnH"
+      class="option-btn-circle"
+      onclick="showHistoryTab('ticket')"
+    >
+      Ticket
+    </div>
+
+    <div
+      id="withdrawBtnH"
+      class="option-btn-circle"
+      onclick="showHistoryTab('withdraw')"
+    >
+      Withdraw
+    </div>
+
   </div>
 
-  ${
-    depositRows ||
-    `
+  <div style="height:15px;"></div>
+
+  <!-- Deposit History -->
+
+  <div id="depositHistory">
+
+    <div class="readonly33">
+      🔵 your deposit/s.
+    </div>
+
+    ${
+      depositRows ||
+      `
 <div
   class="readonly2"
   style="
@@ -4374,31 +4477,35 @@ async function showHistory() {
     color:rgb(0,100,200);
   "
 >
-
   <div
     style="
       display:flex;
       justify-content:space-between;
-      font-weight:normal;
     "
   >
     <span>○ -</span>
     <span></span>
   </div>
-
 </div>
 `
-  }
+    }
 
-  <hr>
-
-  <div class="readonly33">
-    🔵 ticket/s you create.
   </div>
 
-  ${
-    ticketRows ||
-    `
+  <!-- Ticket History -->
+
+  <div
+    id="ticketHistory"
+    style="display:none;"
+  >
+
+    <div class="readonly33">
+      🔵 ticket/s you create.
+    </div>
+
+    ${
+      ticketRows ||
+      `
 <div
   class="readonly2"
   style="
@@ -4408,31 +4515,35 @@ async function showHistory() {
     color:rgb(0,100,200);
   "
 >
-
   <div
     style="
       display:flex;
       justify-content:space-between;
-      font-weight:normal;
     "
   >
     <span>○ -</span>
     <span></span>
   </div>
-
 </div>
 `
-  }
+    }
 
-  <hr>
-
-  <div class="readonly33">
-    🔵 your withdrawal.
   </div>
 
-  ${
-    withdrawRows ||
-    `
+  <!-- Withdraw History -->
+
+  <div
+    id="withdrawHistory"
+    style="display:none;"
+  >
+
+    <div class="readonly33">
+      🔵 your withdrawal.
+    </div>
+
+    ${
+      withdrawRows ||
+      `
 <div
   class="readonly2"
   style="
@@ -4442,23 +4553,20 @@ async function showHistory() {
     color:rgb(0,100,200);
   "
 >
-
   <div
     style="
       display:flex;
       justify-content:space-between;
-      font-weight:normal;
     "
   >
     <span>○ -</span>
     <span></span>
   </div>
-
 </div>
 `
-  }
+    }
 
-  <hr>
+  </div>
 
   <div style="height:20px;"></div>
 
@@ -4502,6 +4610,38 @@ async function showHistory() {
 
 window.showHistory =
   showHistory;
+
+/////
+function showHistoryTab(type) {
+
+  document.getElementById("depositHistory").style.display = "none";
+  document.getElementById("ticketHistory").style.display = "none";
+  document.getElementById("withdrawHistory").style.display = "none";
+
+  document.getElementById("depositBtnH").classList.remove("active");
+  document.getElementById("ticketBtnH").classList.remove("active");
+  document.getElementById("withdrawBtnH").classList.remove("active");
+
+ if (type === "deposit") {
+    document.getElementById("depositHistory").style.display = "block";
+    document.getElementById("depositBtnH").classList.add("active");
+  }
+
+  if (type === "ticket") {
+    document.getElementById("ticketHistory").style.display = "block";
+    document.getElementById("ticketBtnH").classList.add("active");
+  }
+
+  if (type === "withdraw") {
+    document.getElementById("withdrawHistory").style.display = "block";
+    document.getElementById("withdrawBtnH").classList.add("active");
+  }
+
+}
+
+window.showHistoryTab =
+  showHistoryTab;
+/////
 
 async function showLeaderboard() {
   showLoading();
