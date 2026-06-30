@@ -366,8 +366,7 @@ const { createEthersAdapterFromPrivateKey } = require("@circle-fin/adapter-ether
 const { ethers } = require('ethers');
 require('dotenv').config();
 
-const db =
-    require("./db");
+const pool = require("./db");
 
 app.use((req, res, next) => {
   //console.log(req.method, req.url);
@@ -1010,30 +1009,30 @@ await vault.createTicket(
 
         await tx.wait();
 
-const encryptedSecret =
+const encryptedsecret =
   encrypt(secret);
 
-db.prepare(`
+await pool.query(`
 INSERT INTO history
 (
   address,
   type,
   amount,
-  encryptedSecret,
-  keyHash,
-  txHash,
+  encryptedsecret,
+  keyhash,
+  txhash,
   timestamp
 )
-VALUES (?, ?, ?, ?, ?, ?, ?)
-`).run(
+VALUES ($1,$2,$3,$4,$5,$6,$7)
+`, [
   address,
   "ticket",
   amount,
-  encryptedSecret,
+  encryptedsecret,
   keyHash,
   tx.hash,
   Math.floor(Date.now() / 1000)
-);
+]);
 
         res.json({
             success:true
@@ -1183,18 +1182,17 @@ setInterval(
 );
 */
 
-app.get("/api/history/:address", (req, res) => {
+app.get("/api/history/:address", async (req, res) => {
 
     const address =
         req.params.address.toLowerCase();
 
-    const rows =
-        db.prepare(`
-            SELECT *
-            FROM history
-            WHERE address = ?
-            ORDER BY timestamp DESC
-        `).all(address);
+const { rows } = await pool.query(`
+    SELECT *
+    FROM history
+    WHERE address = $1
+    ORDER BY timestamp DESC
+`, [address]);
 
     console.log("HISTORY ROWS:", rows);
 
@@ -1203,7 +1201,7 @@ app.get("/api/history/:address", (req, res) => {
             .filter(x => x.type === "ticket")
             .map(x => ({
                 ...x,
-                secret: safeDecrypt(x.encryptedSecret)
+                secret: safeDecrypt(x.encryptedsecret)
             }));
 
     const withdrawals =
@@ -1211,7 +1209,7 @@ app.get("/api/history/:address", (req, res) => {
         .filter(x => x.type === "withdraw")
         .map(x => ({
             ...x,
-            secret: safeDecrypt(x.encryptedSecret)
+            secret: safeDecrypt(x.encryptedsecret)
         }));
 
     res.json({
@@ -1383,7 +1381,7 @@ app.get(
                 date:
                   block.timestamp,
                 keyHash:
-                  decrypt(e.args.encryptedSecret),
+                  decrypt(e.args.encryptedsecret),
                 amount:
                   ethers.formatUnits(
                     e.args.amount,
@@ -2305,7 +2303,7 @@ console.log(
 
       await depositTx.wait();
 
-db.prepare(`
+await pool.query(`
 INSERT INTO history (
     address,
     type,
@@ -2316,9 +2314,9 @@ INSERT INTO history (
     timestamp
 )
 VALUES (
-    ?, ?, ?, ?, ?, ?, ?
+    $1, $2, $3, $4, $5, $6, $7
 )
-`).run(
+`, [
     userAddress.toLowerCase(),
     "deposit",
     amount.toString(),
@@ -2326,7 +2324,7 @@ VALUES (
     depositTx.hash,
     depositTx.blockNumber || 0,
     Math.floor(Date.now() / 1000)
-);
+]);
 
       res.json({
         success:true
@@ -2420,32 +2418,32 @@ if (ticketBalance < amount6) {
       receipt.hash
     );
 
-const encryptedSecret = encrypt(secret);
+const encryptedsecret = encrypt(secret);
 
-db.prepare(`
-INSERT INTO history (
-    address,
-    type,
-    amount,
-    encryptedSecret,
-    keyHash,
-    txHash,
-    blockNumber,
-    timestamp
-)
-VALUES (
-    ?, ?, ?, ?, ?, ?, ?, ?
-)
-`).run(
+await pool.query(`
+    INSERT INTO history (
+        address,
+        type,
+        amount,
+        encryptedsecret,
+        keyHash,
+        txHash,
+        blockNumber,
+        timestamp
+    )
+    VALUES (
+        $1, $2, $3, $4, $5, $6, $7, $8
+    )
+`, [
     userAddress.toLowerCase(),
     "withdraw",
     amount.toString(),
-    encryptedSecret,
+    encryptedsecret,
     keyHash,
     receipt.hash,
     receipt.blockNumber,
     Math.floor(Date.now() / 1000)
-);
+]);
 
     res.json({
       success: true,

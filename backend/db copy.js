@@ -1,15 +1,8 @@
-require("dotenv").config();
+const Database =
+    require("better-sqlite3");
 
-const { Pool } = require("pg");
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
-
-module.exports = pool;
+const db =
+    new Database("vault.db");
 
 db.exec(`
 CREATE TABLE IF NOT EXISTS history (
