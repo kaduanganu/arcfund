@@ -1050,7 +1050,7 @@ async (req,res) => {
 
         console.log(
             "user available liquidity =",
-            availableLiquidity.toString()
+            allocated.toString()
         );
 
         const keyHash =
