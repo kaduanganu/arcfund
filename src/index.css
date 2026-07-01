@@ -4,13 +4,6 @@
   --warna_bayangan_sorot: rgba(0, 255, 255, 0.6)
 }
 
-button {
-    -webkit-user-drag: none;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-}
-
 .main-container {
   max-width: 480px;
   width: 90%;
@@ -1132,12 +1125,6 @@ input[readonly_txt2] {
   .flex-row2 {
     flex-direction: column;
   }
-
-  input,
-  textarea {
-    box-shadow: none !important;
-    filter: none !important;
-}
 }
 
 
