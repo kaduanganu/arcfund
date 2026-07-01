@@ -1488,7 +1488,7 @@ function showScreen1() {
   document.getElementById('root').innerHTML = `
     <div class="container" style="display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:0px;background:transparent;padding:0px"; padding-top:40px>
       <img src="/logo/arc_mascot_title333Xfit.png"
-           alt="arcdicted_mascot" 
+           alt="arcvault_mascot" 
            style="margin-top:40px; margin-bottom:30px; max-width:480px; width:90%; height:auto;">
       
       <div style="display:flex;flex-direction:column;gap:0px;width:100%;max-width:320px;margin-top:0px">
@@ -3998,7 +3998,7 @@ async function disconnectWallet() {
 }
 
 async function revokeAllConnections() {
-  //if (!confirm("⚠️ Doing this will revoke your wallet connection from arcDicted.\n\nContinue?")) {
+  //if (!confirm("⚠️ Doing this will revoke your wallet connection from arcVault.\n\nContinue?")) {
     //return;
   //}
 
@@ -4026,9 +4026,9 @@ async function revokeAllConnections() {
     if (livePriceInterval) clearInterval(livePriceInterval);
     if (balanceInterval) clearInterval(balanceInterval);
 
-    //alert("✅ Wallet revoked from arcDicted.");
+    //alert("✅ Wallet revoked from arcVault.");
     showToast(
-    "✅ Wallet revoked from arcDicted.",
+    "✅ Wallet revoked from arcVault.",
     3000,
     0
     );
