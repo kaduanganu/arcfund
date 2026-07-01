@@ -426,8 +426,46 @@ const VAULT_ABI = [
   },
   {
     "type": "function",
+    "name": "allocatedBalance",
+    "inputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
     "name": "availableLiquidity",
     "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "availableUserLiquidity",
+    "inputs": [
+      {
+        "name": "user",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
     "outputs": [
       {
         "name": "",
@@ -464,6 +502,11 @@ const VAULT_ABI = [
     "type": "function",
     "name": "creditBridgeDeposit",
     "inputs": [
+      {
+        "name": "user",
+        "type": "address",
+        "internalType": "address"
+      },
       {
         "name": "keyHash",
         "type": "bytes32",
@@ -568,19 +611,6 @@ const VAULT_ABI = [
   },
   {
     "type": "function",
-    "name": "totalAllocated",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
     "name": "transferOwnership",
     "inputs": [
       {
@@ -601,6 +631,25 @@ const VAULT_ABI = [
         "name": "",
         "type": "address",
         "internalType": "contract IERC20"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "vaultBalance",
+    "inputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "stateMutability": "view"
@@ -645,6 +694,12 @@ const VAULT_ABI = [
     "type": "event",
     "name": "BridgeCredit",
     "inputs": [
+      {
+        "name": "user",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
       {
         "name": "keyHash",
         "type": "bytes32",

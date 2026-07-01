@@ -416,8 +416,46 @@ const vault =
   },
   {
     "type": "function",
+    "name": "allocatedBalance",
+    "inputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
     "name": "availableLiquidity",
     "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "availableUserLiquidity",
+    "inputs": [
+      {
+        "name": "user",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
     "outputs": [
       {
         "name": "",
@@ -454,6 +492,11 @@ const vault =
     "type": "function",
     "name": "creditBridgeDeposit",
     "inputs": [
+      {
+        "name": "user",
+        "type": "address",
+        "internalType": "address"
+      },
       {
         "name": "keyHash",
         "type": "bytes32",
@@ -558,19 +601,6 @@ const vault =
   },
   {
     "type": "function",
-    "name": "totalAllocated",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
     "name": "transferOwnership",
     "inputs": [
       {
@@ -591,6 +621,25 @@ const vault =
         "name": "",
         "type": "address",
         "internalType": "contract IERC20"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "vaultBalance",
+    "inputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "stateMutability": "view"
@@ -635,6 +684,12 @@ const vault =
     "type": "event",
     "name": "BridgeCredit",
     "inputs": [
+      {
+        "name": "user",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
       {
         "name": "keyHash",
         "type": "bytes32",
@@ -1946,11 +2001,20 @@ app.get(
 
       const { address } = req.query;
 
-      console.log("XXXaddress =", req.query.address);
-      console.log("XXXaddress2 =", address);
+      //console.log("XXXaddress =", req.query.address);
+      //console.log("XXXaddress2 =", address);
+
+      if (!address) {
+        return res.status(400).json({
+          success: false,
+          message: "address required"
+        });
+      }
 
       const balance =
-        await vault.availableLiquidity();
+        await vault.availableUserLiquidity(
+          address
+        );
 
       //console.log("liquidity balance =",balance.toString());
 
@@ -1992,8 +2056,15 @@ app.get(
       //console.log("address =", req.query.address);
       //console.log("address2 =", address);
 
+      if (!address) {
+        return res.status(400).json({
+          success: false,
+          message: "address required"
+        });
+      }
+
       const balance =
-        await vault.vaultUSDCBalance();
+        await vault.vaultBalance(address);
 
       //console.log("raw balance =",balance.toString());
 

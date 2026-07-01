@@ -296,7 +296,7 @@ function creditBridgeDeposit(
     {
         return
             usdc.balanceOf(address(this))
-            - totalAllocated;
+            - allocatedBalance[address(this)];
     }
 
     // ----------------------------------
