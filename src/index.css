@@ -4,6 +4,14 @@
   --warna_bayangan_sorot: rgba(0, 255, 255, 0.6)
 }
 
+button {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    outline: none;
+}
+
 .main-container {
   max-width: 480px;
   width: 90%;
