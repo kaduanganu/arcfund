@@ -1543,8 +1543,8 @@ async function connectWallet() {
 function showScreen1() {
   document.getElementById('root').innerHTML = `
     <div class="container" style="display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:0px;background:transparent;padding:0px"; padding-top:40px>
-      <img src="/logo/arc_mascot_title333Xfit.png"
-           alt="arcvault_mascot" 
+      <img src="/logo/arc_mascot_title333XXfit.png"
+           alt="deVault_mascot" 
            style="margin-top:40px; margin-bottom:30px; max-width:480px; width:90%; height:auto;">
       
       <div style="display:flex;flex-direction:column;gap:0px;width:100%;max-width:320px;margin-top:0px">
@@ -2482,7 +2482,7 @@ function formatUSDC(value) {
     <div class="container">
       <div style="display:flex;justify-content:flex-start;gap:8px;align-items:center;margin-bottom:8px;">
         <div style="margin:0" class="readonly33">
-         <img src="/logo/logo_judul_333X1.png"
+         <img src="/logo/logo_judul_333XX1.png"
          style="width:${logoWidth}; height:auto; position: relative; top: 0px;"></div>
         <div onclick="showHistory()" class="btn_smol_ns">
         📖
@@ -4054,7 +4054,7 @@ async function disconnectWallet() {
 }
 
 async function revokeAllConnections() {
-  //if (!confirm("⚠️ Doing this will revoke your wallet connection from arcVault.\n\nContinue?")) {
+  //if (!confirm("⚠️ Doing this will revoke your wallet connection from deVault.\n\nContinue?")) {
     //return;
   //}
 
@@ -4082,9 +4082,9 @@ async function revokeAllConnections() {
     if (livePriceInterval) clearInterval(livePriceInterval);
     if (balanceInterval) clearInterval(balanceInterval);
 
-    //alert("✅ Wallet revoked from arcVault.");
+    //alert("✅ Wallet revoked from deVault.");
     showToast(
-    "✅ Wallet revoked from arcVault.",
+    "✅ Wallet revoked from deVault.",
     3000,
     0
     );
