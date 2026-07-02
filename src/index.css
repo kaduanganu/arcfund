@@ -4,6 +4,7 @@
   --warna_bayangan_sorot: rgba(0, 255, 255, 0.6);
   --warna_bayangan_kotakan: none; /* 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); */
   --warna_bayangan_text: none; /* 1px 1px 2px rgba(0,0,0,0.3); */
+  --warna_bayangan_drop: none; /* drop-shadow(1px 1px 2px black, 0 0 1px black, 0 0 1px black); */
 }
 
 .main-container {
@@ -272,7 +273,7 @@ background: var(--warna_tombol);
     linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
     linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
-  filter: drop-shadow(1px 1px 2px black, 0 0 1px black, 0 0 1px black);
+  filter: var(--warna_bayangan_drop);
 
   padding: 10px 12px;
   margin: 4px;
@@ -311,7 +312,7 @@ background: var(--warna_tombol);
     linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
     linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
-  filter: drop-shadow(1px 1px 2px black, 0 0 1px black, 0 0 1px black);
+  filter: var(--warna_bayangan_drop);
 
   padding: 15px 12px;
   margin: 4px;
@@ -548,7 +549,7 @@ background: var(--warna_tombol);
     linear-gradient(#ffffff, #ffffff) padding-box, /* Inner background color */
     linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
-  filter: drop-shadow(1px 1px 2px black, 0 0 1px black, 0 0 1px black);
+  filter: var(--warna_bayangan_drop);
 
   padding: 10px 12px;
   margin: 4px;
@@ -605,7 +606,7 @@ background: var(--warna_tombol);
     linear-gradient(#000000, #000000) padding-box, /* Inner background color */
     linear-gradient(to right, #ffffff, #000000) border-box; /* Border gradient */
 
-  filter: drop-shadow(1px 1px 2px black, 0 0 1px black, 0 0 1px black);
+  filter: var(--warna_bayangan_drop);
 
   padding: 10px 12px;
   margin: 4px;
@@ -664,7 +665,7 @@ background: var(--warna_tombol);
     linear-gradient(#ffffff, #ffffff) padding-box, /* Inner background color */
     linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
-  filter: drop-shadow(1px 1px 2px black, 0 0 1px black, 0 0 1px black);
+  filter: var(--warna_bayangan_drop);
 
   padding: 10px 12px;
   margin: 4px;
@@ -729,7 +730,7 @@ background: var(--warna_tombol);
     linear-gradient(#ffffff, #ffffff) padding-box, /* Inner background color */
     linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
 
-  filter: drop-shadow(1px 1px 2px black, 0 0 1px black, 0 0 1px black);
+  filter: var(--warna_bayangan_drop);
 
   padding: 10px 12px;
   margin: 0px;
