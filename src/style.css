@@ -239,9 +239,9 @@ code {
     text-decoration: none;
     transition: box-shadow 0.3s;
 
-    &:hover {
+    /* &:hover {
       box-shadow: var(--shadow);
-    }
+    } */
     .button-icon {
       height: 18px;
       width: 18px;
