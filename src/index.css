@@ -1139,8 +1139,6 @@ input[readonly_txt2] {
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
 }
 
 #loadingScreen img {
@@ -1149,9 +1147,7 @@ input[readonly_txt2] {
 
 @keyframes bounce {
   0% {
-    transform: translateY(0) scale(1.1, 0.95); /* Squish at the bottom */
   }
   100% {
-    transform: translateY(-30px) scale(1, 1); /* Apex of the jump */
   }
 }
