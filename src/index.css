@@ -1217,3 +1217,9 @@ input[readonly_txt2] {
   filter: none !important;
   transform: none !important;
 }
+
+* {
+    box-shadow: none !important;
+    filter: none !important;
+    text-shadow: none !important;
+}
