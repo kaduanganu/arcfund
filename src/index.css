@@ -6,6 +6,7 @@
   --warna_bayangan_text: none; /* 1px 1px 2px rgba(0,0,0,0.3); */
   --warna_bayangan_drop: none; /* drop-shadow(1px 1px 2px black, 0 0 1px black, 0 0 1px black); */
   --mbunder: 0px; /* 9999px; */
+  --mbunder_tenan: 0px; /* 50%; */
 }
 
 .main-container {
@@ -447,7 +448,7 @@ background: var(--warna_tombol);
 
   width: 64px;                /* Define only one dimension */
   aspect-ratio: 1 / 1;        /* Forces a perfect 1:1 square */
-  border-radius: 50%;         /* Morphs the square into a circle */
+  border-radius: var(--mbunder_tenan);         /* Morphs the square into a circle */
   
   display: grid;              /* Centers content (text or icon) */
   place-items: center;        /* Perfect vertical and horizontal alignment */
@@ -719,7 +720,7 @@ background: var(--warna_tombol);
 
   width: 64px;                /* Define only one dimension */
   aspect-ratio: 1 / 1;        /* Forces a perfect 1:1 square */
-  border-radius: 50%;         /* Morphs the square into a circle */
+  border-radius: var(--mbunder_tenan);        /* Morphs the square into a circle */
   
   display: grid;              /* Centers content (text or icon) */
   place-items: center;        /* Perfect vertical and horizontal alignment */
@@ -757,7 +758,7 @@ background: var(--warna_tombol);
 
   width: 64px;                /* Define only one dimension */
   aspect-ratio: 1 / 1;        /* Forces a perfect 1:1 square */
-  border-radius: 50%;         /* Morphs the square into a circle */
+  border-radius: var(--mbunder_tenan);         /* Morphs the square into a circle */
   
   display: grid;              /* Centers content (text or icon) */
   place-items: center;        /* Perfect vertical and horizontal alignment */
@@ -1159,7 +1160,7 @@ input[readonly_txt2] {
 
   border: 5px solid #ffffff33;
   border-top: 5px solid white;
-  border-radius: 50%;
+  border-radius: var(--mbunder_tenan);
 
   animation: spin 1s linear infinite;
 
