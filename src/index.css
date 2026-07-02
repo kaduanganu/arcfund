@@ -1,7 +1,8 @@
 :root {
   --warna_tombol: #58a3e9;
   --warna_text: rgb(0, 100, 200);
-  --warna_bayangan_sorot: rgba(0, 255, 255, 0.6)
+  --warna_bayangan_sorot: rgba(0, 255, 255, 0.6);
+  --warna_bayangan_kotakan: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
 .main-container {
@@ -97,7 +98,7 @@ h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
   cursor: pointer;
   width: 100%;
   margin: 8px 0;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 
 .btn:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
@@ -136,7 +137,7 @@ h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
   cursor: pointer;
   width: 100%;
   margin: 8px 0;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 
 .btn_green {
@@ -165,7 +166,7 @@ h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
   cursor: pointer;
   width: 100%;
   margin: 8px 0;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 
 .btn_green:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
@@ -203,7 +204,7 @@ h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
   cursor: pointer;
   width: 100%;
   margin: 8px 0;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 
 .btn_red:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
@@ -241,7 +242,7 @@ h2 { font-size: 1.25rem; margin: 12px 0 6px; font-weight: bold; }
   cursor: pointer;
   width: 100%;
   margin: 8px 0;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 
 .btn_rev:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
@@ -280,7 +281,7 @@ background: var(--warna_tombol);
   border-radius: 8px;
   flex: 1;
   min-width: 90px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 
 .btn_op_rev:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
@@ -319,7 +320,7 @@ background: var(--warna_tombol);
   border-radius: 8px;
   flex: 1;
   min-width: 90px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 
 .btn_op_rev2:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
@@ -363,7 +364,7 @@ background: var(--warna_tombol);
   cursor: pointer;
   /* width: 100%; */
   margin: 8px 0;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 
 .btn_smol_ns:hover {box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
@@ -402,7 +403,7 @@ background: var(--warna_tombol);
   cursor: pointer;
   /* width: 100%; */
   margin: 8px 0;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 
 .btn_smol:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
@@ -439,7 +440,7 @@ background: var(--warna_tombol);
   cursor: pointer;
   /* width: 100%; */
   margin: 8px 0;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 
   width: 64px;                /* Define only one dimension */
   aspect-ratio: 1 / 1;        /* Forces a perfect 1:1 square */
@@ -499,7 +500,7 @@ background: var(--warna_tombol);
   border-radius: 8px;
   flex: 1;
   min-width: 90px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 .option-btn.active {
   background: var(--warna_tombol);
@@ -520,7 +521,7 @@ background: var(--warna_tombol);
     linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
     linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
     
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 .option-btn:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .option-btn.disabledbtn {
@@ -556,7 +557,7 @@ background: var(--warna_tombol);
   border-radius: 8px;
   flex: 1;
   min-width: 90px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 .option-btn-circle.active {
   background: var(--warna_tombol);
@@ -577,7 +578,7 @@ background: var(--warna_tombol);
     linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
     linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
     
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 .option-btn-circle:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .option-btn-circle.disabledbtn {
@@ -613,7 +614,7 @@ background: var(--warna_tombol);
   border-radius: 8px;
   flex: 1;
   min-width: 90px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 .option-btn-circle-unsupported.active {
   background: #000000;
@@ -634,7 +635,7 @@ background: var(--warna_tombol);
     linear-gradient(#000000, #000000) padding-box, /* Inner background color */
     linear-gradient(to right, #000000, #ffffff) border-box; /* Border gradient */
     
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 .option-btn-circle-unsupported:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .option-btn-circle-unsupported.disabledbtn {
@@ -672,7 +673,7 @@ background: var(--warna_tombol);
   border-radius: 8px;
   flex: 1;
   min-width: 90px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 .option-btn-circle2.active {
   background: var(--warna_tombol);
@@ -693,7 +694,7 @@ background: var(--warna_tombol);
     linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
     linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
     
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 .option-btn-circle2:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .option-btn-circle2.disabledbtn {
@@ -736,7 +737,7 @@ background: var(--warna_tombol);
   cursor: pointer;
   flex: 1;
   min-width: 64px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 .option-btn-circle-tenanan.active {
   background: var(--warna_tombol);
@@ -763,7 +764,7 @@ background: var(--warna_tombol);
     linear-gradient(var(--warna_tombol), var(--warna_tombol)) padding-box, /* Inner background color */
     linear-gradient(to right, var(--warna_tombol), #ffffff) border-box; /* Border gradient */
     
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 .option-btn-circle-tenanan:hover {text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);}
 .option-btn-circle-tenanan.disabledbtn {
@@ -782,13 +783,13 @@ background: var(--warna_tombol);
   border-radius: 8px;
   flex: 1;
   min-width: 90px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 
 .option-btn_old.active {
   background: var(--warna_tombol);
   color: black;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 
 /* Rounded Select */
@@ -813,7 +814,7 @@ select.rounded-select {
   width: 100%;
   max-width: 320px;
   appearance: none;                /* Remove default browser arrow */
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 
 select.rounded-select:hover {
@@ -930,7 +931,7 @@ select.rounded-select:hover {
 
   color: var(--warna_text);
 
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 .inputan_readonly {
   background: var(--warna_text); /*rgba(0, 0, 0, 0.6); #f8f8f8;*/
@@ -960,7 +961,7 @@ select.rounded-select:hover {
   cursor: pointer;                /* Show normal cursor */
   outline: none;                  /* Remove focus outline */
 
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 .readonly_txt {
   background: var(--warna_text); /*rgba(0, 0, 0, 0.6); #f8f8f8;*/
@@ -990,7 +991,7 @@ select.rounded-select:hover {
   cursor: default;                /* Show normal cursor */
   outline: none;                  /* Remove focus outline */
 
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 }
 .readonly_txt2 {
   background: transparent; /*#f8f8f8;*/
@@ -1029,7 +1030,7 @@ select.rounded-select:hover {
 
   color: rgb(255, 255, 255);
 
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: var(--warna_bayangan_kotakan);
 
 /* Make it completely non-interactive */
   pointer-events: none;           /* Disable all mouse events */
