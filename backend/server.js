@@ -354,8 +354,15 @@ const USDC_ABI = [
   "function decimals() view returns (uint8)"
 ];
 
-const express = require('express');
+console.log("FUNCTION STARTING");
+
+const express = require("express");
+
+console.log("EXPRESS LOADED");
+
 const app = express();
+
+console.log("APP CREATED");
 
 const { AppKit } = require("@circle-fin/app-kit");
 
@@ -3075,5 +3082,7 @@ const PORT = process.env.PORT || 3000;
 //app.listen(PORT, '0.0.0.0', () => {
   //console.log(`🚀 Backend running on port ${PORT}`);
 //});
+
+console.log("EXPORTING APP");
 
 module.exports = app;
