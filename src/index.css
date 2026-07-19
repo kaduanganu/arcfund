@@ -24,6 +24,10 @@
   gap: 30px;
 }
 
+.hidden {
+    display: none !important;
+}
+
 .historySection {
   background: #fff;
   border: 1px solid #ddd;
@@ -919,10 +923,40 @@ select.rounded-select:hover {
 .inputan {
   background: rgb(255, 255, 255); /*rgba(0, 0, 0, 0.6); #f8f8f8;*/
   border: 2px solid var(--warna_text);
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   text-align: center;
   padding: 10px;
   width: 100%;
+  margin: 6px 0;
+  border-radius: var(--mbunder);
+  /* text-shadow: 1px 1px 2px black, 0 0 1px black, 0 0 1px black; */
+  /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
+  text-shadow: var(--warna_bayangan_text);
+
+  background: 
+    linear-gradient(#ffffff, #ffffff) padding-box, /* Inner background color */
+    linear-gradient(to right, var(--warna_text), var(--warna_text)) border-box; /* Border gradient */
+
+  color: var(--warna_text);
+
+  box-shadow: var(--warna_bayangan_kotakan);
+}
+.inputan_ombo {
+  font-family: Arial, sans-serif;
+  background: rgb(255, 255, 255); /*rgba(0, 0, 0, 0.6); #f8f8f8;*/
+  border: 2px solid var(--warna_text);
+  font-size: 1.3rem;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  scroll-padding-top: 10px;
+  scroll-padding-bottom: 10px;
+  scroll-padding-left: 20px;
+  scroll-padding-right: 20px;
+  width: 100%;
+  height:124px;
   margin: 6px 0;
   border-radius: var(--mbunder);
   /* text-shadow: 1px 1px 2px black, 0 0 1px black, 0 0 1px black; */

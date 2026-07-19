@@ -1,3 +1,12 @@
+import { CAMPAIGN_ABI } from "../crowdfunding-contracts/abis/CampaignABI.js";
+import { FACTORY_ABI } from "../crowdfunding-contracts/abis/FactoryABI.js";
+
+const FACTORY_ADDRESS = "0x313B7277ed4Df447aE3Cf82c918C5f85949E507d";
+
+const CREATION_FEE = "1";
+
+const ARC_CHAIN_ID = 0x4cef52;
+
 // smart_contract
 const BET_RECORDER_ADDRESS =
   "0xa45EEE463D60fAea777a4516BB5Af1A828F2cE8c";
@@ -349,9 +358,9 @@ window.debugBet = async function (id = 1) {
 };
 // smart_contract
 
-import { Buffer } from "buffer";
+//import { Buffer } from "buffer";
 
-window.Buffer = Buffer;
+//window.Buffer = Buffer;
 
 import process from "process";
 
@@ -1480,6 +1489,98 @@ async function updateLivePrice(textboxId) {
   //if (el) el.value = price.toFixed(2);
 }
 
+// LOAD CAMPAIGN //
+async function loadCampaigns() {
+
+    const provider = new ethers.BrowserProvider(
+        window.ethereum
+    );
+
+    const factory = new ethers.Contract(
+        FACTORY_ADDRESS,
+        FACTORY_ABI,
+        provider
+    );
+
+    let campaigns = await factory.getCampaigns();
+
+    campaigns = campaigns.reverse();
+
+    const campaignList =
+        document.getElementById(
+            "campaign-list"
+        );
+
+    campaignList.innerHTML = "";
+
+    if (campaigns.length === 0) {
+
+        campaignList.innerHTML = `
+
+<div style="height:20px;"></div>
+
+          <div class="readonly2" style="font-size:1.3rem; text-align:center;">
+            no campaign yet.</span>
+          </div>
+
+<div style="height:20px;"></div>
+
+        `;
+
+        return;
+    }
+
+    for (const campaignAddress of campaigns) {
+
+        const campaign = new ethers.Contract(
+            campaignAddress,
+            CAMPAIGN_ABI,
+            provider
+        );
+
+        const details =
+            await campaign.getDetails();
+
+        const title = details[5];
+
+        const current = ethers.formatUnits(
+            details[2],
+            6
+        );
+
+        const target = ethers.formatUnits(
+            details[1],
+            6
+        );
+
+        campaignList.innerHTML += `
+
+            <div class="campaign-card">
+
+                <h3>${title}</h3>
+
+                <p>
+
+                    ${current} / ${target} USDC
+
+                </p>
+
+                <button
+                    onclick="openCampaign(
+                        '${campaignAddress}'
+                    )"
+                >
+
+                    View
+
+                </button>
+
+            </div>
+
+        `;
+    }
+}
+
 // ==================== CONNECT WALLET ====================
 async function connectWallet() {
   if (!window.ethereum) return showToast(
@@ -1527,7 +1628,11 @@ async function connectWallet() {
     3000,
     0
     );
+
     showScreen2();
+
+    await loadCampaigns();
+    
   } catch (e) {
     console.error(e);
     //alert("❌ Fail to connect. Do try again.");
@@ -2435,6 +2540,321 @@ async function refreshVaultBalance() {
 }
 
 async function showScreen2() {
+
+  const shortAddress = userAddress ? `${userAddress.slice(0,6)}...${userAddress.slice(-4)}` : "";
+
+function formatUSDC(value) {
+  return Number(value).toLocaleString('en-US', {
+    minimumFractionDigits: 4,
+    maximumFractionDigits: 4
+  });
+}
+
+  const chainLogo = {
+  "arc-testnet": "/logo/arc_logo_small2_opaq2.png",
+  "base-sepolia": "/logo/base_logo_small.png",
+  "ink-sepolia": "/logo/ink_logo_small.png",
+  "arbitrum-sepolia": "/logo/arb_logo_small.png",
+  "eth-sepolia": "/logo/eth_logo_small.png",
+  "avalanche-fuji": "/logo/avax_logo_small.png",
+  "hyperevm-testnet": "/logo/hype_logo_small.png",
+  "unichain-sepolia": "/logo/uni_logo_small_testnet.png"
+  };
+
+  const logoWidth = window.innerWidth <= 768 ? '80%' : '50%';
+
+  const handleAmountInput = (e) => {
+  let raw = e.target.value.replace(/\D/g, '');
+  raw = raw.slice(0, 6);
+
+  // actual value
+  window.depositAmount = raw;
+
+  // display value
+  e.target.value = raw
+    ? new Intl.NumberFormat('id-ID').format(raw)
+    : '';
+  };
+
+  document.getElementById('root').innerHTML = `
+    <div class="container">
+
+      <div style="display:flex;justify-content:flex-start;gap:8px;align-items:center;margin-bottom:8px;">
+        <div style="margin:0" class="readonly33">
+         <img src="/logo/logo_judul_333XX1.png"
+         style="width:${logoWidth}; height:auto; position: relative; top: 0px;"></div>
+        <div onclick="showHistory()" class="btn_smol_ns">
+        📖
+        </div>
+
+        <div onclick="disconnectWallet()" class="btn_smol">
+          ${shortAddress}
+        </div>
+      </div>
+
+
+
+      <div class="readonly2" style="font-size:1.3rem; text-align:center;">
+        🔵 campaign.</span>
+      </div>
+
+<div style="height:20px;"></div>
+
+<div class="flex-row">
+  <button
+    class="btn_op_rev2" style="font-size:1.1rem;"
+    onclick="showCreateCampaignScreen()">
+        new campaign</span>
+  </button>
+</div>
+
+  <!-- NEW CAMPAIGN -->
+  <div id="create-campaign-screen" style="display:none;">
+
+  <div style="height:20px;"></div>
+
+      <div class="readonly2" style="font-size:1.3rem; text-align:center;">
+        • create new campaign •</span>
+      </div>
+  
+      <div style="display:flex; flex-direction: column; align-items:center; gap:10px; margin:10px 0 6px 0;">
+
+        <input type="text"
+        maxlength="40"
+        placeholder="catchy title here"
+        id="campaign-title"
+        class="inputan"
+        value=""
+        style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;"
+        >
+
+        <input type="text"
+        inputmode="numeric"
+        placeholder="how much is your target?"
+        id="campaign-goal"
+        class="inputan"
+        value=""
+        style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;"
+        >
+
+<textarea 
+  placeholder="describe it"
+  id="campaign-description"
+  rows="5"
+  class="inputan_ombo"
+  maxlength="235"
+  style="flex: 50%; text-align: center; border-radius: 25px;overflow: hidden; resize: none;"
+></textarea>
+
+      <div class="readonly2" style="font-size:1.3rem; text-align:center;">
+        start/end date.</span>
+      </div>
+
+        <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
+        <input type="text"
+        id="campaign-deadline"
+        class="inputan"
+        value=""
+        placeholder="dd/mm/yyyy"
+        style="flex:50%; text-align:center; border-radius: 9999px; margin-left: margin-right: 120px;"
+        >
+        <input type="text"
+        id="campaign-deadline2"
+        class="inputan"
+        value=""
+        placeholder="dd/mm/yyyy"
+        style="flex:50%; text-align:center; border-radius: 9999px; margin-left: margin-right: 120px;"
+        >
+        </div>
+      </div>
+
+  <div style="height:20px;"></div>
+
+  <div class="flex-row">
+    <button
+      class="btn_op_rev2" style="font-size:1.1rem;"
+      onclick="createCampaign()"
+    >
+      create
+    </button>
+
+    <button
+      class="btn_op_rev2" style="font-size:1.1rem;"
+      onclick="showHomeScreen()"
+    >
+      close
+    </button>
+  </div>
+
+  </div>
+  <!-- NEW CAMPAIGN -->
+
+<!-- <div style="height:20px;"></div> -->
+
+<div id="campaign-button" class="flex-row" style="margin-top: 20px;">
+
+  <div
+    class="option-btn-circle" id="myCBtn" style="font-size:1.1rem;"
+    onclick="showSection('ended')">
+    mine</span>
+  </div>
+
+  <div
+    class="option-btn-circle" id="activeCBtn" style="font-size:1.1rem;"
+    onclick="showSection('active')">
+    active</span>
+  </div>
+
+  <div
+    class="option-btn-circle" id="inactiveCBtn" style="font-size:1.1rem;"
+    onclick="showSection('ended')">
+    ended</span>
+  </div>
+
+</div>
+
+<div style="height:20px;"></div>
+
+<div id="activeSection">
+<!-- active html here -->
+
+<div id="home-screen">
+    <div id="campaign-list"></div>
+</div>
+
+<!-- active html here -->
+</div>
+
+<div id="endedSection" style="display:none;">
+<!-- ended html here -->
+
+<!-- ended html here -->
+</div>
+
+    <div style="height:10px;"></div>
+
+    </div> <!-- container end -->
+
+  <div id="loadingScreen">
+  <img src="/logo/usdc_logo.png" width="120">
+  <div>
+  </div>
+  </div>
+
+  `;
+
+const input = document.getElementById('campaign-goal');
+
+function formatCurrencyInputX(e) {
+  let raw = e.target.value.replace(/\D/g, '');
+  raw = raw.slice(0, 6);
+
+  e.target.dataset.rawValue = raw;
+
+  e.target.value = raw
+    ? new Intl.NumberFormat('id-ID').format(raw)
+    : '';
+}
+
+function formatCurrencyInput(e) {
+  let raw = e.target.value;
+  raw = raw.slice(0, 19);
+
+  // Remove everything except digits, dots, commas
+  raw = raw.replace(/[^\d.,]/g, '');
+
+  // Remove thousands separators entered by user
+  raw = raw.replace(/,/g, '');
+
+  // Keep only the first decimal point
+  const parts = raw.split('.');
+  if (parts.length > 2) {
+    raw = parts[0] + '.' + parts.slice(1).join('');
+  }
+
+  // Limit decimal places (optional)
+  if (parts.length > 1) {
+    raw = parts[0] + '.' + parts[1].slice(0, 4);
+  }
+
+  // Store raw value
+  e.target.dataset.rawValue = raw;
+
+  if (!raw) {
+    e.target.value = '';
+    return;
+  }
+
+  const [integer, decimal] = raw.split('.');
+
+  const formattedInteger = new Intl.NumberFormat('en-US').format(
+    Number(integer || 0)
+  );
+
+  e.target.value =
+    decimal !== undefined
+      ? `${formattedInteger}.${decimal}`
+      : formattedInteger;
+}
+
+input?.addEventListener('input', formatCurrencyInput);
+
+const inputdate = document.getElementById('campaign-deadline');
+const inputdate2 = document.getElementById('campaign-deadline2');
+
+function formatDateInput(e) {
+  let raw = e.target.value.replace(/\D/g, "");
+
+  raw = raw.slice(0, 8);
+
+  let formatted = "";
+
+  if (raw.length > 0) {
+    formatted += raw.slice(0, 2);
+  }
+
+  if (raw.length > 2) {
+    formatted += "/" + raw.slice(2, 4);
+  }
+
+  if (raw.length > 4) {
+    formatted += "/" + raw.slice(4, 8);
+  }
+
+  e.target.dataset.rawValue = raw;
+
+  e.target.value = formatted;
+}
+
+inputdate?.addEventListener('input', formatDateInput);
+inputdate2?.addEventListener('input', formatDateInput);
+
+const today = new Date();
+const todayplus = new Date();
+todayplus.setDate(today.getDate() + 30);
+
+const rawDate =
+  String(today.getDate()).padStart(2, "0") +
+  String(today.getMonth() + 1).padStart(2, "0") +
+  today.getFullYear();
+
+  const rawDateplus =
+  String(todayplus.getDate()).padStart(2, "0") +
+  String(todayplus.getMonth() + 1).padStart(2, "0") +
+  todayplus.getFullYear();
+
+inputdate.value = rawDate;
+inputdate2.value = rawDateplus;
+
+// Apply your existing formatter
+formatDateInput({ target: inputdate });
+formatDateInput({ target: inputdate2 });
+
+  hideLoading();
+  closeAllToasts();
+}
+
+async function showScreen2NEXT() {
   const shortAddress = userAddress ? `${userAddress.slice(0,6)}...${userAddress.slice(-4)}` : "";
   const userBal = await getUserBalance();
   //const systemBal = await getSystemBalance();
@@ -3085,6 +3505,57 @@ balanceInterval =
 
 let livePriceInterval = null;
 let isPredictionStarted = false;
+
+window.showCreateCampaignScreen = function () {
+  //document.getElementById("home-screen").style.display = "none";
+
+  document.getElementById("campaign-button").classList.add("hidden");
+  document.getElementById("activeSection").classList.add("hidden");
+  document.getElementById("endedSection").classList.add("hidden");
+
+  document.getElementById(
+    "create-campaign-screen"
+  ).style.display = "block";
+};
+
+window.showHomeScreen = function () {
+  document.getElementById(
+    "create-campaign-screen"
+  ).style.display = "none";
+
+  //document.getElementById(
+    //"home-screen"
+  //).style.display = "block";
+
+  document.getElementById("campaign-button").classList.remove("hidden");
+  document.getElementById("activeSection").classList.remove("hidden");
+  document.getElementById("endedSection").classList.remove("hidden");
+};
+
+window.createCampaign = async function () {
+  const title = document.getElementById(
+    "campaign-title"
+  ).value;
+
+  const description = document.getElementById(
+    "campaign-description"
+  ).value;
+
+  const goal = document.getElementById(
+    "campaign-goal"
+  ).value;
+
+  const deadline = document.getElementById(
+    "campaign-deadline"
+  ).value;
+
+  console.log({
+    title,
+    description,
+    goal,
+    deadline,
+  });
+};
 
 function showChainlist() {
 
