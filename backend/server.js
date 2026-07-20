@@ -378,6 +378,8 @@ require('dotenv').config();
 
 const pool = require("./db");
 
+const FACTORY_ADDRESS = process.env.FACTORY_ADDRESS
+
 app.use((req, res, next) => {
   //console.log(req.method, req.url);
   next();
@@ -398,11 +400,11 @@ const wallet =
 
 console.log(
   "Factory address:",
-  process.env.FACTORY_ADDRESS
+  FACTORY_ADDRESS
 );
 
 const factory = new ethers.Contract(
-  process.env.FACTORY_ADDRESS,
+  FACTORY_ADDRESS,
   FACTORY_ABI,
   wallet
 );
