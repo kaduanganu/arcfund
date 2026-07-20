@@ -3129,7 +3129,7 @@ app.post("/api/create-campaign", async (req, res) => {
       });
     }
 
-    console.log("Creating campaign...");
+    console.log("Creating campaign......");
 
     console.log({
       creator,
