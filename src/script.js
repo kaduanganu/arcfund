@@ -1,5 +1,5 @@
-const { CAMPAIGN_ABI } = require("../crowdfunding-contracts/abis/CampaignABI.js");
-const { FACTORY_ABI } = require("../crowdfunding-contracts/abis/FactoryABI.js");
+import { CAMPAIGN_ABI } from "../crowdfunding-contracts/abis/CampaignABI.js";
+import { FACTORY_ABI } from "../crowdfunding-contracts/abis/FactoryABI.js";
 
 const FACTORY_ADDRESS = "0x313B7277ed4Df447aE3Cf82c918C5f85949E507d";
 
@@ -3575,7 +3575,7 @@ window.createCampaign = async function () {
 
     const response =
       await fetch(
-        `${CONFIG.backendUrl}/api/create-campaign`,
+        `${BACKEND_URL}/api/create-campaign`,
         {
           method: "POST",
 
