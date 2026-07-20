@@ -1,7 +1,7 @@
 import { CAMPAIGN_ABI } from "../crowdfunding-contracts/abis/CampaignABI.js";
 import { FACTORY_ABI } from "../crowdfunding-contracts/abis/FactoryABI.js";
 
-const FACTORY_ADDRESS = process.env.FACTORY_ADDRESS
+const FACTORY_ADDRESS = "0x313B7277ed4Df447aE3Cf82c918C5f85949E507d"
 
 const CREATION_FEE = "1";
 

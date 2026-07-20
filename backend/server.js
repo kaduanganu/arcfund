@@ -378,7 +378,7 @@ require('dotenv').config();
 
 const pool = require("./db");
 
-const FACTORY_ADDRESS = process.env.FACTORY_ADDRESS
+const FACTORY_ADDRESS = "0x313B7277ed4Df447aE3Cf82c918C5f85949E507d"
 
 app.use((req, res, next) => {
   //console.log(req.method, req.url);
