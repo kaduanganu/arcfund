@@ -1,4 +1,4 @@
-export const FACTORY_ABI = [
+const FACTORY_ABI = [
     {
       "inputs": [
         {
@@ -264,3 +264,5 @@ export const FACTORY_ABI = [
       "type": "function"
     }
   ];
+
+  module.exports = { FACTORY_ABI };

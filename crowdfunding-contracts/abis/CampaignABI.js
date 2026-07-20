@@ -1,4 +1,4 @@
-export const CAMPAIGN_ABI = [
+const CAMPAIGN_ABI = [
     {
       "anonymous": false,
       "inputs": [
@@ -330,3 +330,5 @@ export const CAMPAIGN_ABI = [
       "type": "function"
     }
   ];
+
+  module.exports = { CAMPAIGN_ABI };

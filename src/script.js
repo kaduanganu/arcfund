@@ -396,7 +396,7 @@ const USDC_ABI = [
   "function decimals() view returns (uint8)"
 ];
 
-//const BACKEND_URL = "https://arctick-production.up.railway.app";  // Change this when you deploy backend
+//const BACKEND_URL = "https://arcfund-production.up.railway.app;  // Change this when you deploy backend
 const BACKEND_URL =
 import.meta.env.VITE_BACKEND_URL;
 
@@ -3533,28 +3533,92 @@ window.showHomeScreen = function () {
 };
 
 window.createCampaign = async function () {
-  const title = document.getElementById(
-    "campaign-title"
-  ).value;
+  try {
 
-  const description = document.getElementById(
-    "campaign-description"
-  ).value;
+    const title =
+      document.getElementById(
+        "campaign-title"
+      ).value;
 
-  const goal = document.getElementById(
-    "campaign-goal"
-  ).value;
+    const description =
+      document.getElementById(
+        "campaign-description"
+      ).value;
 
-  const deadline = document.getElementById(
-    "campaign-deadline"
-  ).value;
+    const goal =
+      document.getElementById(
+        "campaign-goal"
+      ).dataset.rawValue;
 
-  console.log({
-    title,
-    description,
-    goal,
-    deadline,
-  });
+    const deadlineText =
+      document.getElementById(
+        "campaign-deadline2"
+      ).value;
+
+    const [day, month, year] =
+      deadlineText.split("/");
+
+    const deadline =
+      Math.floor(
+        new Date(
+          year,
+          month - 1,
+          day
+        ).getTime() / 1000
+      );
+
+    const targetAmount =
+      ethers.parseUnits(
+        goal,
+        6
+      ).toString();
+
+    const response =
+      await fetch(
+        `${CONFIG.backendUrl}/api/create-campaign`,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+            creator: userAddress,
+            targetAmount,
+            deadline,
+            title,
+            description
+          })
+        }
+      );
+
+    const data =
+      await response.json();
+
+    console.log(data);
+
+    showToast(
+      `Campaign created: ${data.campaignAddress}`,
+      5000,
+      0
+    );
+
+    await loadCampaigns();
+
+    showHomeScreen();
+
+  } catch (err) {
+
+    console.error(err);
+
+    showToast(
+      "Failed to create campaign",
+      5000,
+      0
+    );
+  }
 };
 
 function showChainlist() {

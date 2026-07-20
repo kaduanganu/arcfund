@@ -13,6 +13,9 @@ console.log(
 );
 */
 
+const { CAMPAIGN_ABI } = require("../crowdfunding-contracts/abis/CampaignABI.js");
+const { FACTORY_ABI } = require("../crowdfunding-contracts/abis/FactoryABI.js");
+
 let priceCache = {
   BTC: 0,
   ETH: 0,
@@ -392,6 +395,33 @@ const wallet =
     process.env.SYSTEM_PRIVATE_KEY,
     provider
   );
+
+console.log(
+  "Factory address:",
+  process.env.FACTORY_ADDRESS
+);
+
+const factory = new ethers.Contract(
+  process.env.FACTORY_ADDRESS,
+  FACTORY_ABI,
+  wallet
+);
+
+(async () => {
+  try {
+    const campaigns = await factory.getCampaigns();
+
+    console.log(
+      "Campaign count:",
+      campaigns.length
+    );
+  } catch (e) {
+    console.error(
+      "Factory test failed:",
+      e
+    );
+  }
+})();
 
 const vault =
   new ethers.Contract(
@@ -798,7 +828,7 @@ const vault =
     wallet
   );
   
-console.log("Vault address:", process.env.VAULT_ADDRESS);
+//console.log("Vault address:", process.env.VAULT_ADDRESS);
 
 console.log(
     vault.interface.fragments
@@ -3074,6 +3104,99 @@ app.get('/api/test-bridge-base-to-arc', async (req, res) => {
 
   }
 });
+
+
+
+app.post("/api/create-campaign", async (req, res) => {
+  try {
+    const {
+      creator,
+      targetAmount,
+      deadline,
+      title,
+      description
+    } = req.body;
+
+    if (
+      !creator ||
+      !targetAmount ||
+      !deadline ||
+      !title ||
+      !description
+    ) {
+      return res.status(400).json({
+        error: "Missing fields"
+      });
+    }
+
+    console.log("Creating campaign...");
+
+    console.log({
+      creator,
+      targetAmount,
+      deadline,
+      title,
+      description
+    });
+
+    const tx = await factory.createCampaignFor(
+      creator,
+      targetAmount,
+      deadline,
+      title,
+      description
+    );
+
+    console.log(
+      "Transaction sent:",
+      tx.hash
+    );
+
+    const receipt = await tx.wait();
+
+    console.log(
+      "Transaction mined:",
+      receipt.hash
+    );
+
+    const event = receipt.logs.find(
+      log => {
+        try {
+          const parsed =
+            factory.interface.parseLog(log);
+
+          return (
+            parsed.name ===
+            "CampaignCreated"
+          );
+        } catch {
+          return false;
+        }
+      }
+    );
+
+    const parsed =
+      factory.interface.parseLog(event);
+
+    const campaignAddress =
+      parsed.args.campaign;
+
+    return res.json({
+      success: true,
+      txHash: tx.hash,
+      campaignAddress
+    });
+
+  } catch (err) {
+    console.error(err);
+
+    return res.status(500).json({
+      error: err.message
+    });
+  }
+});
+
+
 
 const PORT = process.env.PORT || 3000;
 
