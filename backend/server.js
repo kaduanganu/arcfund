@@ -13,8 +13,8 @@ console.log(
 );
 */
 
-const { CAMPAIGN_ABI } = require("../crowdfunding-contracts/abis/CampaignABI.js");
-const { FACTORY_ABI } = require("../crowdfunding-contracts/abis/FactoryABI.js");
+const { CAMPAIGN_ABI } = require("./abis/CampaignABI.cjs");
+const { FACTORY_ABI } = require("./abis/FactoryABI.cjs");
 
 let priceCache = {
   BTC: 0,
