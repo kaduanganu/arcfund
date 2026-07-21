@@ -15,6 +15,16 @@ console.log(
 
 require('dotenv').config();
 
+// Graceful error catching
+process.on('uncaughtException', (err) => {
+  console.error('💥 UNCAUGHT EXCEPTION:', err);
+  console.error(err.stack);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('💥 UNHANDLED REJECTION:', reason);
+});
+
 const { CAMPAIGN_ABI } = require("./abis/CampaignABI.cjs");
 const { FACTORY_ABI } = require("./abis/FactoryABI.cjs");
 const { ERC20_ABI } = require("./abis/ERC20ABI.cjs");
@@ -2797,14 +2807,20 @@ app.post("/api/create-campaign", async (req, res) => {
   }
 });
 
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', uptime: process.uptime() });
+});
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 //console.log("PORT =", process.env.PORT);
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Backend running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Health check: http://localhost:${PORT}/health`);
+}).on('error', (err) => {
+  console.error('Server failed to start:', err);
 });
 
 console.log("EXPORTING APP");
