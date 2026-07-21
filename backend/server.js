@@ -3408,6 +3408,11 @@ app.post(
     }
 );
 
+app.get("/ping", (req, res) => {
+    console.log("PING RECEIVED");
+    res.json({ ok: true });
+});
+
 app.post("/api/create-campaign", async (req, res) => {
 
   console.log("=== CREATE CAMPAIGN CALLED ===");
@@ -3494,7 +3499,7 @@ app.post("/api/create-campaign", async (req, res) => {
   } catch (err) {
 
     console.error("CREATE CAMPAIGN ERROR:");
-    
+
     console.error(err);
 
     return res.status(500).json({
