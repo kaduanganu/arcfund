@@ -3408,7 +3408,7 @@ app.post(
     }
 );
 
-app.get("/ping", (req, res) => {
+app.get("/ping2", (req, res) => {
     console.log("PING RECEIVED");
     res.json({ ok: true });
 });
