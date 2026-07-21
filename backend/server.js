@@ -2477,7 +2477,7 @@ app.post(
                     });
             }
 
-console.log("chain =", chain);
+console.log("xxxxxchain =", chain);
 console.log("chain.usdcAddress =", chain?.usdcAddress);
 console.log("ERC20_ABI =", ERC20_ABI);
 console.log("provider =", provider);
