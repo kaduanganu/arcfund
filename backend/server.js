@@ -2477,12 +2477,17 @@ app.post(
                     });
             }
 
+console.log("chain =", chain);
+console.log("chain.usdcAddress =", chain?.usdcAddress);
+console.log("ERC20_ABI =", ERC20_ABI);
+console.log("provider =", provider);
+
             const usdc =
                 new ethers.Contract(
 
                     CHAIN_CONFIG[
                         chain
-                    ].usdc,
+                    ].usdcAddress,
 
                     ERC20_ABI,
 

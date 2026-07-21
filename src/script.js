@@ -2155,7 +2155,7 @@ function formatUSDC(value) {
   <div class="flex-row">
     <button
       class="btn_op_rev2" style="font-size:1.1rem;"
-      onclick="donateCampaign()"
+      onclick="depositCampaign()"
     >
       fund
     </button>
@@ -3025,7 +3025,7 @@ window.showHomeScreen = function () {
 
 window.createCampaign = async function () {
 
-    //showLoading();
+    showLoading();
     
   try {
 
@@ -3091,7 +3091,7 @@ window.createCampaign = async function () {
     const data =
       await response.json();
 
-    //hideLoading()
+    hideLoading()
 
     console.log(data);
 
@@ -3100,11 +3100,11 @@ window.createCampaign = async function () {
       3000,
       0
     );
-    showToast(
-      `Tx: ${data.campaignAddress(0,6)}...${data.campaignAddress(-4)}`,
-      3000,
-      100
-    );
+showToast(
+  `Tx: ${data.campaignAddress.slice(0, 6)}...${data.campaignAddress.slice(-4)}`,
+  3000,
+  100
+);
 
     await loadCampaigns();
 
@@ -3114,7 +3114,7 @@ window.createCampaign = async function () {
 
     console.error(err);
 
-    //hideLoading()
+    hideLoading()
 
     showToast(
       "❌ Campaign failed.",
@@ -3159,10 +3159,17 @@ window.depositCampaign = async function () {
                 6
             );
 
+console.log("Selected campaign:", selectedCampaign);
+console.log("selectedChain =", selectedChain);
+console.log("chain =", chain);
+console.log("chain.usdc =", chain?.usdc);
+console.log("signer =", signer);
+console.log("ERC20_ABI =", ERC20_ABI);
+
         const usdc =
             new ethers.Contract(
 
-                chain.usdc,
+                chain.usdcAddress,
 
                 ERC20_ABI,
 
