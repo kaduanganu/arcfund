@@ -15,6 +15,7 @@ console.log(
 
 const { CAMPAIGN_ABI } = require("./abis/CampaignABI.cjs");
 const { FACTORY_ABI } = require("./abis/FactoryABI.cjs");
+const { ERC20_ABI } = require("./abis/ERC20ABI.cjs");
 
 let priceCache = {
   BTC: 0,
@@ -378,7 +379,7 @@ require('dotenv').config();
 
 const pool = require("./db");
 
-const FACTORY_ADDRESS = "0x313B7277ed4Df447aE3Cf82c918C5f85949E507d"
+const FACTORY_ADDRESS = process.env.FACTORY_ADDRESS
 
 app.use((req, res, next) => {
   //console.log(req.method, req.url);
@@ -887,6 +888,17 @@ const CHAINS = {
 
 };
 
+const providers = {
+  "arc-testnet": new ethers.JsonRpcProvider(process.env.ARC_RPC),
+  "base-sepolia": new ethers.JsonRpcProvider(process.env.BASE_SEPOLIA_RPC),
+  "eth-sepolia": new ethers.JsonRpcProvider(process.env.ETH_SEPOLIA_RPC),
+  "ink-sepolia": new ethers.JsonRpcProvider(process.env.INK_SEPOLIA_RPC),
+  "arbitrum-sepolia": new ethers.JsonRpcProvider(process.env.ARBITRUM_SEPOLIA_RPC),
+  "avalanche-fuji": new ethers.JsonRpcProvider(process.env.AVAX_FUJI_RPC),
+  "hyperevm-testnet": new ethers.JsonRpcProvider(process.env.HYPE_TESTNET_RPC),
+  "unichain-sepolia": new ethers.JsonRpcProvider(process.env.UNI_SEPOLIA_RPC)
+};
+
 const CHAIN_MAP = {
   "arc-testnet": "Arc_Testnet",
   "base-sepolia": "Base_Sepolia",
@@ -902,7 +914,7 @@ const CHAIN_CONFIG = {
 
     "arc-testnet": {
       chainId: "0x4cef52",
-      rpcUrl: "https://rpc.testnet.arc.network",
+      rpcUrl: "https://arc-testnet.drpc.org",
       name: "ARC Testnet",
       explorer: "https://testnet.arcscan.app",
       usdcAddress: "0x3600000000000000000000000000000000000000"
@@ -2158,7 +2170,7 @@ app.post(
 
       const provider =
         new ethers.JsonRpcProvider(
-          "https://rpc.testnet.arc.network"
+          "https://arc-testnet.drpc.org"
         );
 
 /*
@@ -3108,6 +3120,293 @@ app.get('/api/test-bridge-base-to-arc', async (req, res) => {
 });
 
 
+
+app.post(
+    "/api/deposit",
+    async (req, res) => {
+
+        try {
+
+            const {
+
+                campaignAddress,
+
+                amount,
+
+                userAddress,
+
+                chain,
+
+                txHash
+
+            } = req.body;
+
+            const provider =
+                providers[
+                    chain
+                ];
+
+            if (!provider) {
+
+                return res
+                    .status(400)
+                    .json({
+
+                        success: false,
+
+                        error:
+                            "Unsupported chain"
+                    });
+            }
+
+            const receipt =
+                await provider
+                    .getTransactionReceipt(
+                        txHash
+                    );
+
+            if (!receipt) {
+
+                return res
+                    .status(400)
+                    .json({
+
+                        success: false,
+
+                        error:
+                            "Transaction not found"
+                    });
+            }
+
+            const usdc =
+                new ethers.Contract(
+
+                    CHAIN_CONFIG[
+                        chain
+                    ].usdc,
+
+                    ERC20_ABI,
+
+                    provider
+                );
+
+            let transferEvent =
+                null;
+
+            for (
+                const log
+                of receipt.logs
+            ) {
+
+                try {
+
+                    const parsed =
+                        usdc
+                            .interface
+                            .parseLog(
+                                log
+                            );
+
+                    if (
+
+                        parsed &&
+                        parsed.name ===
+                            "Transfer"
+
+                    ) {
+
+                        transferEvent =
+                            parsed;
+
+                        break;
+                    }
+
+                } catch {}
+            }
+
+            if (
+                !transferEvent
+            ) {
+
+                return res
+                    .status(400)
+                    .json({
+
+                        success: false,
+
+                        error:
+                            "No transfer event"
+                    });
+            }
+
+            if (
+
+                transferEvent
+                    .args
+                    .from
+                    .toLowerCase()
+
+                !==
+
+                userAddress
+                    .toLowerCase()
+
+            ) {
+
+                return res
+                    .status(400)
+                    .json({
+
+                        success: false,
+
+                        error:
+                            "Invalid sender"
+                    });
+            }
+
+            if (
+
+                transferEvent
+                    .args
+                    .to
+                    .toLowerCase()
+
+                !==
+
+                process.env
+                    .ARC_TREASURY
+                    .toLowerCase()
+
+            ) {
+
+                return res
+                    .status(400)
+                    .json({
+
+                        success: false,
+
+                        error:
+                            "Invalid treasury"
+                    });
+            }
+
+            const expected =
+                ethers.parseUnits(
+
+                    amount,
+
+                    6
+                );
+
+            if (
+
+                transferEvent
+                    .args
+                    .value
+
+                !==
+
+                expected
+
+            ) {
+
+                return res
+                    .status(400)
+                    .json({
+
+                        success: false,
+
+                        error:
+                            "Invalid amount"
+                    });
+            }
+
+            const adapter =
+                getAdapter();
+
+            if (
+                chain !==
+                "arc-testnet"
+            ) {
+
+                await kit.bridge({
+
+                    from: {
+
+                        adapter,
+
+                        chain:
+                            CHAIN_MAP[
+                                chain
+                            ]
+                    },
+
+                    to: {
+
+                        adapter,
+
+                        chain:
+                            "Arc_Testnet",
+
+                        recipientAddress:
+                            process.env
+                                .ARC_TREASURY
+                    },
+
+                    amount:
+                        amount,
+
+                    token:
+                        "USDC"
+                });
+            }
+
+            const campaign =
+                new ethers.Contract(
+
+                    campaignAddress,
+
+                    CAMPAIGN_ABI,
+
+                    signer
+                );
+
+            const tx =
+                await campaign.depositFor(
+
+                    userAddress,
+
+                    expected
+                );
+
+            await tx.wait();
+
+            res.json({
+
+                success: true,
+
+                txHash:
+                    tx.hash
+            });
+
+        } catch (e) {
+
+            console.error(
+                e
+            );
+
+            res
+                .status(500)
+                .json({
+
+                    success: false,
+
+                    error:
+                        e.message
+                });
+        }
+    }
+);
 
 app.post("/api/create-campaign", async (req, res) => {
   try {

@@ -11,11 +11,17 @@ const CONFIG = {
     "unichain-sepolia": true
   },
 
+    backendUrl:
+        "https://arcfund-production.up.railway.app",
+
+    treasury:
+        "0x9068d4a1edcea0e553525e8ca5edbe57dfe900b6",
+
   chains: {
 
     "arc-testnet": {
       chainId: "0x4cef52",
-      rpcUrl: "https://rpc.testnet.arc.network",
+      rpcUrl: "https://arc-testnet.drpc.org",
       name: "ARC Testnet",
       explorer: "https://testnet.arcscan.app",
       usdcAddress: "0x3600000000000000000000000000000000000000"

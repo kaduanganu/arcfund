@@ -1,7 +1,10 @@
 import { CAMPAIGN_ABI } from "../crowdfunding-contracts/abis/CampaignABI.js";
 import { FACTORY_ABI } from "../crowdfunding-contracts/abis/FactoryABI.js";
+import { ERC20_ABI } from "../crowdfunding-contracts/abis/ERC20ABI.js";
 
-const FACTORY_ADDRESS = "0x313B7277ed4Df447aE3Cf82c918C5f85949E507d"
+window.ethers = ethers;
+
+const FACTORY_ADDRESS = "0x863cE5925CAAa1f56956dD62eda364f8813fdFBc"
 
 const CREATION_FEE = "1";
 
@@ -1492,9 +1495,12 @@ async function updateLivePrice(textboxId) {
 // LOAD CAMPAIGN //
 async function loadCampaigns() {
 
-    const provider = new ethers.BrowserProvider(
-        window.ethereum
-    );
+    //const provider = new ethers.BrowserProvider(
+        //window.ethereum
+    //);
+const provider = new ethers.JsonRpcProvider(
+    "https://arc-testnet.drpc.org"
+);
 
     const factory = new ethers.Contract(
         FACTORY_ADDRESS,
@@ -1502,9 +1508,7 @@ async function loadCampaigns() {
         provider
     );
 
-    let campaigns = await factory.getCampaigns();
-
-    campaigns = campaigns.reverse();
+const campaigns = [...await factory.getCampaigns()].reverse();
 
     const campaignList =
         document.getElementById(
@@ -1538,8 +1542,33 @@ async function loadCampaigns() {
             provider
         );
 
-        const details =
-            await campaign.getDetails();
+console.log("Campaign address:", campaignAddress);
+
+console.log(
+    campaign.interface.fragments.map(
+        f => f.name
+    )
+);
+
+const network = await provider.getNetwork();
+
+console.log("Current chain ID:", network.chainId.toString());
+
+console.log("Factory:", FACTORY_ADDRESS);
+
+console.log("Campaign:", campaignAddress);
+
+const details = await campaign.getDetails();
+
+console.log(details);
+
+console.log(CAMPAIGN_ABI);
+
+console.log("ethers version:", ethers.version);
+
+console.log(provider);
+
+console.log(window.ethereum);
 
         const title = details[5];
 
@@ -1552,28 +1581,38 @@ async function loadCampaigns() {
             details[1],
             6
         );
+        
+function formatUSDC(value) {
+  return Number(value).toLocaleString('en-US', {
+    minimumFractionDigits: 4,
+    maximumFractionDigits: 4
+  });
+}
+
+const currentformated = formatUSDC(current);
+const targetformated = formatUSDC(target);
 
         campaignList.innerHTML += `
 
             <div class="campaign-card">
 
-                <h3>${title}</h3>
+      <div class="readonly2" style="text-align:center;">
+        🔵</span>
+      </div>
 
-                <p>
-
-                    ${current} / ${target} USDC
-
-                </p>
-
-                <button
-                    onclick="openCampaign(
-                        '${campaignAddress}'
-                    )"
-                >
-
-                    View
-
-                </button>
+      <div class="readonly2" style="text-align:center;">
+        • ${title} •</span>
+      </div>
+      <div class="readonly2" style="text-align:center;">
+        ${currentformated} / ${targetformated} ● USDC</span>
+      </div>
+<div id="new-campaign-button" class="flex-row">
+  <button
+    class="btn_op_rev2" style="font-size:1.1rem;"
+    onclick="openCampaign('${campaignAddress}')">
+        view</span>
+  </button>
+</div>
 
             </div>
 
@@ -1705,6 +1744,106 @@ currentBet.asset = "BTC";   // Change default if needed
 window.selectAsset = (asset) => {
   currentBet.asset = asset;
   showScreen2();   // This will restart everything cleanly
+};
+
+window.openCampaign = async function (
+    campaignAddress
+) {
+
+  
+function formatUSDC(value) {
+  return Number(value).toLocaleString('en-US', {
+    minimumFractionDigits: 4,
+    maximumFractionDigits: 4
+  });
+}
+
+    const provider =
+        new ethers.BrowserProvider(
+            window.ethereum
+        );
+
+    const campaign =
+        new ethers.Contract(
+
+            campaignAddress,
+
+            CAMPAIGN_ABI,
+
+            provider
+        );
+
+    const details =
+        await campaign.getDetails();
+
+    const shortAddress = details[0] ? `${details[0].slice(0,6)}...${details[0].slice(-4)}` : "";
+
+    selectedCampaign =
+        campaignAddress;
+
+    document.getElementById(
+        "detail-title"
+    ).innerText = details[5];
+
+    document.getElementById(
+        "detail-description"
+    ).innerText = details[6];
+
+    document.getElementById(
+        "detail-goal"
+    ).innerText =
+        formatUSDC(ethers.formatUnits(
+            details[1],
+            6
+        ));
+
+    document.getElementById(
+        "detail-raised"
+    ).innerText =
+        formatUSDC(ethers.formatUnits(
+            details[2],
+            6
+        ));
+
+    document.getElementById(
+        "detail-creator"
+    ).innerText =
+        shortAddress;
+
+    const deadline =
+        new Date(
+            Number(details[3]) * 1000
+        );
+
+    document.getElementById(
+        "detail-deadline"
+    ).innerText =
+        deadline.toLocaleString();
+
+    document.getElementById("new-campaign-button").classList.add("hidden");
+    
+    document.getElementById(
+        "campaign-button"
+    ).classList.add(
+        "hidden"
+    );
+
+    document.getElementById(
+        "activeSection"
+    ).classList.add(
+        "hidden"
+    );
+
+    document.getElementById(
+        "endedSection"
+    ).classList.add(
+        "hidden"
+    );
+
+    document.getElementById(
+        "campaign-details-screen"
+    ).style.display =
+        "block";
 };
 
 window.changeChain = async function(chainKey) {
@@ -2539,6 +2678,8 @@ async function refreshVaultBalance() {
   }
 }
 
+let selectedCampaign = null;
+
 async function showScreen2() {
 
   const shortAddress = userAddress ? `${userAddress.slice(0,6)}...${userAddress.slice(-4)}` : "";
@@ -2600,7 +2741,7 @@ function formatUSDC(value) {
 
 <div style="height:20px;"></div>
 
-<div class="flex-row">
+<div id="new-campaign-button" class="flex-row">
   <button
     class="btn_op_rev2" style="font-size:1.1rem;"
     onclick="showCreateCampaignScreen()">
@@ -2610,8 +2751,6 @@ function formatUSDC(value) {
 
   <!-- NEW CAMPAIGN -->
   <div id="create-campaign-screen" style="display:none;">
-
-  <div style="height:20px;"></div>
 
       <div class="readonly2" style="font-size:1.3rem; text-align:center;">
         • create new campaign •</span>
@@ -2647,7 +2786,7 @@ function formatUSDC(value) {
 ></textarea>
 
       <div class="readonly2" style="font-size:1.3rem; text-align:center;">
-        start/end date.</span>
+        start ○ end date.</span>
       </div>
 
         <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
@@ -2668,7 +2807,7 @@ function formatUSDC(value) {
         </div>
       </div>
 
-  <div style="height:20px;"></div>
+  <div style="height:10px;"></div>
 
   <div class="flex-row">
     <button
@@ -2688,6 +2827,62 @@ function formatUSDC(value) {
 
   </div>
   <!-- NEW CAMPAIGN -->
+
+<!-- CAMPAIGN DETAILS -->
+<div id="campaign-details-screen" style="display:none;">
+
+
+      <div class="readonly2" style="text-align:center;">
+        • <span id="detail-title"></span> •
+      </div>
+
+      <hr>
+      <div class="readonly2" style="text-align:center;">
+        <span id="detail-description"></span>
+      </div>
+      <hr>
+      
+      <div class="readonly2" style="text-align:center;">
+        goal • <span id="detail-raised"></span> ○ <span id="detail-goal"></span>
+      </div>
+      <div class="readonly2" style="text-align:center;">
+        created by • <span id="detail-creator"></span>
+      </div>
+      <div class="readonly2" style="text-align:center;">
+        end at • <span id="detail-deadline"></span>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
+        <input type="text"
+        inputmode="numeric"
+        placeholder="how much?"
+        id="donation-amount"
+        class="inputan"
+        value=""
+        style="flex:25%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;"
+        >
+      </div>
+
+    <div style="height:20px;"></div>
+    
+  <div class="flex-row">
+    <button
+      class="btn_op_rev2" style="font-size:1.1rem;"
+      onclick="donateCampaign()"
+    >
+      fund
+    </button>
+
+    <button
+      class="btn_op_rev2" style="font-size:1.1rem;"
+      onclick="showHomeScreen()"
+    >
+      close
+    </button>
+  </div>
+
+</div>
+<!-- CAMPAIGN DETAILS -->
 
 <!-- <div style="height:20px;"></div> -->
 
@@ -2744,6 +2939,7 @@ function formatUSDC(value) {
   `;
 
 const input = document.getElementById('campaign-goal');
+const input2 = document.getElementById('donation-amount');
 
 function formatCurrencyInputX(e) {
   let raw = e.target.value.replace(/\D/g, '');
@@ -2798,6 +2994,7 @@ function formatCurrencyInput(e) {
 }
 
 input?.addEventListener('input', formatCurrencyInput);
+input2?.addEventListener('input', formatCurrencyInput);
 
 const inputdate = document.getElementById('campaign-deadline');
 const inputdate2 = document.getElementById('campaign-deadline2');
@@ -3512,6 +3709,7 @@ window.showCreateCampaignScreen = function () {
   document.getElementById("campaign-button").classList.add("hidden");
   document.getElementById("activeSection").classList.add("hidden");
   document.getElementById("endedSection").classList.add("hidden");
+  document.getElementById("new-campaign-button").classList.add("hidden");
 
   document.getElementById(
     "create-campaign-screen"
@@ -3523,6 +3721,10 @@ window.showHomeScreen = function () {
     "create-campaign-screen"
   ).style.display = "none";
 
+  document.getElementById(
+    "campaign-details-screen"
+  ).style.display = "none";
+
   //document.getElementById(
     //"home-screen"
   //).style.display = "block";
@@ -3530,6 +3732,7 @@ window.showHomeScreen = function () {
   document.getElementById("campaign-button").classList.remove("hidden");
   document.getElementById("activeSection").classList.remove("hidden");
   document.getElementById("endedSection").classList.remove("hidden");
+  document.getElementById("new-campaign-button").classList.remove("hidden");
 };
 
 window.createCampaign = async function () {
@@ -3619,6 +3822,142 @@ window.createCampaign = async function () {
       0
     );
   }
+};
+
+window.depositCampaign = async function () {
+
+    try {
+
+        const amount = document
+            .getElementById(
+                "donation-amount"
+            )
+            .dataset.rawValue;
+
+        if (!amount) {
+
+            return showToast(
+
+                "Enter amount",
+
+                3000,
+
+                0
+            );
+        }
+
+        const chain =
+            CONFIG.chains[
+                selectedChain
+            ];
+
+        const parsedAmount =
+            ethers.parseUnits(
+
+                amount,
+
+                6
+            );
+
+        const usdc =
+            new ethers.Contract(
+
+                chain.usdc,
+
+                ERC20_ABI,
+
+                signer
+            );
+
+        showToast(
+
+            "Sending USDC...",
+
+            3000,
+
+            0
+        );
+
+        const transferTx =
+            await usdc.transfer(
+
+                CONFIG.treasury,
+
+                parsedAmount
+            );
+
+        await transferTx.wait();
+
+        const response =
+            await fetch(
+
+                `${CONFIG.backendUrl}/api/deposit`,
+
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        campaignAddress:
+                            selectedCampaign,
+
+                        amount,
+
+                        userAddress,
+
+                        chain:
+                            selectedChain,
+
+                        txHash:
+                            transferTx.hash
+                    })
+                }
+            );
+
+        const result =
+            await response.json();
+
+        if (!result.success) {
+
+            throw new Error(
+
+                result.error
+            );
+        }
+
+        showToast(
+
+            "Deposit success",
+
+            3000,
+
+            0
+        );
+
+        await loadCampaigns();
+
+    } catch (e) {
+
+        console.error(e);
+
+        showToast(
+
+            e.message ||
+
+            "Deposit failed",
+
+            3000,
+
+            0
+        );
+    }
 };
 
 function showChainlist() {
