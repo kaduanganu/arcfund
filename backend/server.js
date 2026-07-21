@@ -3409,6 +3409,9 @@ app.post(
 );
 
 app.post("/api/create-campaign", async (req, res) => {
+
+  console.log("=== CREATE CAMPAIGN CALLED ===");
+
   try {
     const {
       creator,
@@ -3489,6 +3492,9 @@ app.post("/api/create-campaign", async (req, res) => {
     });
 
   } catch (err) {
+
+    console.error("CREATE CAMPAIGN ERROR:");
+    
     console.error(err);
 
     return res.status(500).json({

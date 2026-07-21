@@ -3704,6 +3704,7 @@ let livePriceInterval = null;
 let isPredictionStarted = false;
 
 window.showCreateCampaignScreen = function () {
+
   //document.getElementById("home-screen").style.display = "none";
 
   document.getElementById("campaign-button").classList.add("hidden");
@@ -3736,6 +3737,9 @@ window.showHomeScreen = function () {
 };
 
 window.createCampaign = async function () {
+
+    showLoading();
+    
   try {
 
     const title =
@@ -3800,12 +3804,19 @@ window.createCampaign = async function () {
     const data =
       await response.json();
 
+    hideLoading()
+
     console.log(data);
 
     showToast(
-      `Campaign created: ${data.campaignAddress}`,
-      5000,
+      `✅ Campaign created.`,
+      3000,
       0
+    );
+    showToast(
+      `Tx: ${data.campaignAddress(0,6)}...${data.campaignAddress(-4)}`,
+      3000,
+      100
     );
 
     await loadCampaigns();
@@ -3816,9 +3827,11 @@ window.createCampaign = async function () {
 
     console.error(err);
 
+    hideLoading()
+
     showToast(
-      "Failed to create campaign",
-      5000,
+      "❌ Campaign failed.",
+      3000,
       0
     );
   }
