@@ -160,11 +160,24 @@ process.on('unhandledRejection', (err) => {
 
 const cors = require("cors");
 
+// Better CORS configuration
 app.use(cors({
-  origin: "*"
+  origin: "*",                    // Allow all origins (safe for dev)
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }));
 
+// Extra safety for preflight (OPTIONS) requests
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.sendStatus(200);
+});
+
 app.use(express.json());
+
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
