@@ -2812,7 +2812,7 @@ app.get('/health', (req, res) => {
 });
 
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
 
 //console.log("PORT =", process.env.PORT);
 
