@@ -135,6 +135,70 @@ contract Campaign {
         );
     }
 
+function depositFor(
+
+    address contributor,
+
+    uint256 amount
+
+) external {
+
+    require(
+        msg.sender == factory,
+        "Factory only"
+    );
+
+    require(
+        block.timestamp < deadline,
+        "Campaign ended"
+    );
+
+    require(
+        amount > 0,
+        "Invalid amount"
+    );
+
+    bool success = usdc.transferFrom(
+
+        factory,
+
+        address(this),
+
+        amount
+    );
+
+    require(
+        success,
+        "Transfer failed"
+    );
+
+    if (
+
+        contributions[
+            contributor
+        ] == 0
+
+    ) {
+
+        contributors.push(
+            contributor
+        );
+    }
+
+    contributions[
+        contributor
+    ] += amount;
+
+    currentAmount += amount;
+
+    emit Deposited(
+
+        contributor,
+
+        amount
+    );
+}
+
     function canWithdraw()
         public
         view

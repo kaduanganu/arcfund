@@ -215,4 +215,26 @@ contract CrowdfundingFactory {
             creator
         ];
     }
+
+    function updateImplementation(
+
+    address newImplementation
+
+)
+
+    external
+
+{
+
+    require(
+
+        msg.sender == owner,
+
+        "Owner only"
+
+    );
+
+    implementation =
+        newImplementation;
+}
 }
