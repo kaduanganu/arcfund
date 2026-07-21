@@ -3025,7 +3025,7 @@ window.showHomeScreen = function () {
 
 window.createCampaign = async function () {
 
-    showLoading();
+    //showLoading();
     
   try {
 
@@ -3091,7 +3091,7 @@ window.createCampaign = async function () {
     const data =
       await response.json();
 
-    hideLoading()
+    //hideLoading()
 
     console.log(data);
 
@@ -3114,7 +3114,7 @@ window.createCampaign = async function () {
 
     console.error(err);
 
-    hideLoading()
+    //hideLoading()
 
     showToast(
       "❌ Campaign failed.",
