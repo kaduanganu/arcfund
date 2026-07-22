@@ -2491,17 +2491,17 @@ console.log(
     CHAIN_CONFIG[chain].usdcAddress
 );
 
-            const usdc =
-                new ethers.Contract(
+            //const usdc =
+                //new ethers.Contract(
 
-                    CHAIN_CONFIG[
-                        chain
-                    ].usdcAddress,
+                    //CHAIN_CONFIG[
+                        //chain
+                    //].usdcAddress,
 
-                    ERC20_ABI,
+                    //ERC20_ABI,
 
-                    provider
-                );
+                    //provider
+                //);
 
 let transferEvent = null;
 

@@ -4,7 +4,7 @@ import { ERC20_ABI } from "../crowdfunding-contracts/abis/ERC20ABI.js";
 
 window.ethers = ethers;
 
-const FACTORY_ADDRESS = "0xb2239078fE9AB34BaBB64a44ebd051aE649cd7c6"
+const FACTORY_ADDRESS = "0xa03cBA0a84c2af59004FcB303277Aa4F0e7E7535"
 
 const CREATION_FEE = "1";
 
