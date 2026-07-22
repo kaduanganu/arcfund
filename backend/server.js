@@ -2498,39 +2498,35 @@ console.log(
                     provider
                 );
 
-            let transferEvent =
-                null;
+let transferEvent = null;
 
-            for (
-                const log
-                of receipt.logs
-            ) {
+for (const log of receipt.logs) {
 
-                try {
+    if (
+        log.address.toLowerCase() !==
+        CHAIN_CONFIG[chain]
+            .usdcAddress
+            .toLowerCase()
+    ) {
+        continue;
+    }
 
-                    const parsed =
-                        usdc
-                            .interface
-                            .parseLog(
-                                log
-                            );
+    try {
 
-                    if (
+        const parsed =
+            usdc.interface.parseLog(log);
 
-                        parsed &&
-                        parsed.name ===
-                            "Transfer"
+        if (
+            parsed &&
+            parsed.name === "Transfer"
+        ) {
 
-                    ) {
+            transferEvent = parsed;
+            break;
+        }
 
-                        transferEvent =
-                            parsed;
-
-                        break;
-                    }
-
-                } catch {}
-            }
+    } catch {}
+}
 
             if (
                 !transferEvent
