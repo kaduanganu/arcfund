@@ -4,7 +4,7 @@ import { ERC20_ABI } from "../crowdfunding-contracts/abis/ERC20ABI.js";
 
 window.ethers = ethers;
 
-const FACTORY_ADDRESS = "0x863cE5925CAAa1f56956dD62eda364f8813fdFBc"
+const FACTORY_ADDRESS = "0xb2239078fE9AB34BaBB64a44ebd051aE649cd7c6"
 
 const CREATION_FEE = "1";
 
@@ -782,11 +782,13 @@ async function updateLivePrice(textboxId) {
 // LOAD CAMPAIGN //
 async function loadCampaigns() {
 
+  closeAllToasts();
+
     //const provider = new ethers.BrowserProvider(
         //window.ethereum
     //);
 const provider = new ethers.JsonRpcProvider(
-    "https://arc-testnet.drpc.org"
+    CONFIG.main_rpc
 );
 
     const factory = new ethers.Contract(
@@ -893,10 +895,10 @@ const targetformated = formatUSDC(target);
       <div class="readonly2" style="text-align:center;">
         ${currentformated} / ${targetformated} ● USDC</span>
       </div>
-<div id="new-campaign-button" class="flex-row">
+<div id="fund-campaign-button" class="flex-row">
   <button
     class="btn_op_rev2" style="font-size:1.1rem;"
-    onclick="openCampaign('${campaignAddress}')">
+    onclick="hidemainbutton(); hidemainbutton2(); openCampaign('${campaignAddress}')">
         view</span>
   </button>
 </div>
@@ -955,7 +957,7 @@ async function connectWallet() {
     0
     );
 
-    showScreen2();
+    await showScreen2();
 
     await loadCampaigns();
     
@@ -1037,7 +1039,6 @@ window.openCampaign = async function (
     campaignAddress
 ) {
 
-  
 function formatUSDC(value) {
   return Number(value).toLocaleString('en-US', {
     minimumFractionDigits: 4,
@@ -1045,10 +1046,14 @@ function formatUSDC(value) {
   });
 }
 
-    const provider =
-        new ethers.BrowserProvider(
-            window.ethereum
-        );
+    //const provider =
+        //new ethers.BrowserProvider(
+            //window.ethereum
+        //);
+
+const provider = new ethers.JsonRpcProvider(
+    CONFIG.main_rpc
+);
 
     const campaign =
         new ethers.Contract(
@@ -1106,8 +1111,6 @@ function formatUSDC(value) {
         "detail-deadline"
     ).innerText =
         deadline.toLocaleString();
-
-    document.getElementById("new-campaign-button").classList.add("hidden");
     
     document.getElementById(
         "campaign-button"
@@ -1131,6 +1134,8 @@ function formatUSDC(value) {
         "campaign-details-screen"
     ).style.display =
         "block";
+
+    reset_screen()
 };
 
 window.changeChain = async function(chainKey) {
@@ -1170,7 +1175,9 @@ window.changeChain = async function(chainKey) {
     jenengechain = chain.name;
     //alert(`✅ Switched to ${chain.name}.`);
 
-    showScreen2();
+    await showScreen2();
+
+    await loadCampaigns();
 
   } catch (err) {
     console.error(err);
@@ -1969,7 +1976,18 @@ let selectedCampaign = null;
 
 async function showScreen2() {
 
+  closeAllToasts();
+  
+    //alert(`✅ Wallet connected: ${userAddress.slice(0,6)}...${userAddress.slice(-4)}.`);
+    //showToast(
+    //`✅ Wallet connected: ${userAddress.slice(0,6)}...${userAddress.slice(-4)}`,
+    //3000,
+    //0
+    //);
+    
   const shortAddress = userAddress ? `${userAddress.slice(0,6)}...${userAddress.slice(-4)}` : "";
+
+  const userBal = await getUserBalance();
 
 function formatUSDC(value) {
   return Number(value).toLocaleString('en-US', {
@@ -1978,6 +1996,8 @@ function formatUSDC(value) {
   });
 }
 
+  const userBalFormatted = formatUSDC(userBal);
+  
   const chainLogo = {
   "arc-testnet": "/logo/arc_logo_small2_opaq2.png",
   "base-sepolia": "/logo/base_logo_small.png",
@@ -2019,19 +2039,204 @@ function formatUSDC(value) {
           ${shortAddress}
         </div>
       </div>
-
-
-
-      <div class="readonly2" style="font-size:1.3rem; text-align:center;">
-        🔵 campaign.</span>
+      <div class="readonly2">
+        🔵 choose your prefered chain.</span>
       </div>
 
+<div
+  style="
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    class="readonly33"
+  "
+>
+      <div class="readonly2X" style="font-size:1.8rem;">
+        ●</span>
+      </div>
+  <img
+    src="${chainLogo[selectedChain]}"
+    width="64"
+    height=auto
+  >
+      <div class="readonly2" style="font-size:1.8rem;">
+        ●</span>
+      </div>
+</div>
+
+
+<div id="batesan" style="height:20px;"></div>
+
+
+
+
+
+<div
+  id="chainModal"
+  style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(255, 255, 255, 0.9);
+    z-index:8888;
+
+    justify-content:center;
+    align-items:flex-start;
+
+    overflow-y:auto;
+    padding-top:20px;
+    padding-bottom:20px;
+    box-sizing:border-box;
+  "
+>
+
+  <div
+    style="
+      background:transparent;
+      width:90vw;
+      max-width:228px;
+    "
+  >
+
+      <div class="readonly2" style="font-size:1.3rem; text-align:center;">
+        🔵 pick a chain.</span>
+      </div>
+
+    <div class="flex-row" style="flex-direction: column;">
+
+      <div
+        class="option-btn-circle ${selectedChain==='arc-testnet' ? 'active' : ''}"
+        onclick="changeChainAndClose('arc-testnet')"
+      >
+        <img src="/logo/arc_logo_small2_opaq2.png" width="32" style="position: relative; top: 1px;">
+      </div>
+
+      <div
+        class="option-btn-circle ${selectedChain==='base-sepolia' ? 'active' : ''}"
+        onclick="changeChainAndClose('base-sepolia')"
+      >
+        <img src="/logo/base_logo_small.png" width="32" style="position: relative; top: 1px;">
+      </div>
+
+      <div
+        class="option-btn-circle-unsupported ${selectedChain==='eth-sepolia' ? 'active' : ''}"
+        onclick="event.stopPropagation(); gekunsupported();"
+      >
+        <img src="/logo/eth_logo_small.png" width="32" style="position: relative; top: 1px;">
+      </div>
+
+      <div
+        class="option-btn-circle ${selectedChain==='arbitrum-sepolia' ? 'active' : ''}"
+        onclick="changeChainAndClose('arbitrum-sepolia')"
+      >
+        <img src="/logo/arb_logo_small.png" width="32" style="position: relative; top: 1px;">
+      </div>
+
+      <div
+        class="option-btn-circle ${selectedChain==='unichain-sepolia' ? 'active' : ''}"
+        onclick="changeChainAndClose('unichain-sepolia')"
+      >
+        <img src="/logo/uni_logo_small_testnet.png" width="32" style="position: relative; top: 1px;">
+      </div>
+
+      <div
+        class="option-btn-circle ${selectedChain==='avalanche-fuji' ? 'active' : ''}"
+        onclick="changeChainAndClose('avalanche-fuji')"
+      >
+        <img src="/logo/avax_logo_small.png" width="32" style="position: relative; top: 1px;">
+      </div>
+
+      <div
+        class="option-btn-circle ${selectedChain==='hyperevm-testnet' ? 'active' : ''}"
+        onclick="changeChainAndClose('hyperevm-testnet')"
+      >
+        <img src="/logo/hype_logo_small.png" width="32" style="position: relative; top: 1px;">
+      </div>
+
+      <div
+        class="option-btn-circle ${selectedChain==='ink-sepolia' ? 'active' : ''}"
+        onclick="changeChainAndClose('ink-sepolia')"
+      >
+        <img src="/logo/ink_logo_small.png" width="32" style="position: relative; top: 1px;">
+      </div>
+    </div>
+
+<div style="height:8px;"></div>
+
+<div class="flex-row" style="flex-direction: column;">
+  <button
+    class="btn_op_rev2"
+    onclick="hideChainlist()"
+    style = "font-size:1.3rem;"
+  >
+    back
+  </button>
+</div>
+
+  </div>
+
+</div>
+
+
+
+
+
+<div id="choose-chain-button" class="flex-row">
+
+  <div
+    class="option-btn-circle ${selectedChain==='arc-testnet' ? 'active' : ''}"
+    onclick="changeChain('arc-testnet')"
+  >
+    <img src="/logo/arc_logo_small2_opaq2.png"
+         width="32"
+         style="position: relative; top: 1px;">
+  </div>
+
+  <div
+    class="option-btn-circle ${selectedChain==='base-sepolia' ? 'active' : ''}"
+    onclick="changeChain('base-sepolia')"
+  >
+    <img src="/logo/base_logo_small.png"
+         width="32"
+         style="position: relative; top: 1px;">
+  </div>
+
+<button
+    class="btn_op_rev2" style="font-size:1.1rem;"
+    onclick="showChainlist()">
+        all chains</span>
+  </button>
+
+
+</div>
+
 <div style="height:20px;"></div>
+
+<hr>
+
+      <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
+        ○ on wallet • <span id="userBalanceDisplay"> ${userBalFormatted} ● USDC</span>
+      </div>
+
+<hr>
+
+<div id="batesan_xxx" style="height:20px;"></div>
+
+
+
+      <div id="campaign-title" class="readonly2" style="font-size:1.3rem; text-align:center;">
+        🔵 campaign.</span>
+
+        <div style="height:20px;"></div>
+      </div>
+
+
 
 <div id="new-campaign-button" class="flex-row">
   <button
     class="btn_op_rev2" style="font-size:1.1rem;"
-    onclick="showCreateCampaignScreen()">
+    onclick="hidemainbutton(); showCreateCampaignScreen()">
         new campaign</span>
   </button>
 </div>
@@ -2118,7 +2323,6 @@ function formatUSDC(value) {
 <!-- CAMPAIGN DETAILS -->
 <div id="campaign-details-screen" style="display:none;">
 
-
       <div class="readonly2" style="text-align:center;">
         • <span id="detail-title"></span> •
       </div>
@@ -2129,24 +2333,25 @@ function formatUSDC(value) {
       </div>
       <hr>
       
-      <div class="readonly2" style="text-align:center;">
-        goal • <span id="detail-raised"></span> ○ <span id="detail-goal"></span>
+      <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
+        ○ goal • <span> <span id="detail-raised"></span> ○ <span id="detail-goal"></span> </span>
       </div>
-      <div class="readonly2" style="text-align:center;">
-        created by • <span id="detail-creator"></span>
+      <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
+        ○ created by • <span id="detail-creator"></span>
       </div>
-      <div class="readonly2" style="text-align:center;">
-        end at • <span id="detail-deadline"></span>
+      <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
+        ○ end at • <span id="detail-deadline"></span>
       </div>
 
-      <div style="display:flex; align-items:center; gap:10px; margin:10px 0 6px 0;">
+      <div style="display:flex; flex-direction: column; align-items:center; gap:10px; margin:10px 0 6px 0;">
+
         <input type="text"
         inputmode="numeric"
         placeholder="how much?"
         id="donation-amount"
         class="inputan"
         value=""
-        style="flex:25%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;"
+        style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;"
         >
       </div>
 
@@ -2162,7 +2367,7 @@ function formatUSDC(value) {
 
     <button
       class="btn_op_rev2" style="font-size:1.1rem;"
-      onclick="showHomeScreen()"
+      onclick="showHomeScreen(); showmainbutton()"
     >
       close
     </button>
@@ -2283,6 +2488,23 @@ function formatCurrencyInput(e) {
 input?.addEventListener('input', formatCurrencyInput);
 input2?.addEventListener('input', formatCurrencyInput);
 
+reset_screen_date();
+
+  hideLoading();
+  closeAllToasts();
+}
+
+async function reset_screen() {
+document.getElementById('campaign-title').value = ""
+document.getElementById('campaign-goal').value = ""
+document.getElementById('campaign-description').value = ""
+
+reset_screen_date();
+
+document.getElementById('donation-amount').value = ""
+}
+
+async function reset_screen_date() {
 const inputdate = document.getElementById('campaign-deadline');
 const inputdate2 = document.getElementById('campaign-deadline2');
 
@@ -2333,9 +2555,6 @@ inputdate2.value = rawDateplus;
 // Apply your existing formatter
 formatDateInput({ target: inputdate });
 formatDateInput({ target: inputdate2 });
-
-  hideLoading();
-  closeAllToasts();
 }
 
 async function showScreen2NEXT() {
@@ -2572,7 +2791,7 @@ function formatUSDC(value) {
 
 <hr>
 
-      <div class="readonly3" style="display:flex; justify-content:space-between; align-items:center;">
+      <div class="inputan" style="display:flex; justify-content:space-between; align-items:center;">
         ○ on wallet • <span id="userBalanceDisplay"> ${userBalFormatted} ● USDC</span>
       </div>
       <div class="readonly3" style="display:flex; justify-content:space-between; align-items:center;">
@@ -3002,6 +3221,8 @@ window.showCreateCampaignScreen = function () {
   document.getElementById(
     "create-campaign-screen"
   ).style.display = "block";
+
+  reset_screen() 
 };
 
 window.showHomeScreen = function () {
@@ -3021,7 +3242,34 @@ window.showHomeScreen = function () {
   document.getElementById("activeSection").classList.remove("hidden");
   document.getElementById("endedSection").classList.remove("hidden");
   document.getElementById("new-campaign-button").classList.remove("hidden");
+  
+  showmainbutton();
 };
+
+window.showmainbutton = function () {
+  document.getElementById("batesan_xxx").classList.remove("hidden");
+  document.getElementById("batesan").classList.remove("hidden");
+  document.getElementById("choose-chain-button").classList.remove("hidden");
+  document.getElementById("campaign-title").classList.remove("hidden");
+
+  document.getElementById("campaign-button").classList.remove("hidden");
+  document.getElementById("activeSection").classList.remove("hidden");
+  document.getElementById("endedSection").classList.remove("hidden");
+  document.getElementById("new-campaign-button").classList.remove("hidden");
+}
+window.hidemainbutton = function () {
+  document.getElementById("batesan").classList.add("hidden");
+  document.getElementById("choose-chain-button").classList.add("hidden");
+  document.getElementById("campaign-title").classList.add("hidden");
+
+  document.getElementById("campaign-button").classList.add("hidden");
+  document.getElementById("activeSection").classList.add("hidden");
+  document.getElementById("endedSection").classList.add("hidden");
+  document.getElementById("new-campaign-button").classList.add("hidden");
+}
+window.hidemainbutton2 = function () {
+document.getElementById("batesan_xxx").classList.add("hidden");
+}
 
 window.createCampaign = async function () {
 
@@ -5204,6 +5452,11 @@ window.showLeaderboard =
 
 window.showScreen2 =
   showScreen2;
+
+window.reset_screen =
+  reset_screen;
+window.reset_screen_date =
+  reset_screen_date;
 
 window.showCustomAlert = function (message) {
 

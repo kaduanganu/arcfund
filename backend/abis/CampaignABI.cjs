@@ -259,6 +259,11 @@ const CAMPAIGN_ABI = [
         },
         {
           "internalType": "address",
+          "name": "_treasury",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
           "name": "_usdc",
           "type": "address"
         },
@@ -309,6 +314,19 @@ const CAMPAIGN_ABI = [
           "internalType": "string",
           "name": "",
           "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "treasury",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
         }
       ],
       "stateMutability": "view",

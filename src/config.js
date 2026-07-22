@@ -17,6 +17,9 @@ const CONFIG = {
     treasury:
         "0x9068d4a1edcea0e553525e8ca5edbe57dfe900b6",
 
+    main_rpc:
+        "https://arc-testnet.drpc.org",
+
   chains: {
 
     "arc-testnet": {
