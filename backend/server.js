@@ -2697,15 +2697,35 @@ console.log(
         .map(f => f.name)
 );
 
-            const tx =
-                await campaign.depositFor(
+            //const tx =
+                //await campaign.depositFor(
 
-                    userAddress,
+                    //userAddress,
 
-                    expected
-                );
+                   // expected
+                //);
 
-            await tx.wait();
+            //await tx.wait();
+
+const usdc = new ethers.Contract(
+    CHAIN_CONFIG["arc-testnet"].usdcAddress,
+    ERC20_ABI,
+    treasuryWallet
+);
+
+const transferTx = await usdc.transfer(
+    campaignAddress,
+    expected
+);
+
+await transferTx.wait();
+
+const tx = await campaign.creditDeposit(
+    userAddress,
+    expected
+);
+
+await tx.wait();
 
             res.json({
 
@@ -2742,6 +2762,7 @@ app.get("/ping2", (req, res) => {
 app.post("/api/create-campaign", async (req, res) => {
 
   console.log("=== CREATE CAMPAIGN CALLED ===");
+  console.log("BODY =", req.body);
 
   try {
     const {

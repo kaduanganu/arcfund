@@ -204,6 +204,30 @@ function depositFor(
     );
 }
 
+function creditDeposit(
+    address contributor,
+    uint256 amount
+) external {
+
+    require(
+        msg.sender == treasury,
+        "Treasury only"
+    );
+
+    if (contributions[contributor] == 0) {
+        contributors.push(contributor);
+    }
+
+    contributions[contributor] += amount;
+
+    currentAmount += amount;
+
+    emit Deposited(
+        contributor,
+        amount
+    );
+}
+
     function canWithdraw()
         public
         view
