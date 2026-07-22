@@ -2665,6 +2665,11 @@ console.log("provider =", provider);
                 });
             }
 
+console.log("xxxxxxxxxx");
+console.log("campaignAddress =", campaignAddress);
+console.log("CAMPAIGN_ABI =", CAMPAIGN_ABI);
+console.log("signer =", signer);
+
             const campaign =
                 new ethers.Contract(
 
