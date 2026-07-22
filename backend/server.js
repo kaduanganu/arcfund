@@ -88,6 +88,11 @@ const provider =
     process.env.ARC_RPC
   );
 
+const treasuryWallet = new ethers.Wallet(
+    process.env.PRIVATE_KEY,
+    providers[process.env.DEFAULTCHAIN]
+);
+
 const wallet =
   new ethers.Wallet(
     process.env.SYSTEM_PRIVATE_KEY,
@@ -2675,7 +2680,7 @@ console.log(
 console.log("xxxxxxxxxx");
 console.log("campaignAddress =", campaignAddress);
 console.log("CAMPAIGN_ABI =", CAMPAIGN_ABI);
-console.log("signer =", signer);
+console.log("signer =", treasuryWallet);
 
             const campaign =
                 new ethers.Contract(
@@ -2684,7 +2689,7 @@ console.log("signer =", signer);
 
                     CAMPAIGN_ABI,
 
-                    signer
+                    treasuryWallet
                 );
 
 console.log(
