@@ -3151,6 +3151,9 @@ window.depositCampaign = async function () {
                 selectedChain
             ];
 
+console.log(amount);
+console.log(typeof amount);
+
         const parsedAmount =
             ethers.parseUnits(
 
@@ -3162,7 +3165,7 @@ window.depositCampaign = async function () {
 console.log("Selected campaign:", selectedCampaign);
 console.log("selectedChain =", selectedChain);
 console.log("chain =", chain);
-console.log("chain.usdc =", chain?.usdc);
+console.log("chain.usdcAddress =", chain?.usdcAddress);
 console.log("signer =", signer);
 console.log("ERC20_ABI =", ERC20_ABI);
 

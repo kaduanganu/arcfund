@@ -1667,6 +1667,8 @@ app.post(
   "/api/vault/deposit",
   async (req,res) => {
 
+    console.log(req.body);
+    
     try {
 
       const {
