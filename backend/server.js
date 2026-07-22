@@ -2687,6 +2687,11 @@ console.log("signer =", signer);
                     signer
                 );
 
+console.log(
+    campaign.interface.fragments
+        .map(f => f.name)
+);
+
             const tx =
                 await campaign.depositFor(
 
