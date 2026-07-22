@@ -2491,6 +2491,8 @@ console.log(
     CHAIN_CONFIG[chain].usdcAddress
 );
 
+
+
             //const usdc =
                 //new ethers.Contract(
 
@@ -2502,6 +2504,8 @@ console.log(
 
                     //provider
                 //);
+
+
 
 let transferEvent = null;
 
