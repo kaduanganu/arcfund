@@ -2456,42 +2456,57 @@ app.post("/api/deposit", async (req, res) => {
             });
         }
 
-        const sourceUsdc = new ethers.Contract(
+const usdc = new ethers.Contract(
 
-            CHAIN_CONFIG[chain].usdcAddress,
+    CHAIN_CONFIG[chain].usdcAddress,
 
-            ERC20_ABI,
+    ERC20_ABI,
 
-            provider
+    provider
 
-        );
+);
 
-        let transferEvent = null;
+let transferEvent = null;
 
-        for (const log of receipt.logs) {
+const usdcAddress =
+    CHAIN_CONFIG[chain]
+        .usdcAddress
+        .toLowerCase();
 
-            try {
+for (const log of receipt.logs) {
 
-                const parsed =
-                    sourceUsdc.interface.parseLog(
-                        log
-                    );
+    if (
 
-                if (
+        log.address.toLowerCase() !==
+        usdcAddress
 
-                    parsed &&
-                    parsed.name === "Transfer"
+    ) {
 
-                ) {
+        continue;
+    }
 
-                    transferEvent = parsed;
+    try {
 
-                    break;
-                }
+        const parsed =
+            usdc.interface.parseLog(
+                log
+            );
 
-            } catch {}
+        if (
 
+            parsed.name ===
+            "Transfer"
+
+        ) {
+
+            transferEvent =
+                parsed;
+
+            break;
         }
+
+    } catch (err) {}
+}
 
         if (!transferEvent) {
 
@@ -2508,6 +2523,38 @@ app.post("/api/deposit", async (req, res) => {
                 amount,
                 6
             );
+
+console.log(
+
+    "transfer value =",
+
+    transferEvent.args.value.toString()
+
+);
+
+console.log(
+
+    "expected =",
+
+    expected.toString()
+
+);
+
+console.log(
+
+    "token contract =",
+
+    transferEvent.fragment.name
+
+);
+
+console.log(
+
+    "chain usdc =",
+
+    usdcAddress
+
+);
 
         if (
 
