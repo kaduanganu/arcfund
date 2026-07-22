@@ -2425,230 +2425,118 @@ app.get('/api/test-bridge-base-to-arc', async (req, res) => {
 
 
 
-app.post(
-    "/api/deposit",
-    async (req, res) => {
-
-    console.log("=== DEPOSIT ===");
-    console.log(req.body);
-
-        try {
-
-            const {
-
-                campaignAddress,
-
-                amount,
-
-                userAddress,
-
-                chain,
-
-                txHash
-
-            } = req.body;
-
-            const provider =
-                providers[
-                    chain
-                ];
-
-            if (!provider) {
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success: false,
-
-                        error:
-                            "Unsupported chain"
-                    });
-            }
-
-            const receipt =
-                await provider
-                    .getTransactionReceipt(
-                        txHash
-                    );
-
-            if (!receipt) {
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success: false,
-
-                        error:
-                            "Transaction not found"
-                    });
-            }
-
-console.log("receipt logs =", receipt.logs);
-console.log(
-    "backend usdc =",
-    CHAIN_CONFIG[chain].usdcAddress
-);
-
-
-
-            //const usdc =
-                //new ethers.Contract(
-
-                    //CHAIN_CONFIG[
-                        //chain
-                    //].usdcAddress,
-
-                    //ERC20_ABI,
-
-                    //provider
-                //);
-
-
-
-let transferEvent = null;
-
-for (const log of receipt.logs) {
-
-    if (
-        log.address.toLowerCase() !==
-        CHAIN_CONFIG[chain]
-            .usdcAddress
-            .toLowerCase()
-    ) {
-        continue;
-    }
+app.post("/api/deposit", async (req, res) => {
 
     try {
 
-        const parsed =
-            usdc.interface.parseLog(log);
+        const {
 
-        if (
-            parsed &&
-            parsed.name === "Transfer"
-        ) {
+            campaignAddress,
+            amount,
+            userAddress,
+            chain,
+            txHash
 
-            transferEvent = parsed;
-            break;
+        } = req.body;
+
+        const provider = providers[chain];
+
+        const receipt =
+            await provider.getTransactionReceipt(
+                txHash
+            );
+
+        if (!receipt) {
+
+            return res.status(400).json({
+
+                success: false,
+                error: "Transaction not found"
+
+            });
         }
 
-    } catch {}
-}
+        const sourceUsdc = new ethers.Contract(
 
-            if (
-                !transferEvent
-            ) {
+            CHAIN_CONFIG[chain].usdcAddress,
 
-                return res
-                    .status(400)
-                    .json({
+            ERC20_ABI,
 
-                        success: false,
+            provider
 
-                        error:
-                            "No transfer event"
-                    });
-            }
+        );
 
-            if (
+        let transferEvent = null;
 
-                transferEvent
-                    .args
-                    .from
-                    .toLowerCase()
+        for (const log of receipt.logs) {
 
-                !==
+            try {
 
-                userAddress
-                    .toLowerCase()
+                const parsed =
+                    sourceUsdc.interface.parseLog(
+                        log
+                    );
 
-            ) {
+                if (
 
-                return res
-                    .status(400)
-                    .json({
+                    parsed &&
+                    parsed.name === "Transfer"
 
-                        success: false,
+                ) {
 
-                        error:
-                            "Invalid sender"
-                    });
-            }
+                    transferEvent = parsed;
 
-            if (
+                    break;
+                }
 
-                transferEvent
-                    .args
-                    .to
-                    .toLowerCase()
+            } catch {}
 
-                !==
+        }
 
-                process.env
-                    .ARC_TREASURY
-                    .toLowerCase()
+        if (!transferEvent) {
 
-            ) {
+            return res.status(400).json({
 
-                return res
-                    .status(400)
-                    .json({
+                success: false,
+                error: "No USDC transfer"
 
-                        success: false,
+            });
+        }
 
-                        error:
-                            "Invalid treasury"
-                    });
-            }
+        const expected =
+            ethers.parseUnits(
+                amount,
+                6
+            );
 
-            const expected =
-                ethers.parseUnits(
+        if (
 
-                    amount,
+            transferEvent.args.value !==
+            expected
 
-                    6
-                );
+        ) {
 
-console.log("transfer value =", transferEvent.args.value.toString());
-console.log("expected =", expected.toString());
-console.log(
-    "equal =",
-    transferEvent.args.value === expected
-);
+            return res.status(400).json({
 
-            if (
+                success: false,
+                error: "Invalid amount"
 
-                transferEvent
-                    .args
-                    .value
+            });
+        }
 
-                !==
+        const adapter = getAdapter();
 
-                expected
+        //
+        // BRIDGE ONLY IF NOT ARC
+        //
 
-            ) {
+        if (chain !== "arc-testnet") {
 
-                return res
-                    .status(400)
-                    .json({
+            console.log(
+                "Bridging to Arc..."
+            );
 
-                        success: false,
-
-                        error:
-                            "Invalid amount"
-                    });
-            }
-
-            const adapter =
-                getAdapter();
-
-            if (
-                chain !==
-                "arc-testnet"
-            ) {
-
+            const bridgeResult =
                 await kit.bridge({
 
                     from: {
@@ -2659,6 +2547,7 @@ console.log(
                             CHAIN_MAP[
                                 chain
                             ]
+
                     },
 
                     to: {
@@ -2671,92 +2560,94 @@ console.log(
                         recipientAddress:
                             process.env
                                 .ARC_TREASURY
+
                     },
 
-                    amount:
-                        amount,
+                    amount,
 
-                    token:
-                        "USDC"
+                    token: "USDC"
+
                 });
-            }
 
-console.log("xxxxxxxxxx");
-console.log("campaignAddress =", campaignAddress);
-console.log("CAMPAIGN_ABI =", CAMPAIGN_ABI);
-console.log("signer =", treasuryWallet);
+            console.log(
+                bridgeResult
+            );
+        }
 
-            const campaign =
-                new ethers.Contract(
+        //
+        // ARC TREASURY SENDS USDC
+        //
 
-                    campaignAddress,
+        const arcUsdc =
+            new ethers.Contract(
 
-                    CAMPAIGN_ABI,
+                CHAIN_CONFIG[
+                    "arc-testnet"
+                ].usdcAddress,
 
-                    treasuryWallet
-                );
+                ERC20_ABI,
 
-console.log(
-    campaign.interface.fragments
-        .map(f => f.name)
-);
-
-            //const tx =
-                //await campaign.depositFor(
-
-                    //userAddress,
-
-                   // expected
-                //);
-
-            //await tx.wait();
-
-const usdc = new ethers.Contract(
-    CHAIN_CONFIG["arc-testnet"].usdcAddress,
-    ERC20_ABI,
-    treasuryWallet
-);
-
-const transferTx = await usdc.transfer(
-    campaignAddress,
-    expected
-);
-
-await transferTx.wait();
-
-const tx = await campaign.creditDeposit(
-    userAddress,
-    expected
-);
-
-await tx.wait();
-
-            res.json({
-
-                success: true,
-
-                txHash:
-                    tx.hash
-            });
-
-        } catch (e) {
-
-            console.error(
-                e
+                treasuryWallet
             );
 
-            res
-                .status(500)
-                .json({
+        const transferTx =
+            await arcUsdc.transfer(
 
-                    success: false,
+                campaignAddress,
 
-                    error:
-                        e.message
-                });
-        }
+                expected
+
+            );
+
+        await transferTx.wait();
+
+        //
+        // UPDATE CAMPAIGN
+        //
+
+        const campaign =
+            new ethers.Contract(
+
+                campaignAddress,
+
+                CAMPAIGN_ABI,
+
+                treasuryWallet
+            );
+
+        const tx =
+            await campaign.creditDeposit(
+
+                userAddress,
+
+                expected
+
+            );
+
+        await tx.wait();
+
+        return res.json({
+
+            success: true,
+
+            txHash: tx.hash
+
+        });
+
+    } catch (e) {
+
+        console.error(e);
+
+        return res.status(500).json({
+
+            success: false,
+
+            error: e.message
+
+        });
     }
-);
+
+});
 
 app.get("/ping2", (req, res) => {
     console.log("PING RECEIVED");

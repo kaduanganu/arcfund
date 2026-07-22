@@ -2225,7 +2225,7 @@ function formatUSDC(value) {
 
 
 
-      <div id="campaign-title" class="readonly2" style="font-size:1.3rem; text-align:center;">
+      <div id="campaign-titletitle" class="readonly2" style="font-size:1.3rem; text-align:center;">
         🔵 campaign.</span>
 
         <div style="height:20px;"></div>
@@ -3250,7 +3250,7 @@ window.showmainbutton = function () {
   document.getElementById("batesan_xxx").classList.remove("hidden");
   document.getElementById("batesan").classList.remove("hidden");
   document.getElementById("choose-chain-button").classList.remove("hidden");
-  document.getElementById("campaign-title").classList.remove("hidden");
+  document.getElementById("campaign-titletitle").classList.remove("hidden");
 
   document.getElementById("campaign-button").classList.remove("hidden");
   document.getElementById("activeSection").classList.remove("hidden");
@@ -3260,7 +3260,7 @@ window.showmainbutton = function () {
 window.hidemainbutton = function () {
   document.getElementById("batesan").classList.add("hidden");
   document.getElementById("choose-chain-button").classList.add("hidden");
-  document.getElementById("campaign-title").classList.add("hidden");
+  document.getElementById("campaign-titletitle").classList.add("hidden");
 
   document.getElementById("campaign-button").classList.add("hidden");
   document.getElementById("activeSection").classList.add("hidden");
