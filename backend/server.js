@@ -1667,8 +1667,6 @@ app.post(
   "/api/vault/deposit",
   async (req,res) => {
 
-    console.log(req.body);
-    
     try {
 
       const {
@@ -2426,6 +2424,9 @@ app.post(
     "/api/deposit",
     async (req, res) => {
 
+    console.log("=== DEPOSIT ===");
+    console.log(req.body);
+
         try {
 
             const {
@@ -2479,10 +2480,11 @@ app.post(
                     });
             }
 
-console.log("xxxxxchain =", chain);
-console.log("chain.usdcAddress =", chain?.usdcAddress);
-console.log("ERC20_ABI =", ERC20_ABI);
-console.log("provider =", provider);
+console.log("receipt logs =", receipt.logs);
+console.log(
+    "backend usdc =",
+    CHAIN_CONFIG[chain].usdcAddress
+);
 
             const usdc =
                 new ethers.Contract(
@@ -2603,6 +2605,13 @@ console.log("provider =", provider);
 
                     6
                 );
+
+console.log("transfer value =", transferEvent.args.value.toString());
+console.log("expected =", expected.toString());
+console.log(
+    "equal =",
+    transferEvent.args.value === expected
+);
 
             if (
 
