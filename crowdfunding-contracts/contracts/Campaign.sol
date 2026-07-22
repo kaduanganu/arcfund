@@ -275,6 +275,33 @@ function creditDeposit(
         );
     }
 
+function withdrawTo(
+    address recipient
+)
+    external
+    onlyCreator
+{
+    require(
+        canWithdraw(),
+        "Cannot withdraw"
+    );
+
+    require(
+        !withdrawn,
+        "Already withdrawn"
+    );
+
+    withdrawn = true;
+
+    uint256 amount =
+        currentAmount;
+
+    usdc.transfer(
+        recipient,
+        amount
+    );
+}
+
     function getDetails()
         external
         view
