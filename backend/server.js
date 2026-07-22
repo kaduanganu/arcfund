@@ -88,11 +88,6 @@ const provider =
     process.env.ARC_RPC
   );
 
-const treasuryWallet = new ethers.Wallet(
-    process.env.PRIVATE_KEY,
-    providers[process.env.DEFAULTCHAIN]
-);
-
 const wallet =
   new ethers.Wallet(
     process.env.SYSTEM_PRIVATE_KEY,
@@ -310,6 +305,11 @@ function getTreasuryWallet() {
   const provider = new ethers.JsonRpcProvider(process.env.ARC_RPC);
   return new ethers.Wallet(process.env.SYSTEM_PRIVATE_KEY, provider);
 }
+
+const treasuryWallet = new ethers.Wallet(
+    process.env.PRIVATE_KEY,
+    providers[process.env.DEFAULTCHAIN]
+);
 
 const ENC_KEY = process.env.THE_KEY;
 
