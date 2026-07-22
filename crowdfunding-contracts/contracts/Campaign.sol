@@ -7,6 +7,8 @@ contract Campaign {
 
     address public factory;
 
+    address public treasury;
+
     address public creator;
 
     IERC20 public usdc;
@@ -51,6 +53,7 @@ contract Campaign {
 
     function initialize(
         address _creator,
+        address _treasury,
         address _usdc,
         uint256 _targetAmount,
         uint256 _deadline,
@@ -78,6 +81,8 @@ contract Campaign {
         factory = msg.sender;
 
         creator = _creator;
+
+        treasury = _treasury;
 
         usdc = IERC20(_usdc);
 
@@ -144,8 +149,8 @@ function depositFor(
 ) external {
 
     require(
-        msg.sender == factory,
-        "Factory only"
+        msg.sender == treasury,
+        "Treasury only"
     );
 
     require(
@@ -160,7 +165,7 @@ function depositFor(
 
     bool success = usdc.transferFrom(
 
-        factory,
+        treasury,
 
         address(this),
 

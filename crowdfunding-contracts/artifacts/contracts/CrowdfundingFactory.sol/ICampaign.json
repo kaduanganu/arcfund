@@ -12,6 +12,11 @@
         },
         {
           "internalType": "address",
+          "name": "treasury",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
           "name": "usdc",
           "type": "address"
         },

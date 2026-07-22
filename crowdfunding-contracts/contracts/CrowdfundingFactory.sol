@@ -6,9 +6,11 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 interface ICampaign {
 
-    function initialize(
+function initialize(
 
         address creator,
+
+        address treasury,
 
         address usdc,
 
@@ -115,21 +117,23 @@ contract CrowdfundingFactory {
         address clone =
             implementation.clone();
 
-        ICampaign(clone)
-            .initialize(
+ICampaign(clone)
+    .initialize(
 
-                creator,
+        creator,
 
-                address(usdc),
+        treasury,
 
-                targetAmount,
+        address(usdc),
 
-                deadline,
+        targetAmount,
 
-                title,
+        deadline,
 
-                description
-            );
+        title,
+
+        description
+    );
 
         campaigns.push(
             clone
