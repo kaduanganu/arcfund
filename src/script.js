@@ -1039,6 +1039,57 @@ window.openCampaign = async function (
     campaignAddress
 ) {
 
+
+
+  const depositButtonC =
+    document.getElementById(
+        "depositbutton"
+    );
+
+const withdrawButtonC =
+    document.getElementById(
+        "withdrawbutton"
+    );
+
+const isCreator =
+    userAddress?.toLowerCase() ===
+    campaign.creator.toLowerCase();
+
+const goalReached =
+    Number(campaign.currentAmount) >=
+    Number(campaign.targetAmount);
+
+if (goalReached) {
+
+    depositButtonC.disabled = true;
+
+    depositButtonC.textContent =
+        "Goal Reached";
+
+    if (isCreator) {
+
+        withdrawButtonC.style.display =
+            "block";
+
+    } else {
+
+        withdrawButtonC.style.display =
+            "none";
+    }
+
+} else {
+
+    depositButtonC.disabled = false;
+
+    depositButtonC.textContent =
+        "Deposit";
+
+    withdrawButtonC.style.display =
+        "none";
+}
+
+
+
 function formatUSDC(value) {
   return Number(value).toLocaleString('en-US', {
     minimumFractionDigits: 4,
@@ -2357,12 +2408,20 @@ const userBalFormatted = formatUSDC(userBal);
 
     <div style="height:20px;"></div>
     
-  <div class="flex-row">
+  <div id="depositbutton" class="flex-row">
     <button
       class="btn_op_rev2" style="font-size:1.1rem;"
       onclick="depositCampaign()"
     >
       fund
+    </button>
+
+  <div id="withdrawbutton" class="flex-row">
+    <button
+      class="btn_op_rev2" style="font-size:1.1rem;"
+      onclick="withdrawCampaign()"
+    >
+      withdraw
     </button>
 
     <button
@@ -3401,26 +3460,62 @@ window.depositCampaign = async function () {
 
     try {
 
-        showLoading();
-
         const amount = document
             .getElementById(
                 "donation-amount"
             )
             .dataset.rawValue;
 
-        if ((!amount) || (amount==0) || (amount==null)) {
+        const goal = document
+            .getElementById(
+                "detail-goal"
+            )
+            .dataset.rawValue;
 
-            return showToast(
+        const raised = document
+            .getElementById(
+                "detail-raised"
+            )
+            .dataset.rawValue;
 
-                "⚠️ Empty deposit not allowed.",
+if (!amount || amount <= 0) {
 
-                3000,
+    return showToast(
 
-                0
-            );
-        }
+        "⚠️ Empty deposit not allowed.",
 
+        3000,
+
+        0
+    );
+}
+
+if (raised >= goal) {
+
+    return showToast(
+
+        "⚠️ Goal already reached.",
+
+        3000,
+
+        0
+    );
+}
+
+if (amount > (goal - raised)) {
+
+    return showToast(
+
+        "⚠️ Excessive deposit.",
+
+        3000,
+
+        0
+    );
+}
+
+        showLoading();
+        
         const chain =
             CONFIG.chains[
                 selectedChain
@@ -3529,7 +3624,7 @@ console.log("ERC20_ABI =", ERC20_ABI);
         );
 
         await showScreen2();
-        
+
         await loadCampaigns();
 
     } catch (e) {

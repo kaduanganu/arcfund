@@ -1360,7 +1360,7 @@ res.json(
 app.get(
   "/api/vault-liquidity",
   async (req,res) => {
-
+/*
     try {
 
       const { address } = req.query;
@@ -1406,13 +1406,13 @@ app.get(
       });
 
     }
-
+*/
 });
 
 app.get(
   "/api/vault-balance",
   async (req,res) => {
-
+/*
     try {
 
       const { address } = req.query;
@@ -1456,7 +1456,7 @@ app.get(
       });
 
     }
-
+*/
 });
 
 // smart_contract
@@ -2162,7 +2162,7 @@ app.get("/api/user-balance", async (req, res) => {
 app.get(
   "/api/vault-balance-by-key",
   async (req,res) => {
-
+/*
     try {
 
       const {
@@ -2172,7 +2172,6 @@ app.get(
 
       const balance =
         await vault.getBalance(
-          /* address, */
           keyHash
         );
 
@@ -2195,7 +2194,7 @@ app.get(
       });
 
     }
-
+*/
 });
 
 /* smart-contract*/
