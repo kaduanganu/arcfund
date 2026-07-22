@@ -1987,7 +1987,7 @@ async function showScreen2() {
     
   const shortAddress = userAddress ? `${userAddress.slice(0,6)}...${userAddress.slice(-4)}` : "";
 
-  const userBal = await getUserBalance();
+const userBal = await getUserBalance();
 
 function formatUSDC(value) {
   return Number(value).toLocaleString('en-US', {
@@ -1996,7 +1996,7 @@ function formatUSDC(value) {
   });
 }
 
-  const userBalFormatted = formatUSDC(userBal);
+const userBalFormatted = formatUSDC(userBal);
   
   const chainLogo = {
   "arc-testnet": "/logo/arc_logo_small2_opaq2.png",
@@ -2492,6 +2492,31 @@ reset_screen_date();
 
   hideLoading();
   closeAllToasts();
+  
+  updateBalances();
+
+if (balanceInterval) {
+  clearInterval(balanceInterval);
+}
+
+balanceInterval =
+  setInterval(
+    updateBalances,
+    1000
+  );
+}
+
+async function reset_screen_balance() {
+const userBal = await getUserBalance();
+
+function formatUSDC(value) {
+  return Number(value).toLocaleString('en-US', {
+    minimumFractionDigits: 4,
+    maximumFractionDigits: 4
+  });
+}
+
+const userBalFormatted = formatUSDC(userBal);
 }
 
 async function reset_screen() {
@@ -3376,17 +3401,19 @@ window.depositCampaign = async function () {
 
     try {
 
+        showLoading();
+
         const amount = document
             .getElementById(
                 "donation-amount"
             )
             .dataset.rawValue;
 
-        if (!amount) {
+        if ((!amount) || (amount==0) || (amount==null)) {
 
             return showToast(
 
-                "Enter amount",
+                "⚠️ Empty deposit not allowed.",
 
                 3000,
 
@@ -3429,9 +3456,9 @@ console.log("ERC20_ABI =", ERC20_ABI);
 
         showToast(
 
-            "Sending USDC...",
+            "⏳ Waiting for signing...",
 
-            3000,
+            6000,
 
             0
         );
@@ -3490,26 +3517,32 @@ console.log("ERC20_ABI =", ERC20_ABI);
             );
         }
 
+        hideLoading();
+
         showToast(
 
-            "Deposit success",
+            "✅ Deposit success.",
 
             3000,
 
             0
         );
 
+        await showScreen2();
+        
         await loadCampaigns();
 
     } catch (e) {
 
         console.error(e);
 
+        hideLoading();
+
         showToast(
 
             e.message ||
 
-            "Deposit failed",
+            "❌ Fail to deposit.",
 
             3000,
 
@@ -5457,6 +5490,8 @@ window.reset_screen =
   reset_screen;
 window.reset_screen_date =
   reset_screen_date;
+window.reset_screen_balance =
+  reset_screen_balance;
 
 window.showCustomAlert = function (message) {
 
