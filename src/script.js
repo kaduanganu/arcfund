@@ -1270,28 +1270,6 @@ const provider = new ethers.JsonRpcProvider(
     ).style.display =
         "block";
 
-// FAVORITE STATUS
-
-const response = await fetch(
-
-    `${CONFIG.backendUrl}/api/is-favorite?userAddress=${userAddress}&campaignAddress=${campaignAddress}`
-
-);
-
-const data = await response.json();
-
-document
-    .getElementById(
-        "favoriteButton"
-    )
-    .innerText =
-
-        data.favorited
-
-            ? "★"
-
-            : "☆";
-            
   const depositButtonC =
     document.getElementById(
         "depositbutton"
@@ -1348,6 +1326,28 @@ if (goalReached) {
     );
 }
 
+// FAVORITE STATUS
+
+const response = await fetch(
+
+    `${CONFIG.backendUrl}/api/is-favorite?userAddress=${userAddress}&campaignAddress=${campaignAddress}`
+
+);
+
+const data = await response.json();
+
+document
+    .getElementById(
+        "favoriteButton"
+    )
+    .innerText =
+
+        data.favorited
+
+            ? "★"
+
+            : "☆";
+            
     reset_screen()
 };
 
@@ -2880,6 +2880,8 @@ async function toggleFavorite() {
                 : "★";
     }
 }
+
+window.toggleFavorite = toggleFavorite;
 
 async function showScreen2NEXT() {
   const shortAddress = userAddress ? `${userAddress.slice(0,6)}...${userAddress.slice(-4)}` : "";
