@@ -2695,6 +2695,354 @@ console.log(
 
 });
 
+app.post(
+
+    "/api/withdraw",
+
+    async (req, res) => {
+
+        try {
+
+            const {
+
+                campaignAddress,
+
+                userAddress,
+
+                destinationChain
+
+            } = req.body;
+
+            const campaign = new ethers.Contract(
+
+                campaignAddress,
+
+                CAMPAIGN_ABI,
+
+                treasuryWallet
+
+            );
+
+            //
+            // Check creator
+            //
+
+            const creator = await campaign.creator();
+
+            if (
+
+                creator.toLowerCase() !==
+
+                userAddress.toLowerCase()
+
+            ) {
+
+                return res.status(403).json({
+
+                    success: false,
+
+                    error: "Not creator"
+
+                });
+
+            }
+
+            //
+            // Get amount BEFORE withdraw
+            //
+
+            const amount = await campaign.currentAmount();
+
+            //
+            // Withdraw from campaign to treasury
+            //
+
+            const withdrawTx =
+
+                await campaign.withdrawTo(
+
+                    process.env.ARC_TREASURY
+
+                );
+
+            await withdrawTx.wait();
+
+            //
+            // Arc withdrawal
+            //
+
+            if (
+
+                destinationChain ===
+
+                "arc-testnet"
+
+            ) {
+
+                const arcUsdc = new ethers.Contract(
+
+                    CHAIN_CONFIG["arc-testnet"].usdcAddress,
+
+                    ERC20_ABI,
+
+                    treasuryWallet
+
+                );
+
+                const tx = await arcUsdc.transfer(
+
+                    userAddress,
+
+                    amount
+
+                );
+
+                await tx.wait();
+
+                return res.json({
+
+                    success: true,
+
+                    bridged: false,
+
+                    txHash: tx.hash
+
+                });
+
+            }
+
+            //
+            // Bridge
+            //
+
+            const adapter = getAdapter();
+
+            const bridgeResult = await kit.bridge({
+
+                from: {
+
+                    adapter,
+
+                    chain: "Arc_Testnet"
+
+                },
+
+                to: {
+
+                    adapter,
+
+                    chain:
+
+                        CHAIN_MAP[
+
+                            destinationChain
+
+                        ],
+
+                    recipientAddress:
+
+                        userAddress
+
+                },
+
+                amount:
+
+                    ethers.formatUnits(
+
+                        amount,
+
+                        6
+
+                    ),
+
+                token: "USDC"
+
+            });
+
+            return res.json({
+
+                success: true,
+
+                bridged: true,
+
+                bridgeResult
+
+            });
+
+        } catch (e) {
+
+            console.error(e);
+
+            return res.status(500).json({
+
+                success: false,
+
+                error: e.message
+
+            });
+
+        }
+
+    }
+
+);
+
+app.post(
+    "/api/favorite",
+    async (req, res) => {
+
+        try {
+
+            const {
+
+                userAddress,
+
+                campaignAddress
+
+            } = req.body;
+
+            await db.query(
+
+                `
+                INSERT INTO favorites (
+
+                    user_address,
+
+                    campaign_address
+
+                )
+
+                VALUES (
+
+                    $1,
+
+                    $2
+
+                )
+
+                ON CONFLICT DO NOTHING
+                `,
+
+                [
+
+                    userAddress
+                        .toLowerCase(),
+
+                    campaignAddress
+                        .toLowerCase()
+
+                ]
+            );
+
+            res.json({
+
+                success: true
+
+            });
+
+        } catch (err) {
+
+            res.status(500).json({
+
+                success: false,
+
+                error: err.message
+
+            });
+        }
+    }
+);
+
+app.post(
+    "/api/unfavorite",
+    async (req, res) => {
+
+        const {
+
+            userAddress,
+
+            campaignAddress
+
+        } = req.body;
+
+        await db.query(
+
+            `
+            DELETE FROM favorites
+
+            WHERE
+
+                user_address = $1
+
+            AND
+
+                campaign_address = $2
+            `,
+
+            [
+
+                userAddress.toLowerCase(),
+
+                campaignAddress.toLowerCase()
+
+            ]
+        );
+
+        res.json({
+
+            success: true
+
+        });
+    }
+);
+
+app.get(
+    "/api/is-favorite",
+    async (req, res) => {
+
+        const {
+
+            userAddress,
+
+            campaignAddress
+
+        } = req.query;
+
+        const result = await db.query(
+
+            `
+            SELECT 1
+
+            FROM favorites
+
+            WHERE
+
+                user_address = $1
+
+            AND
+
+                campaign_address = $2
+            `,
+
+            [
+
+                userAddress.toLowerCase(),
+
+                campaignAddress.toLowerCase()
+
+            ]
+        );
+
+        res.json({
+
+            favorited:
+
+                result.rows.length > 0
+
+        });
+    }
+);
+
 app.get("/ping2", (req, res) => {
     console.log("PING RECEIVED");
     res.json({ ok: true });

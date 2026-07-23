@@ -4,7 +4,7 @@ import { ERC20_ABI } from "../crowdfunding-contracts/abis/ERC20ABI.js";
 
 window.ethers = ethers;
 
-const FACTORY_ADDRESS = "0xa03cBA0a84c2af59004FcB303277Aa4F0e7E7535"
+const FACTORY_ADDRESS = "0x2c9108677E3076EABcEE33F2Fd706f1b6eE6E83C"
 
 const CREATION_FEE = "1";
 
@@ -74,6 +74,11 @@ let hargaisehjalan = 0;
 let selectedChain = CONFIG.defaultChain;
 //let selectedChain = "arc-testnet";   // default
 let jenengechain = "MBOH";
+
+let currentCampaignFilter = "";
+let theselectedCampaign;
+let theselectedChain;
+let thesigner;
 
 const USDC_ABI = [
   "function transfer(address to, uint amount) returns (bool)",
@@ -782,6 +787,11 @@ async function updateLivePrice(textboxId) {
 // LOAD CAMPAIGN //
 async function loadCampaigns() {
 
+  if (currentCampaignFilter == "") {
+  currentCampaignFilter = "all"
+  document.getElementById("allCBtn").classList.add("active")
+  }
+  
   closeAllToasts();
 
     //const provider = new ethers.BrowserProvider(
@@ -859,6 +869,93 @@ console.log(provider);
 
 console.log(window.ethereum);
 
+const now = Math.floor(
+    Date.now() / 1000
+);
+
+const creator = details[0];
+
+const targetAmount = Number(
+    ethers.formatUnits(
+        details[1],
+        6
+    )
+);
+
+const currentAmount = Number(
+    ethers.formatUnits(
+        details[2],
+        6
+    )
+);
+
+const deadline = Number(
+    details[3]
+);
+
+const withdrawn = details[7];
+
+const isEnded =
+
+    withdrawn ||
+
+    currentAmount >= targetAmount ||
+
+    deadline <= now;
+
+const isMine =
+
+    userAddress &&
+
+    creator.toLowerCase() ===
+    userAddress.toLowerCase();
+
+if (
+
+    currentCampaignFilter === "active" &&
+
+    isEnded
+
+) {
+
+    continue;
+}
+
+if (
+
+    currentCampaignFilter === "ended" &&
+
+    !isEnded
+
+) {
+
+    continue;
+}
+
+if (
+
+    currentCampaignFilter === "favorites" &&
+
+    !favoriteCampaigns.includes(
+        campaignAddress.toLowerCase()
+    )
+
+) {
+
+    continue;
+}
+
+if (
+
+    currentCampaignFilter === "mine" &&
+
+    !isMine
+
+) {
+
+    continue;
+}
+
         const title = details[5];
 
         const current = ethers.formatUnits(
@@ -908,6 +1005,40 @@ const targetformated = formatUSDC(target);
         `;
     }
 }
+
+function setCampaignFilter(filter) {
+
+    currentCampaignFilter = filter;
+
+    document.getElementById("allCBtn").classList.remove("active");
+    document.getElementById("activeCBtn").classList.remove("active");
+    document.getElementById("endedCBtn").classList.remove("active");
+    document.getElementById("favCBtn").classList.remove("active");
+    document.getElementById("myCBtn").classList.remove("active");
+
+    if (currentCampaignFilter == "all") {
+      document.getElementById("allCBtn").classList.add("active");
+    }
+    else if (currentCampaignFilter == "active") {
+      document.getElementById("activeCBtn").classList.add("active");
+    }
+    else if (currentCampaignFilter == "ended") {
+      document.getElementById("endedCBtn").classList.add("active");
+    }
+    else if (currentCampaignFilter == "favorite") {
+      document.getElementById("favCBtn").classList.add("active");
+    }
+    else if (currentCampaignFilter == "mine") {
+      document.getElementById("myCBtn").classList.add("active");
+    }
+    else {
+      document.getElementById("allCBtn").classList.add("active");
+    }
+
+    loadCampaigns();
+}
+
+window.setCampaignFilter = setCampaignFilter;
 
 // ==================== CONNECT WALLET ====================
 async function connectWallet() {
@@ -1039,57 +1170,6 @@ window.openCampaign = async function (
     campaignAddress
 ) {
 
-
-
-  const depositButtonC =
-    document.getElementById(
-        "depositbutton"
-    );
-
-const withdrawButtonC =
-    document.getElementById(
-        "withdrawbutton"
-    );
-
-const isCreator =
-    userAddress?.toLowerCase() ===
-    campaign.creator.toLowerCase();
-
-const goalReached =
-    Number(campaign.currentAmount) >=
-    Number(campaign.targetAmount);
-
-if (goalReached) {
-
-    depositButtonC.disabled = true;
-
-    depositButtonC.textContent =
-        "Goal Reached";
-
-    if (isCreator) {
-
-        withdrawButtonC.style.display =
-            "block";
-
-    } else {
-
-        withdrawButtonC.style.display =
-            "none";
-    }
-
-} else {
-
-    depositButtonC.disabled = false;
-
-    depositButtonC.textContent =
-        "Deposit";
-
-    withdrawButtonC.style.display =
-        "none";
-}
-
-
-
 function formatUSDC(value) {
   return Number(value).toLocaleString('en-US', {
     minimumFractionDigits: 4,
@@ -1119,7 +1199,11 @@ const provider = new ethers.JsonRpcProvider(
     const details =
         await campaign.getDetails();
 
-    const shortAddress = details[0] ? `${details[0].slice(0,6)}...${details[0].slice(-4)}` : "";
+    const creatorAddress = details[0]
+    const shortAddress = creatorAddress ? `${creatorAddress.slice(0,6)}...${creatorAddress.slice(-4)}` : "";
+
+    const yanggoalraw = details[1];
+    const yangraisedraw = details[2];
 
     selectedCampaign =
         campaignAddress;
@@ -1136,7 +1220,7 @@ const provider = new ethers.JsonRpcProvider(
         "detail-goal"
     ).innerText =
         formatUSDC(ethers.formatUnits(
-            details[1],
+            yanggoalraw,
             6
         ));
 
@@ -1144,7 +1228,7 @@ const provider = new ethers.JsonRpcProvider(
         "detail-raised"
     ).innerText =
         formatUSDC(ethers.formatUnits(
-            details[2],
+            yangraisedraw,
             6
         ));
 
@@ -1185,6 +1269,84 @@ const provider = new ethers.JsonRpcProvider(
         "campaign-details-screen"
     ).style.display =
         "block";
+
+// FAVORITE STATUS
+
+const response = await fetch(
+
+    `${CONFIG.backendUrl}/api/is-favorite?userAddress=${userAddress}&campaignAddress=${campaignAddress}`
+
+);
+
+const data = await response.json();
+
+document
+    .getElementById(
+        "favoriteButton"
+    )
+    .innerText =
+
+        data.favorited
+
+            ? "★"
+
+            : "☆";
+            
+  const depositButtonC =
+    document.getElementById(
+        "depositbutton"
+    );
+
+const withdrawButtonC =
+    document.getElementById(
+        "withdrawbutton"
+    );
+
+const donationamountC =
+    document.getElementById(
+        "donation-amount"
+    );
+
+const isCreator = userAddress?.toLowerCase() ===
+    creatorAddress.toLowerCase();
+
+const goalReached =
+    yangraisedraw >= yanggoalraw;
+
+if (goalReached) {
+
+    depositButtonC.classList.add(
+        "hidden"
+    );
+    donationamountC.classList.add(
+        "hidden"
+    );
+
+    if (isCreator) {
+
+    withdrawButtonC.classList.remove(
+        "hidden"
+    );
+
+    } else {
+
+    withdrawButtonC.classList.add(
+        "hidden"
+    );
+    }
+
+} else {
+
+    depositButtonC.classList.remove(
+        "hidden"
+    );
+    donationamountC.classList.remove(
+        "hidden"
+    );
+    withdrawButtonC.classList.add(
+        "hidden"
+    );
+}
 
     reset_screen()
 };
@@ -2028,7 +2190,7 @@ let selectedCampaign = null;
 async function showScreen2() {
 
   closeAllToasts();
-  
+
     //alert(`✅ Wallet connected: ${userAddress.slice(0,6)}...${userAddress.slice(-4)}.`);
     //showToast(
     //`✅ Wallet connected: ${userAddress.slice(0,6)}...${userAddress.slice(-4)}`,
@@ -2408,23 +2570,30 @@ const userBalFormatted = formatUSDC(userBal);
 
     <div style="height:20px;"></div>
     
-  <div id="depositbutton" class="flex-row">
-    <button
+  <div class="flex-row">
+    <button id="depositbutton"
       class="btn_op_rev2" style="font-size:1.1rem;"
       onclick="depositCampaign()"
     >
       fund
     </button>
 
-  <div id="withdrawbutton" class="flex-row">
-    <button
+    <button id="withdrawbutton"
       class="btn_op_rev2" style="font-size:1.1rem;"
       onclick="withdrawCampaign()"
     >
       withdraw
     </button>
 
-    <button
+    <button id="favoriteButton"
+    class="btn_op_rev2" style="font-size:1.1rem;"
+    onclick="toggleFavorite()">
+
+    ☆
+
+    </button>
+
+    <button id="homebutton"
       class="btn_op_rev2" style="font-size:1.1rem;"
       onclick="showHomeScreen(); showmainbutton()"
     >
@@ -2440,21 +2609,33 @@ const userBalFormatted = formatUSDC(userBal);
 <div id="campaign-button" class="flex-row" style="margin-top: 20px;">
 
   <div
-    class="option-btn-circle" id="myCBtn" style="font-size:1.1rem;"
-    onclick="showSection('ended')">
-    mine</span>
+    class="option-btn-circle" id="allCBtn" style="font-size:1.1rem;"
+    onclick="setCampaignFilter('all')">
+    all</span>
   </div>
 
   <div
     class="option-btn-circle" id="activeCBtn" style="font-size:1.1rem;"
-    onclick="showSection('active')">
+    onclick="setCampaignFilter('active')">
     active</span>
   </div>
 
   <div
-    class="option-btn-circle" id="inactiveCBtn" style="font-size:1.1rem;"
-    onclick="showSection('ended')">
+    class="option-btn-circle" id="endedCBtn" style="font-size:1.1rem;"
+    onclick="setCampaignFilter('ended')">
     ended</span>
+  </div>
+
+  <div
+    class="option-btn-circle" id="favCBtn" style="font-size:1.1rem;"
+    onclick="setCampaignFilter('favorite')">
+    ★</span>
+  </div>
+
+  <div
+    class="option-btn-circle" id="myCBtn" style="font-size:1.1rem;"
+    onclick="setCampaignFilter('mine')">
+    mine</span>
   </div>
 
 </div>
@@ -2639,6 +2820,65 @@ inputdate2.value = rawDateplus;
 // Apply your existing formatter
 formatDateInput({ target: inputdate });
 formatDateInput({ target: inputdate2 });
+}
+
+async function toggleFavorite() {
+
+    const button = document.getElementById(
+
+        "favoriteButton"
+
+    );
+
+    const isFavorite =
+
+        button.innerText === "★";
+
+    const endpoint = isFavorite
+
+        ? "unfavorite"
+
+        : "favorite";
+
+    const response = await fetch(
+
+        `${CONFIG.backendUrl}/api/${endpoint}`,
+
+        {
+
+            method: "POST",
+
+            headers: {
+
+                "Content-Type":
+                    "application/json"
+
+            },
+
+            body: JSON.stringify({
+
+                userAddress,
+
+                campaignAddress:
+
+                    selectedCampaign
+
+            })
+        }
+    );
+
+    const result = await response.json();
+
+    if (result.success) {
+
+        button.innerText =
+
+            isFavorite
+
+                ? "☆"
+
+                : "★";
+    }
 }
 
 async function showScreen2NEXT() {
@@ -3456,27 +3696,136 @@ showToast(
   }
 };
 
-window.depositCampaign = async function () {
+window.withdrawCampaign = async function (campaignAddress) {
 
     try {
 
-        const amount = document
-            .getElementById(
-                "donation-amount"
-            )
-            .dataset.rawValue;
+        showLoading();
 
-        const goal = document
-            .getElementById(
-                "detail-goal"
-            )
-            .dataset.rawValue;
+        const response = await fetch(
 
-        const raised = document
-            .getElementById(
-                "detail-raised"
-            )
-            .dataset.rawValue;
+            `${CONFIG.backendUrl}/api/withdraw`,
+
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json"
+
+                },
+
+                body: JSON.stringify({
+
+                    campaignAddress,
+
+                    userAddress,
+
+                    destinationChain: selectedChain
+
+                })
+
+            }
+
+        );
+
+        const result = await response.json();
+
+        if (!result.success) {
+
+            throw new Error(
+
+                result.error
+
+            );
+
+        }
+
+        hideLoading();
+
+        if (result.bridged) {
+
+            showToast(
+
+                "✅ Withdraw bridged.",
+
+                3000,
+
+                0
+
+            );
+
+        } else {
+
+            showToast(
+
+                "✅ Withdraw success.",
+
+                3000,
+
+                0
+
+            );
+
+        }
+
+        await loadCampaigns();
+
+        await showScreen2();
+
+    } catch (e) {
+
+        console.error(e);
+
+        hideLoading();
+
+        showToast(
+
+            e.message ||
+
+            "❌ Withdraw failed.",
+
+            3000,
+
+            0
+
+        );
+
+    }
+
+};
+
+window.depositCampaign = async function () {
+
+const provider = new ethers.JsonRpcProvider(
+
+    CONFIG.main_rpc
+
+);
+
+const campaign = new ethers.Contract(
+
+    selectedCampaign,
+
+    CAMPAIGN_ABI,
+
+    provider
+
+);
+
+const details = await campaign.getDetails();
+
+const yanggoalraw = Number(ethers.formatUnits(details[1],6));
+const yangraisedraw = Number(ethers.formatUnits(details[2],6)
+
+);
+
+    try {
+
+        const amount = document.getElementById("donation-amount").dataset.rawValue;
+        //const yanggoal = document.getElementById("detail-goal").dataset.rawValue;
+        //const yangraised = document.getElementById("detail-raised").dataset.rawValue;
 
 if (!amount || amount <= 0) {
 
@@ -3490,19 +3839,7 @@ if (!amount || amount <= 0) {
     );
 }
 
-if (raised >= goal) {
-
-    return showToast(
-
-        "⚠️ Goal already reached.",
-
-        3000,
-
-        0
-    );
-}
-
-if (amount > (goal - raised)) {
+if (amount > (yanggoalraw - yangraisedraw)) {
 
     return showToast(
 
