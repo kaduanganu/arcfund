@@ -2713,34 +2713,27 @@ app.post(
 
             } = req.body;
 
-console.log("campaignAddress =", campaignAddress);
-console.log("destinationChain =", destinationChain);
-console.log("treasuryWallet =", treasuryWallet);
-console.log("CHAIN_CONFIG['arc-testnet'] =", CHAIN_CONFIG["arc-testnet"]);
-console.log("ARC USDC =", CHAIN_CONFIG["arc-testnet"]?.usdcAddress);
+            const campaign =
+                new ethers.Contract(
 
-console.log("Creating campaign contract...");
+                    campaignAddress,
 
-            const campaign = new ethers.Contract(
+                    CAMPAIGN_ABI,
 
-                campaignAddress,
+                    treasuryWallet
 
-                CAMPAIGN_ABI,
-
-                treasuryWallet
-
-            );
+                );
 
             //
-            // Check creator
+            // Verify creator
             //
 
-            const creator = await campaign.creator();
+            const creator =
+                await campaign.creator();
 
             if (
 
                 creator.toLowerCase() !==
-
                 userAddress.toLowerCase()
 
             ) {
@@ -2756,56 +2749,61 @@ console.log("Creating campaign contract...");
             }
 
             //
-            // Get amount BEFORE withdraw
+            // Verify campaign already withdrawn
             //
 
-            const amount = await campaign.currentAmount();
+            const withdrawn =
+                await campaign.withdrawn();
+
+            if (!withdrawn) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    error: "Withdraw transaction not completed"
+
+                });
+
+            }
 
             //
-            // Withdraw from campaign to treasury
+            // Amount
             //
 
-            const withdrawTx =
-
-                await campaign.withdrawTo(
-
-                    process.env.ARC_TREASURY
-
-                );
-
-            await withdrawTx.wait();
+            const amount =
+                await campaign.currentAmount();
 
             //
-            // Arc withdrawal
+            // Same chain
             //
-
-            console.log("Creating Arc USDC contract...");
 
             if (
 
                 destinationChain ===
-
                 "arc-testnet"
 
             ) {
 
-                const arcUsdc = new ethers.Contract(
+                const arcUsdc =
+                    new ethers.Contract(
 
-                    CHAIN_CONFIG["arc-testnet"].usdcAddress,
+                        CHAIN_CONFIG["arc-testnet"].usdcAddress,
 
-                    ERC20_ABI,
+                        ERC20_ABI,
 
-                    treasuryWallet
+                        treasuryWallet
 
-                );
+                    );
 
-                const tx = await arcUsdc.transfer(
+                const tx =
+                    await arcUsdc.transfer(
 
-                    userAddress,
+                        userAddress,
 
-                    amount
+                        amount
 
-                );
+                    );
 
                 await tx.wait();
 
@@ -2822,52 +2820,49 @@ console.log("Creating campaign contract...");
             }
 
             //
-            // Bridge
+            // Other chain
             //
 
-            const adapter = getAdapter();
+            const adapter =
+                getAdapter();
 
-            const bridgeResult = await kit.bridge({
+            const bridgeResult =
+                await kit.bridge({
 
-                from: {
+                    from: {
 
-                    adapter,
+                        adapter,
 
-                    chain: "Arc_Testnet"
+                        chain: "Arc_Testnet"
 
-                },
+                    },
 
-                to: {
+                    to: {
 
-                    adapter,
+                        adapter,
 
-                    chain:
+                        chain:
+                            CHAIN_MAP[
+                                destinationChain
+                            ],
 
-                        CHAIN_MAP[
+                        recipientAddress:
+                            userAddress
 
-                            destinationChain
+                    },
 
-                        ],
+                    amount:
+                        ethers.formatUnits(
 
-                    recipientAddress:
+                            amount,
 
-                        userAddress
+                            6
 
-                },
+                        ),
 
-                amount:
+                    token: "USDC"
 
-                    ethers.formatUnits(
-
-                        amount,
-
-                        6
-
-                    ),
-
-                token: "USDC"
-
-            });
+                });
 
             return res.json({
 
@@ -3119,7 +3114,8 @@ app.post("/api/create-campaign", async (req, res) => {
       targetAmount,
       deadline,
       title,
-      description
+      description,
+      category
     } = req.body;
 
     if (
@@ -3127,7 +3123,8 @@ app.post("/api/create-campaign", async (req, res) => {
       !targetAmount ||
       !deadline ||
       !title ||
-      !description
+      !description ||
+      !category
     ) {
       return res.status(400).json({
         error: "Missing fields"
@@ -3141,7 +3138,8 @@ app.post("/api/create-campaign", async (req, res) => {
       targetAmount,
       deadline,
       title,
-      description
+      description,
+      category
     });
 
     const tx = await factory.createCampaignFor(
@@ -3149,7 +3147,8 @@ app.post("/api/create-campaign", async (req, res) => {
       targetAmount,
       deadline,
       title,
-      description
+      description,
+      category
     );
 
     console.log(

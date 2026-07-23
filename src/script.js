@@ -76,6 +76,7 @@ let selectedChain = CONFIG.defaultChain;
 let jenengechain = "MBOH";
 
 let currentCampaignFilter = "";
+let currentCategory = "all";
 let theselectedCampaign;
 let theselectedChain;
 let thesigner;
@@ -896,6 +897,7 @@ const now = Math.floor(
 );
 
 const creator = details[0];
+const category = details[9];
 
 const targetAmount = Number(
     ethers.formatUnits(
@@ -978,6 +980,19 @@ if (
     continue;
 }
 
+if (
+
+    currentCategory !== "all" &&
+
+    category.toLowerCase() !==
+
+    currentCategory.toLowerCase()
+
+) {
+
+    continue;
+}
+
         const title = details[5];
 
         const current = ethers.formatUnits(
@@ -1011,6 +1026,11 @@ const targetformated = formatUSDC(target);
       <div class="readonly2" style="text-align:center;">
         • ${title} •</span>
       </div>
+
+<div class="readonly2" style="text-align:center;">
+    ${category}
+</div>
+
       <div class="readonly2" style="text-align:center;">
         ${currentformated} / ${targetformated} ● USDC</span>
       </div>
@@ -1061,6 +1081,16 @@ function setCampaignFilter(filter) {
 }
 
 window.setCampaignFilter = setCampaignFilter;
+
+function setCategoryFilter(category) {
+
+    currentCategory = category;
+
+    loadCampaigns();
+
+}
+
+window.setCategoryFilter = setCategoryFilter;
 
 // ==================== CONNECT WALLET ====================
 async function connectWallet() {
@@ -3644,6 +3674,11 @@ window.createCampaign = async function () {
         "campaign-description"
       ).value;
 
+    const category =
+    document.getElementById(
+        "campaign-category"
+    ).value;
+
     const goal =
       document.getElementById(
         "campaign-goal"
@@ -3688,7 +3723,8 @@ window.createCampaign = async function () {
             targetAmount,
             deadline,
             title,
-            description
+            description,
+            category
           })
         }
       );
@@ -3735,6 +3771,46 @@ window.withdrawCampaign = async function (campaignAddress) {
 
         showLoading();
 
+        //
+        // Creator signs withdrawal
+        //
+
+        const provider =
+            new ethers.BrowserProvider(
+                window.ethereum
+            );
+
+        const signer =
+            await provider.getSigner();
+
+        const campaign =
+            new ethers.Contract(
+
+                campaignAddress,
+
+                CAMPAIGN_ABI,
+
+                signer
+            );
+
+        showToast(
+
+            "⏳ Waiting for wallet...",
+
+            5000,
+
+            0
+        );
+
+        const withdrawTx =
+            await campaign.withdrawToTreasury();
+
+        await withdrawTx.wait();
+
+        //
+        // Notify backend
+        //
+
         const response = await fetch(
 
             `${CONFIG.backendUrl}/api/withdraw`,
@@ -3745,17 +3821,19 @@ window.withdrawCampaign = async function (campaignAddress) {
 
                 headers: {
 
-                    "Content-Type": "application/json"
+                    "Content-Type":
+                        "application/json"
 
                 },
 
                 body: JSON.stringify({
 
-                    campaignAddress: selectedCampaign,
+                    campaignAddress,
 
                     userAddress,
 
-                    destinationChain: selectedChain
+                    destinationChain:
+                        selectedChain
 
                 })
 
@@ -3763,7 +3841,8 @@ window.withdrawCampaign = async function (campaignAddress) {
 
         );
 
-        const result = await response.json();
+        const result =
+            await response.json();
 
         if (!result.success) {
 
@@ -3805,7 +3884,7 @@ window.withdrawCampaign = async function (campaignAddress) {
 
         await loadCampaigns();
 
-        showHomeScreen(); //await showScreen2();
+        showHomeScreen();
 
     } catch (e) {
 

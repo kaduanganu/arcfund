@@ -25,6 +25,8 @@ contract Campaign {
 
     string public description;
 
+string public category;
+
     bool public withdrawn;
 
     bool private initialized;
@@ -58,7 +60,8 @@ contract Campaign {
         uint256 _targetAmount,
         uint256 _deadline,
         string memory _title,
-        string memory _description
+        string memory _description,
+        string memory _category
     ) external {
 
         require(
@@ -95,6 +98,8 @@ contract Campaign {
         description = _description;
 
         createdAt = block.timestamp;
+
+        category = _category;
     }
 
     function deposit(
@@ -302,30 +307,59 @@ function withdrawTo(
     );
 }
 
+function withdrawToTreasury()
+    external
+    onlyCreator
+{
+    require(
+        canWithdraw(),
+        "Cannot withdraw"
+    );
+
+    require(
+        !withdrawn,
+        "Already withdrawn"
+    );
+
+    withdrawn = true;
+
+    uint256 amount =
+        currentAmount;
+
+    bool success =
+        usdc.transfer(
+            treasury,
+            amount
+        );
+
+    require(
+        success,
+        "Transfer failed"
+    );
+
+    emit Withdrawn(
+        creator,
+        amount
+    );
+}
+
     function getDetails()
         external
         view
-        returns (
+        
+returns (
+    address,
+    uint256,
+    uint256,
+    uint256,
+    uint256,
+    string memory,
+    string memory,
+    bool,
+    uint256,
+    string memory
+)
 
-            address,
-
-            uint256,
-
-            uint256,
-
-            uint256,
-
-            uint256,
-
-            string memory,
-
-            string memory,
-
-            bool,
-
-            uint256
-
-        )
     {
         return (
 
@@ -345,7 +379,9 @@ function withdrawTo(
 
             withdrawn,
 
-            contributors.length
+            contributors.length,
+
+            category
         );
     }
 }

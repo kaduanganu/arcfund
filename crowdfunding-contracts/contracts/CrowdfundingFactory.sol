@@ -20,7 +20,9 @@ function initialize(
 
         string memory title,
 
-        string memory description
+        string memory description,
+        
+        string memory category
 
     ) external;
 }
@@ -102,7 +104,9 @@ contract CrowdfundingFactory {
 
         string calldata title,
 
-        string calldata description
+        string calldata description,
+
+        string calldata category
 
     )
 
@@ -132,7 +136,9 @@ ICampaign(clone)
 
         title,
 
-        description
+        description,
+
+        category
     );
 
         campaigns.push(
