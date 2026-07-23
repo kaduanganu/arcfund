@@ -1057,7 +1057,7 @@ function setCampaignFilter(filter) {
       document.getElementById("allCBtn").classList.add("active");
     }
 
-    loadCampaigns();
+    await loadCampaigns();
 }
 
 window.setCampaignFilter = setCampaignFilter;
@@ -1410,9 +1410,11 @@ window.changeChain = async function(chainKey) {
     jenengechain = chain.name;
     //alert(`✅ Switched to ${chain.name}.`);
 
-    await showScreen2();
+    //await showScreen2();
 
     await loadCampaigns();
+
+    showHomeScreen();
 
   } catch (err) {
     console.error(err);
@@ -2617,7 +2619,7 @@ const userBalFormatted = formatUSDC(userBal);
 
     <button id="homebutton"
       class="btn_op_rev2" style="font-size:1.1rem;"
-      onclick="showHomeScreen(); showmainbutton()"
+      onclick="showHomeScreenRefresh(); showmainbutton()"
     >
       close
     </button>
@@ -3573,6 +3575,11 @@ window.showCreateCampaignScreen = function () {
   reset_screen() 
 };
 
+window.showHomeScreenRefresh = function () {
+    await loadCampaigns();
+
+    showHomeScreen();
+}
 window.showHomeScreen = function () {
   document.getElementById(
     "create-campaign-screen"
@@ -3796,7 +3803,7 @@ window.withdrawCampaign = async function (campaignAddress) {
 
         await loadCampaigns();
 
-        await showScreen2();
+        showHomeScreen(); //await showScreen2();
 
     } catch (e) {
 
@@ -3984,9 +3991,11 @@ console.log("ERC20_ABI =", ERC20_ABI);
             0
         );
 
-        await showScreen2();
+        //await showScreen2();
 
         await loadCampaigns();
+
+        showHomeScreen();
 
     } catch (e) {
 
