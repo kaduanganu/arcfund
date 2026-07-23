@@ -2887,6 +2887,56 @@ app.post(
 
 );
 
+app.get("/api/favoritesss", async (req, res) => {
+
+    try {
+
+        const { userAddress } = req.query;
+
+        const result = await db.query(
+
+            `
+            SELECT campaign_address
+
+            FROM favorites
+
+            WHERE user_address = $1
+            `,
+
+            [
+
+                userAddress.toLowerCase()
+
+            ]
+
+        );
+
+        res.json({
+
+            favorites:
+
+                result.rows.map(
+
+                    r => r.campaign_address.toLowerCase()
+
+                )
+
+        });
+
+    } catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+
+            favorites: []
+
+        });
+
+    }
+
+});
+
 app.post(
     "/api/favorite",
     async (req, res) => {

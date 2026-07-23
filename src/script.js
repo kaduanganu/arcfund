@@ -79,6 +79,7 @@ let currentCampaignFilter = "";
 let theselectedCampaign;
 let theselectedChain;
 let thesigner;
+let favoriteCampaigns = [];
 
 const USDC_ABI = [
   "function transfer(address to, uint amount) returns (bool)",
@@ -816,6 +817,27 @@ const campaigns = [...await factory.getCampaigns()].reverse();
 
     campaignList.innerHTML = "";
 
+favoriteCampaigns = [];
+
+if (userAddress) {
+
+    const response = await fetch(
+
+        `${CONFIG.backendUrl}/api/favoritesss?userAddress=${userAddress}`
+
+    );
+
+    const data = await response.json();
+
+    favoriteCampaigns =
+
+        data.favorites.map(
+
+            a => a.toLowerCase()
+
+        );
+}
+
     if (campaigns.length === 0) {
 
         campaignList.innerHTML = `
@@ -934,7 +956,7 @@ if (
 
 if (
 
-    currentCampaignFilter === "favorites" &&
+    currentCampaignFilter === "favorite" &&
 
     !favoriteCampaigns.includes(
         campaignAddress.toLowerCase()
