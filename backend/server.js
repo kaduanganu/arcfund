@@ -72,7 +72,7 @@ const { createEthersAdapterFromPrivateKey } = require("@circle-fin/adapter-ether
 
 const { ethers } = require('ethers');
 
-const pool = require("./db");
+const db = require("./db");
 
 const FACTORY_ADDRESS = process.env.FACTORY_ADDRESS
 
