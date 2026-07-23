@@ -3751,7 +3751,7 @@ window.withdrawCampaign = async function (campaignAddress) {
 
                 body: JSON.stringify({
 
-                    campaignAddress,
+                    campaignAddress: selectedCampaign,
 
                     userAddress,
 
