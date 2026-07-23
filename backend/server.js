@@ -2713,6 +2713,14 @@ app.post(
 
             } = req.body;
 
+console.log("campaignAddress =", campaignAddress);
+console.log("destinationChain =", destinationChain);
+console.log("treasuryWallet =", treasuryWallet);
+console.log("CHAIN_CONFIG['arc-testnet'] =", CHAIN_CONFIG["arc-testnet"]);
+console.log("ARC USDC =", CHAIN_CONFIG["arc-testnet"]?.usdcAddress);
+
+console.log("Creating campaign contract...");
+
             const campaign = new ethers.Contract(
 
                 campaignAddress,
@@ -2770,6 +2778,8 @@ app.post(
             //
             // Arc withdrawal
             //
+
+            console.log("Creating Arc USDC contract...");
 
             if (
 

@@ -1057,7 +1057,7 @@ function setCampaignFilter(filter) {
       document.getElementById("allCBtn").classList.add("active");
     }
 
-    await loadCampaigns();
+    loadCampaigns();
 }
 
 window.setCampaignFilter = setCampaignFilter;
@@ -3575,11 +3575,13 @@ window.showCreateCampaignScreen = function () {
   reset_screen() 
 };
 
-window.showHomeScreenRefresh = function () {
-    await loadCampaigns();
+function showHomeScreenRefresh() {
+   loadCampaigns();
 
     showHomeScreen();
 }
+window.showHomeScreenRefresh = showHomeScreenRefresh;
+
 window.showHomeScreen = function () {
   document.getElementById(
     "create-campaign-screen"
