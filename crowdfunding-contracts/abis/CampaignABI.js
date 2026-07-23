@@ -51,6 +51,19 @@ export const CAMPAIGN_ABI = [
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "category",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -263,6 +276,11 @@ export const CAMPAIGN_ABI = [
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
         }
       ],
       "stateMutability": "view",
@@ -303,6 +321,11 @@ export const CAMPAIGN_ABI = [
         {
           "internalType": "string",
           "name": "_description",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_category",
           "type": "string"
         }
       ],
@@ -379,6 +402,13 @@ export const CAMPAIGN_ABI = [
         }
       ],
       "name": "withdrawTo",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "withdrawToTreasury",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

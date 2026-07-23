@@ -153,6 +153,11 @@ const FACTORY_ABI = [
           "internalType": "string",
           "name": "description",
           "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "category",
+          "type": "string"
         }
       ],
       "name": "createCampaignFor",

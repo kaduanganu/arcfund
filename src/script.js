@@ -4,7 +4,7 @@ import { ERC20_ABI } from "../crowdfunding-contracts/abis/ERC20ABI.js";
 
 window.ethers = ethers;
 
-const FACTORY_ADDRESS = "0x2c9108677E3076EABcEE33F2Fd706f1b6eE6E83C"
+const FACTORY_ADDRESS = "0x5220bf3198220E981f90fdDf9049bb7ce22d7B13"
 
 const CREATION_FEE = "1";
 
@@ -2527,6 +2527,15 @@ const userBalFormatted = formatUSDC(userBal);
         >
 
         <input type="text"
+        maxlength="40"
+        placeholder="catchy title here"
+        id="campaign-category"
+        class="inputan"
+        value=""
+        style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;"
+        >
+
+        <input type="text"
         inputmode="numeric"
         placeholder="how much is your target?"
         id="campaign-goal"
@@ -2817,6 +2826,7 @@ async function reset_screen() {
 document.getElementById('campaign-title').value = ""
 document.getElementById('campaign-goal').value = ""
 document.getElementById('campaign-description').value = ""
+document.getElementById('campaign-category').value = "general"
 
 reset_screen_date();
 
