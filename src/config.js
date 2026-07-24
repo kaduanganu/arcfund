@@ -18,13 +18,13 @@ const CONFIG = {
         "0x9068d4a1edcea0e553525e8ca5edbe57dfe900b6",
 
     main_rpc:
-        "https://arc-testnet.drpc.org",
+        "https://arc-testnet.g.alchemy.com/v2/alch_zi9KNxI-lf_brQVJMD-Dq",
 
   chains: {
 
     "arc-testnet": {
       chainId: "0x4cef52",
-      rpcUrl: "https://arc-testnet.drpc.org",
+      rpcUrl: "https://arc-testnet.g.alchemy.com/v2/alch_zi9KNxI-lf_brQVJMD-Dq",
       name: "ARC Testnet",
       explorer: "https://testnet.arcscan.app",
       usdcAddress: "0x3600000000000000000000000000000000000000"
