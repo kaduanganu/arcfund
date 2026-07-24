@@ -82,6 +82,9 @@ let theselectedChain;
 let thesigner;
 let favoriteCampaigns = [];
 
+let selectedCategory = "general";
+let selectedCategory2 = "general";
+
 const USDC_ABI = [
   "function transfer(address to, uint amount) returns (bool)",
   "function balanceOf(address owner) view returns (uint256)",
@@ -1019,26 +1022,22 @@ const targetformated = formatUSDC(target);
 
             <div class="campaign-card">
 
-      <div class="readonly2" style="text-align:center;">
-        🔵</span>
-      </div>
+<div class="readonly2" style="text-align:center;">
+    ○ category • ${category} ○
+</div>
 
       <div class="readonly2" style="text-align:center;">
         • ${title} •</span>
       </div>
 
-<div class="readonly2" style="text-align:center;">
-    ${category}
-</div>
-
       <div class="readonly2" style="text-align:center;">
-        ${currentformated} / ${targetformated} ● USDC</span>
+        ${currentformated} ○ ${targetformated} ● USDC</span>
       </div>
 <div id="fund-campaign-button" class="flex-row">
   <button
     class="btn_op_rev2" style="font-size:1.1rem;"
     onclick="hidemainbutton(); hidemainbutton2(); openCampaign('${campaignAddress}')">
-        view</span>
+        detail</span>
   </button>
 </div>
 
@@ -1257,6 +1256,8 @@ const provider = new ethers.JsonRpcProvider(
     const yanggoalraw = details[1];
     const yangraisedraw = details[2];
 
+    const withdrawn = details[7];
+
     selectedCampaign =
         campaignAddress;
 
@@ -1357,6 +1358,11 @@ if (goalReached) {
     withdrawButtonC.classList.remove(
         "hidden"
     );
+
+    if (withdrawn) {
+    withdrawButtonC.classList.add(
+        "hidden"
+    );}
 
     } else {
 
@@ -2306,8 +2312,8 @@ const userBalFormatted = formatUSDC(userBal);
           ${shortAddress}
         </div>
       </div>
-      <div class="readonly2">
-        🔵 choose your prefered chain.</span>
+      <div class="readonly3"class="readonly2X" style="font-size:1.8rem; text-align:center;">
+        ● pick a chain ●</span>
       </div>
 
 <div
@@ -2320,7 +2326,7 @@ const userBalFormatted = formatUSDC(userBal);
   "
 >
       <div class="readonly2X" style="font-size:1.8rem;">
-        ●</span>
+        </span>
       </div>
   <img
     src="${chainLogo[selectedChain]}"
@@ -2328,7 +2334,7 @@ const userBalFormatted = formatUSDC(userBal);
     height=auto
   >
       <div class="readonly2" style="font-size:1.8rem;">
-        ●</span>
+      </span>
       </div>
 </div>
 
@@ -2448,6 +2454,258 @@ const userBalFormatted = formatUSDC(userBal);
 
 
 
+<div
+  id="categoryModal"
+  style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(255, 255, 255, 0.9);
+    z-index:8888;
+
+    justify-content:center;
+    align-items:flex-start;
+
+    overflow-y:auto;
+    padding-top:20px;
+    padding-bottom:20px;
+    box-sizing:border-box;
+  "
+>
+
+  <div
+    style="
+      background:transparent;
+      width:90vw;
+      max-width:228px;
+    "
+  >
+
+      <div class="readonly2" style="font-size:1.3rem; text-align:center;">
+        🔵 pick a category.</span>
+      </div>
+
+    <div class="flex-row" style="flex-direction: column;">
+
+<div
+    id="generalCategoryBtn" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn active"
+    onclick="setCategory('general')">
+    general
+</div>
+
+<div
+    id="medicalCategoryBtn" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn"
+    onclick="setCategory('medical')">
+    medical
+</div>
+
+<div
+    id="educationCategoryBtn" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn"
+    onclick="setCategory('education')">
+    education
+</div>
+
+<div
+    id="otherCategoryBtn" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn"
+    onclick="setCategory('other')">
+    other
+</div>
+
+    </div>
+
+<div style="height:8px;"></div>
+
+<div class="flex-row" style="flex-direction: column;">
+  <button
+    class="btn_op_rev2"
+    onclick="hideCategorylist()"
+    style = "font-size:1.3rem;"
+  >
+    back
+  </button>
+</div>
+
+  </div>
+
+</div>
+
+
+
+<div
+  id="categoryModal2"
+  style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(255, 255, 255, 0.9);
+    z-index:8888;
+
+    justify-content:center;
+    align-items:flex-start;
+
+    overflow-y:auto;
+    padding-top:20px;
+    padding-bottom:20px;
+    box-sizing:border-box;
+  "
+>
+
+  <div
+    style="
+      background:transparent;
+      width:90vw;
+      max-width:228px;
+    "
+  >
+
+      <div class="readonly2" style="font-size:1.3rem; text-align:center;">
+        🔵 pick a category.</span>
+      </div>
+
+    <div class="flex-row" style="flex-direction: column;">
+
+<div
+    id="allCategoryBtn2" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn2 active"
+    onclick="setCategory2('all')">
+    all
+</div>
+
+<div
+    id="generalCategoryBtn2" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn2"
+    onclick="setCategory2('general')">
+    general
+</div>
+
+<div
+    id="medicalCategoryBtn2" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn2"
+    onclick="setCategory2('medical')">
+    medical
+</div>
+
+<div
+    id="educationCategoryBtn2" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn2"
+    onclick="setCategory2('education')">
+    education
+</div>
+
+<div
+    id="otherCategoryBtn2" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn2"
+    onclick="setCategory2('other')">
+    other
+</div>
+
+    </div>
+
+<div style="height:8px;"></div>
+
+<div class="flex-row" style="flex-direction: column;">
+  <button
+    class="btn_op_rev2"
+    onclick="hideCategorylist2()"
+    style = "font-size:1.3rem;"
+  >
+    back
+  </button>
+</div>
+
+  </div>
+
+</div>
+
+
+
+<div
+  id="filterModal"
+  style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(255, 255, 255, 0.9);
+    z-index:8888;
+
+    justify-content:center;
+    align-items:flex-start;
+
+    overflow-y:auto;
+    padding-top:20px;
+    padding-bottom:20px;
+    box-sizing:border-box;
+  "
+>
+
+  <div
+    style="
+      background:transparent;
+      width:90vw;
+      max-width:228px;
+    "
+  >
+
+      <div class="readonly2" style="font-size:1.3rem; text-align:center;">
+        🔵 pick a filter.</span>
+      </div>
+
+    <div id="campaign-button" class="flex-row" style="flex-direction: column;">
+
+  <div
+    class="option-btn-circle" id="allCBtn" style="font-size:1.3rem;"
+    onclick="setCampaignFilter('all')">
+    all</span>
+  </div>
+
+  <div
+    class="option-btn-circle" id="activeCBtn" style="font-size:1.3rem;"
+    onclick="setCampaignFilter('active')">
+    active</span>
+  </div>
+
+  <div
+    class="option-btn-circle" id="endedCBtn" style="font-size:1.3rem;"
+    onclick="setCampaignFilter('ended')">
+    ended</span>
+  </div>
+
+  <div
+    class="option-btn-circle" id="favCBtn" style="font-size:1.3rem;"
+    onclick="setCampaignFilter('favorite')">
+    ★</span>
+  </div>
+
+  <div
+    class="option-btn-circle" id="myCBtn" style="font-size:1.3rem;"
+    onclick="setCampaignFilter('mine')">
+    mine</span>
+  </div>
+
+    </div>
+
+<div style="height:8px;"></div>
+
+<div class="flex-row" style="flex-direction: column;">
+  <button
+    class="btn_op_rev2"
+    onclick="hideCategorylist3()"
+    style = "font-size:1.3rem;"
+  >
+    back
+  </button>
+</div>
+
+  </div>
+
+</div>
+
+
+
 
 <div id="choose-chain-button" class="flex-row">
 
@@ -2488,35 +2746,56 @@ const userBalFormatted = formatUSDC(userBal);
 
 <hr>
 
-<div id="batesan_xxx" style="height:20px;"></div>
-
-
-
-      <div id="campaign-titletitle" class="readonly2" style="font-size:1.3rem; text-align:center;">
-        🔵 campaign.</span>
-
-        <div style="height:20px;"></div>
-      </div>
-
-
+<div id="batesan_xxx" style="height:10px;"></div>
 
 <div id="new-campaign-button" class="flex-row">
   <button
     class="btn_op_rev2" style="font-size:1.1rem;"
-    onclick="hidemainbutton(); showCreateCampaignScreen()">
-        new campaign</span>
+    onclick="hidemainbutton(); hidemainbutton2(); showCreateCampaignScreen()">
+        create campaign</span>
   </button>
 </div>
+
+<div id="batesan_xxx2" style="height:10px;"></div>
+
+<hr id="hr_xxx">
+
+      <div id="campaign-titletitle" class="readonly2X" style="font-size:1.8rem; text-align:center;">
+              <div style="height:0px;"></div>
+
+      ● campaign list ●</span>
+
+        <div style="height:0px;"></div>
+      </div>
 
   <!-- NEW CAMPAIGN -->
   <div id="create-campaign-screen" style="display:none;">
 
-      <div class="readonly2" style="font-size:1.3rem; text-align:center;">
-        • create new campaign •</span>
+      <div class="readonly2X" style="font-size:1.8rem; text-align:center;">
+        ● create new campaign ●</span>
       </div>
-  
-      <div style="display:flex; flex-direction: column; align-items:center; gap:10px; margin:10px 0 6px 0;">
 
+      <hr>
+      <div style="height:20px;"></div>
+
+    <div id="category3">
+    <div class="flex-row">
+    <div 
+      class="readonly2" style="font-size:1.1rem; flex: 1;"
+    >
+      ○ category •
+    </div>
+
+    <button id="showcategorybutton"
+      class="btn_op_rev2" style="font-size:1.1rem; margin-left: 23px;"
+      onclick="showCategorylist()"
+    >
+      general
+    </button>
+    </div>
+    </div>
+
+      <div style="display:flex; flex-direction: column; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <input type="text"
         maxlength="40"
         placeholder="catchy title here"
@@ -2528,11 +2807,11 @@ const userBalFormatted = formatUSDC(userBal);
 
         <input type="text"
         maxlength="40"
-        placeholder="catchy title here"
+        placeholder=""
         id="campaign-category"
         class="inputan"
         value=""
-        style="flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;"
+        style="display:none; flex:50%; text-align:center; border-radius: 0px; margin-left: margin-right: 120px;"
         >
 
         <input type="text"
@@ -2631,7 +2910,7 @@ const userBalFormatted = formatUSDC(userBal);
         >
       </div>
 
-    <div style="height:20px;"></div>
+    <div style="height:0px;"></div>
     
   <div class="flex-row">
     <button id="depositbutton"
@@ -2667,43 +2946,47 @@ const userBalFormatted = formatUSDC(userBal);
 </div>
 <!-- CAMPAIGN DETAILS -->
 
+<hr id="hr_xxx3">
+<div id="batesan_xxx5" style="height:10px;"></div>
+
 <!-- <div style="height:20px;"></div> -->
 
-<div id="campaign-button" class="flex-row" style="margin-top: 20px;">
+    <div id="category1">
+    <div class="flex-row">
+    <div 
+      class="readonly2" style="font-size:1.1rem; flex: 1;"
+    >
+      ○ category filter •
+    </div>
+    <button id="showcategorybuttonfilter"
+      class="btn_op_rev2" style="font-size:1.1rem; margin-left: 23px;"
+      onclick="showCategorylist2()"
+    >
+      all
+    </button>
+    </div>
+    </div>
 
-  <div
-    class="option-btn-circle" id="allCBtn" style="font-size:1.1rem;"
-    onclick="setCampaignFilter('all')">
-    all</span>
-  </div>
+    <div id="category2">
+    <div class="flex-row">
+    <div 
+      class="readonly2" style="font-size:1.1rem; flex: 1;"
+    >
+      ○ status filter •
+    </div>
+    <button id="showcampaignbuttonfilter"
+      class="btn_op_rev2" style="font-size:1.1rem; margin-left: 23px;"
+      onclick="showCategorylist3()"
+    >
+      all
+    </button>
+    </div>
+    </div>
 
-  <div
-    class="option-btn-circle" id="activeCBtn" style="font-size:1.1rem;"
-    onclick="setCampaignFilter('active')">
-    active</span>
-  </div>
+<div id="batesan_xxx3" style="height:10px;"></div>
+<hr id="hr_xxx4">
 
-  <div
-    class="option-btn-circle" id="endedCBtn" style="font-size:1.1rem;"
-    onclick="setCampaignFilter('ended')">
-    ended</span>
-  </div>
-
-  <div
-    class="option-btn-circle" id="favCBtn" style="font-size:1.1rem;"
-    onclick="setCampaignFilter('favorite')">
-    ★</span>
-  </div>
-
-  <div
-    class="option-btn-circle" id="myCBtn" style="font-size:1.1rem;"
-    onclick="setCampaignFilter('mine')">
-    mine</span>
-  </div>
-
-</div>
-
-<div style="height:20px;"></div>
+<div id="batesan_xxx4" style="height:10px;"></div>
 
 <div id="activeSection">
 <!-- active html here -->
@@ -2732,6 +3015,41 @@ const userBalFormatted = formatUSDC(userBal);
   </div>
 
   `;
+
+function setCategory(category) {
+    selectedCategory = category;
+    document.getElementById('campaign-category').value = category;
+
+    document.getElementById('showcategorybutton').textContent = category;
+
+    document
+        .querySelectorAll(".category-btn")
+        .forEach(btn => btn.classList.remove("active"));
+
+    document
+        .getElementById(category + "CategoryBtn")
+        .classList.add("active");
+}
+
+window.setCategory = setCategory;
+
+function setCategory2(category) {
+    selectedCategory2 = category;
+
+    document.getElementById('showcategorybuttonfilter').textContent = category;
+
+    document
+        .querySelectorAll(".category-btn2")
+        .forEach(btn => btn.classList.remove("active"));
+
+    document
+        .getElementById(category + "CategoryBtn2")
+        .classList.add("active");
+
+    setCategoryFilter(category)
+}
+
+window.setCategory2 = setCategory2;
 
 const input = document.getElementById('campaign-goal');
 const input2 = document.getElementById('donation-amount');
@@ -2823,10 +3141,11 @@ const userBalFormatted = formatUSDC(userBal);
 }
 
 async function reset_screen() {
+
 document.getElementById('campaign-title').value = ""
 document.getElementById('campaign-goal').value = ""
 document.getElementById('campaign-description').value = ""
-document.getElementById('campaign-category').value = "general"
+setCategory('general')
 
 reset_screen_date();
 
@@ -3143,7 +3462,6 @@ function formatUSDC(value) {
   </div>
 
 </div>
-
 
 
 
@@ -3645,6 +3963,13 @@ window.showHomeScreen = function () {
 
 window.showmainbutton = function () {
   document.getElementById("batesan_xxx").classList.remove("hidden");
+  document.getElementById("batesan_xxx2").classList.remove("hidden");
+  document.getElementById("batesan_xxx3").classList.remove("hidden");
+  document.getElementById("batesan_xxx4").classList.remove("hidden");
+  document.getElementById("batesan_xxx5").classList.remove("hidden");
+  document.getElementById("hr_xxx").classList.remove("hidden");
+  document.getElementById("hr_xxx3").classList.remove("hidden");
+  document.getElementById("hr_xxx4").classList.remove("hidden");
   document.getElementById("batesan").classList.remove("hidden");
   document.getElementById("choose-chain-button").classList.remove("hidden");
   document.getElementById("campaign-titletitle").classList.remove("hidden");
@@ -3653,6 +3978,9 @@ window.showmainbutton = function () {
   document.getElementById("activeSection").classList.remove("hidden");
   document.getElementById("endedSection").classList.remove("hidden");
   document.getElementById("new-campaign-button").classList.remove("hidden");
+
+  document.getElementById("category1").classList.remove("hidden");
+  document.getElementById("category2").classList.remove("hidden");
 }
 window.hidemainbutton = function () {
   document.getElementById("batesan").classList.add("hidden");
@@ -3663,9 +3991,20 @@ window.hidemainbutton = function () {
   document.getElementById("activeSection").classList.add("hidden");
   document.getElementById("endedSection").classList.add("hidden");
   document.getElementById("new-campaign-button").classList.add("hidden");
+
+  document.getElementById("category1").classList.add("hidden");
+  document.getElementById("category2").classList.add("hidden");
 }
 window.hidemainbutton2 = function () {
-document.getElementById("batesan_xxx").classList.add("hidden");
+  document.getElementById("batesan_xxx").classList.add("hidden");
+  document.getElementById("batesan_xxx2").classList.add("hidden");
+  document.getElementById("batesan_xxx3").classList.add("hidden");
+  document.getElementById("batesan_xxx4").classList.add("hidden");
+  document.getElementById("batesan_xxx5").classList.add("hidden");
+  document.getElementById("hr_xxx").classList.add("hidden");
+  document.getElementById("hr_xxx3").classList.add("hidden");
+  document.getElementById("hr_xxx4").classList.add("hidden");
+  document.getElementById("batesan").classList.add("hidden");
 }
 
 window.createCampaign = async function () {
@@ -3796,21 +4135,21 @@ window.withdrawCampaign = async function (campaignAddress) {
         const campaign =
             new ethers.Contract(
 
-                campaignAddress,
+                selectedCampaign,
 
                 CAMPAIGN_ABI,
 
                 signer
             );
 
-        showToast(
+        //showToast(
 
-            "⏳ Waiting for wallet...",
+            //"⏳ Waiting for wallet...",
 
-            5000,
+            //5000,
 
-            0
-        );
+            //0
+        //);
 
         const withdrawTx =
             await campaign.withdrawToTreasury();
@@ -3838,7 +4177,8 @@ window.withdrawCampaign = async function (campaignAddress) {
 
                 body: JSON.stringify({
 
-                    campaignAddress,
+                    campaignAddress:
+                        selectedCampaign,
 
                     userAddress,
 
@@ -4008,14 +4348,14 @@ console.log("ERC20_ABI =", ERC20_ABI);
                 signer
             );
 
-        showToast(
+        //showToast(
 
-            "⏳ Waiting for signing...",
+            //"⏳ Waiting for signing...",
 
-            6000,
+            //6000,
 
-            0
-        );
+            //0
+        //);
 
         const transferTx =
             await usdc.transfer(
@@ -4115,10 +4455,58 @@ function showChainlist() {
 
 }
 
+function showCategorylist() {
+
+  document.getElementById(
+    "categoryModal"
+  ).style.display = "flex";
+
+}
+
+function showCategorylist2() {
+
+  document.getElementById(
+    "categoryModal2"
+  ).style.display = "flex";
+
+}
+
+function showCategorylist3() {
+
+  document.getElementById(
+    "filterModal"
+  ).style.display = "flex";
+
+}
+
 function hideChainlist() {
 
   document.getElementById(
     "chainModal"
+  ).style.display = "none";
+
+}
+
+function hideCategorylist() {
+
+  document.getElementById(
+    "categoryModal"
+  ).style.display = "none";
+
+}
+
+function hideCategorylist2() {
+
+  document.getElementById(
+    "filterModal"
+  ).style.display = "none";
+
+}
+
+function hideCategorylist3() {
+
+  document.getElementById(
+    "categoryModal2"
   ).style.display = "none";
 
 }
@@ -4148,6 +4536,33 @@ window.showChainlist = function () {
 window.hideChainlist = function () {
   closeAllToasts();
   document.getElementById("chainModal").style.display = "none";
+};
+
+window.showCategorylist = function () {
+  document.getElementById("categoryModal").style.display = "flex";
+};
+
+window.hideCategorylist = function () {
+  closeAllToasts();
+  document.getElementById("categoryModal").style.display = "none";
+};
+
+window.showCategorylist2 = function () {
+  document.getElementById("categoryModal2").style.display = "flex";
+};
+
+window.hideCategorylist2 = function () {
+  closeAllToasts();
+  document.getElementById("categoryModal2").style.display = "none";
+};
+
+window.showCategorylist3 = function () {
+  document.getElementById("filterModal").style.display = "flex";
+};
+
+window.hideCategorylist3 = function () {
+  closeAllToasts();
+  document.getElementById("filterModal").style.display = "none";
 };
 
 window.changeChainAndClose = function (chain) {

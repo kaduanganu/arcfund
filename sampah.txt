@@ -518,3 +518,34 @@ if (actualRank === 1 || actualRank === 2 || actualRank === 3) {
     onclick="showSection('withdraw')">
         Withdraw</span>
   </button>
+
+
+    <div
+    class="option-btn-circle" id="allCBtnX" style="font-size:1.1rem;"
+    onclick="setCampaignFilter('all')">
+    all</span>
+  </div>
+
+  <div
+    class="option-btn-circle" id="activeCBtnX" style="font-size:1.1rem;"
+    onclick="setCampaignFilter('active')">
+    active</span>
+  </div>
+
+  <div
+    class="option-btn-circle" id="endedCBtnX" style="font-size:1.1rem;"
+    onclick="setCampaignFilter('ended')">
+    ended</span>
+  </div>
+
+  <div
+    class="option-btn-circle" id="favCBtnX" style="font-size:1.1rem;"
+    onclick="setCampaignFilter('favorite')">
+    ★</span>
+  </div>
+
+  <div
+    class="option-btn-circle" id="myCBtnX" style="font-size:1.1rem;"
+    onclick="setCampaignFilter('mine')">
+    mine</span>
+  </div>
