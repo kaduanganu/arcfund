@@ -1023,11 +1023,11 @@ const targetformated = formatUSDC(target);
             <div class="campaign-card">
 
 <div class="readonly2" style="text-align:center;">
-    ○ category • ${category} ○
+    { category • ${category} }
 </div>
 
       <div class="readonly2" style="text-align:center;">
-        • ${title} •</span>
+        { ${title} }</span>
       </div>
 
       <div class="readonly2" style="text-align:center;">
@@ -1402,9 +1402,9 @@ document
 
         data.favorited
 
-            ? "★"
+            ? "♥️"
 
-            : "☆";
+            : "🖤";
             
     reset_screen()
 };
@@ -2313,7 +2313,7 @@ const userBalFormatted = formatUSDC(userBal);
         </div>
       </div>
       <div class="readonly3"class="readonly2X" style="font-size:1.8rem; text-align:center;">
-        ● pick a chain ●</span>
+        { pick a chain }</span>
       </div>
 
 <div
@@ -2373,7 +2373,7 @@ const userBalFormatted = formatUSDC(userBal);
   >
 
       <div class="readonly2" style="font-size:1.3rem; text-align:center;">
-        🔵 pick a chain.</span>
+        { pick a chain }</span>
       </div>
 
     <div class="flex-row" style="flex-direction: column;">
@@ -2482,7 +2482,7 @@ const userBalFormatted = formatUSDC(userBal);
   >
 
       <div class="readonly2" style="font-size:1.3rem; text-align:center;">
-        🔵 pick a category.</span>
+        { pick a category }</span>
       </div>
 
     <div class="flex-row" style="flex-direction: column;">
@@ -2677,7 +2677,7 @@ const userBalFormatted = formatUSDC(userBal);
   <div
     class="option-btn-circle" id="favCBtn" style="font-size:1.3rem;"
     onclick="setCampaignFilter('favorite')">
-    ★</span>
+    ♥️</span>
   </div>
 
   <div
@@ -2763,7 +2763,7 @@ const userBalFormatted = formatUSDC(userBal);
       <div id="campaign-titletitle" class="readonly2X" style="font-size:1.8rem; text-align:center;">
               <div style="height:0px;"></div>
 
-      ● campaign list ●</span>
+      { campaign list }</span>
 
         <div style="height:0px;"></div>
       </div>
@@ -2772,7 +2772,7 @@ const userBalFormatted = formatUSDC(userBal);
   <div id="create-campaign-screen" style="display:none;">
 
       <div class="readonly2X" style="font-size:1.8rem; text-align:center;">
-        ● create new campaign ●</span>
+        { create new campaign }</span>
       </div>
 
       <hr>
@@ -2879,7 +2879,7 @@ const userBalFormatted = formatUSDC(userBal);
 <div id="campaign-details-screen" style="display:none;">
 
       <div class="readonly2" style="text-align:center;">
-        • <span id="detail-title"></span> •
+        { <span id="detail-title"></span> }
       </div>
 
       <hr>
@@ -2910,7 +2910,7 @@ const userBalFormatted = formatUSDC(userBal);
         >
       </div>
 
-    <div style="height:0px;"></div>
+    <div style="height:10px;"></div>
     
   <div class="flex-row">
     <button id="depositbutton"
@@ -2931,7 +2931,7 @@ const userBalFormatted = formatUSDC(userBal);
     class="btn_op_rev2" style="font-size:1.1rem;"
     onclick="toggleFavorite()">
 
-    ☆
+    🖤
 
     </button>
 
@@ -2946,7 +2946,7 @@ const userBalFormatted = formatUSDC(userBal);
 </div>
 <!-- CAMPAIGN DETAILS -->
 
-<hr id="hr_xxx3">
+<hr id="hr_xxx3" style="height: 10px; background-color: black; border: none;">
 <div id="batesan_xxx5" style="height:10px;"></div>
 
 <!-- <div style="height:20px;"></div> -->
@@ -3215,7 +3215,7 @@ async function toggleFavorite() {
 
     const isFavorite =
 
-        button.innerText === "★";
+        button.innerText === "♥️";
 
     const endpoint = isFavorite
 
@@ -3258,9 +3258,9 @@ async function toggleFavorite() {
 
             isFavorite
 
-                ? "☆"
+                ? "🖤"
 
-                : "★";
+                : "♥️";
     }
 }
 
@@ -3385,7 +3385,7 @@ function formatUSDC(value) {
   >
 
       <div class="readonly2" style="font-size:1.3rem; text-align:center;">
-        🔵 pick a chain.</span>
+        { pick a chain }</span>
       </div>
 
     <div class="flex-row" style="flex-direction: column;">
