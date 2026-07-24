@@ -4093,7 +4093,7 @@ window.createCampaign = async function () {
 showToast(
   `Tx: ${data.campaignAddress.slice(0, 6)}...${data.campaignAddress.slice(-4)}`,
   3000,
-  100
+  1000
 );
 
     await loadCampaigns();
