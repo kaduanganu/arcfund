@@ -4,6 +4,7 @@
   --warna_tombol_penting: #ff8800;
   --warna_text: rgb(255, 255, 255);
   --warna_text2: rgb(0, 0, 0);
+  --warna_textdisabled: rgb(125, 125, 125);
   --warna_text_dasar: rgb(255, 255, 255);
   --warna_bayangan_sorot: 1px 1px 2px rgba(0, 255, 255, 0.6); /*rgba(0, 255, 255, 0.6);*/
   --warna_bayangan_kotakan: none; /*0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
@@ -1039,6 +1040,27 @@ select.rounded-select:hover {
     linear-gradient(to right, var(--warna_border), var(--warna_border)) border-box; /* Border gradient */
 
   color: var(--warna_text2);
+
+  box-shadow: var(--warna_bayangan_kotakan);
+}
+.inputanP:disabled {
+  background: rgb(255, 255, 255); /*rgba(0, 0, 0, 0.6); #f8f8f8;*/
+  border: 2px solid var(--warna_border);
+  font-size: 1.3rem;
+  text-align: center;
+  padding: 10px;
+  width: 228px;
+  margin: 6px 0;
+  border-radius: var(--mbunder);
+  /* text-shadow: 1px 1px 2px black, 0 0 1px black, 0 0 1px black; */
+  /* text-shadow: 1px 1px 2px black, 0 0 1px black; */
+  text-shadow: var(--warna_bayangan_text);
+
+  background: 
+    linear-gradient(#ffffff, #ffffff) padding-box, /* Inner background color */
+    linear-gradient(to right, var(--warna_border), var(--warna_border)) border-box; /* Border gradient */
+
+  color: var(--warna_textdisabled);
 
   box-shadow: var(--warna_bayangan_kotakan);
 }

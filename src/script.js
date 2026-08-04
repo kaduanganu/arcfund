@@ -3364,6 +3364,7 @@ const userBalFormatted = formatUSDC(userBal);
         class="inputanP"
         value=""
         placeholder="dd/mm/yyyy"
+        disabled
         style="text-align:center; border-radius: 9999px; margin-left: margin-right: 120px;"
         >
         <input type="text"
@@ -4665,7 +4666,7 @@ window.hidemainbutton2 = function () {
 
 window.createCampaign = async function () {
 
-    showLoading();
+    //showLoading();
     
   try {
 
@@ -4674,20 +4675,53 @@ window.createCampaign = async function () {
         "campaign-title"
       ).value;
 
-    const description =
-      document.getElementById(
-        "campaign-description"
-      ).value;
+if (title === undefined || title === "") {
 
-    const category =
-    document.getElementById(
-        "campaign-category"
-    ).value;
+    showToast(
+        "⚠️ Title cannot be empty.",
+        3000,
+        0
+    );
+
+    return;
+}
 
     const goal =
       document.getElementById(
         "campaign-goal"
       ).dataset.rawValue;
+
+if (goal === undefined || goal === "" || Number(goal) <= 0) {
+
+    showToast(
+        "⚠️ Target cannot be empty/zero.",
+        3000,
+        0
+    );
+
+    return;
+}
+
+    const description =
+      document.getElementById(
+        "campaign-description"
+      ).value;
+
+if (description === undefined || description === "") {
+
+    showToast(
+        "⚠️ Description cannot be empty.",
+        3000,
+        0
+    );
+
+    return;
+}
+
+    const category =
+    document.getElementById(
+        "campaign-category"
+    ).value;
 
     const deadlineText =
       document.getElementById(
@@ -4705,6 +4739,36 @@ window.createCampaign = async function () {
           day
         ).getTime() / 1000
       );
+
+const minDeadlineText =
+    document.getElementById(
+        "campaign-deadline"
+    ).value;
+
+const [minDay, minMonth, minYear] =
+    minDeadlineText.split("/");
+
+const minDeadline =
+    Math.floor(
+        new Date(
+            minYear,
+            minMonth - 1,
+            minDay
+        ).getTime() / 1000
+    );
+
+if (deadline < minDeadline) {
+
+    showToast(
+        "⚠️ End date too early.",
+        3000,
+        0
+    );
+
+    return;
+}
+
+showLoading();
 
     const targetAmount =
       ethers.parseUnits(
@@ -4781,6 +4845,33 @@ window.withdrawCampaign = async function (campaignAddress) {
     //originalChainId = await window.ethereum.request({
         //method: "eth_chainId"
     //});
+
+// cek zero WD
+const providertemp =
+    new ethers.JsonRpcProvider(
+        CONFIG.main_rpc
+    );
+
+const campaign =
+    new ethers.Contract(
+        selectedCampaign,
+        CAMPAIGN_ABI,
+        providertemp
+    );
+
+const amount =
+    await campaign.currentAmount();
+
+if (amount === 0n) {
+
+    return showToast(
+        "⚠️ Nothing to withdraw.",
+        3000,
+        0
+    );
+
+}
+// cek zero WD
 
         showLoading();
 
