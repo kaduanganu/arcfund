@@ -3353,6 +3353,34 @@ const userBalFormatted = formatUSDC(userBal);
     </div>
     </div>
     
+    <div id="categorydeadline">
+    <div class="flex-row" style="align-items:center; text-align:center;">
+    <div 
+      class="readonly2" style="font-size:1.1rem; flex: 1;"
+    >
+      ● end date:
+    </div>
+
+        <input type="text"
+        id="campaign-deadline"
+        class="inputanP"
+        value=""
+        placeholder="dd/mm/yyyy"
+        disabled
+        style="text-align:center; border-radius: 9999px; margin-left: margin-right: 120px; display:none"
+        >
+
+        <input type="text"
+        id="campaign-deadline2"
+        class="inputanP"
+        value=""
+        placeholder="dd/mm/yyyy"
+        style="text-align:center; border-radius: 9999px; margin-left: margin-right: 120px;"
+        >
+    </div>
+    </div>
+
+    <!--
       <div style="display:flex; flex-direction: column; align-items:center; gap:10px; margin:10px 0 6px 0;">    
       <div class="readonly2" style="font-size:1.3rem; text-align:center;">
         start/end date</span>
@@ -3376,6 +3404,7 @@ const userBalFormatted = formatUSDC(userBal);
         >
         </div>
       </div>
+    -->
 
   <div style="height:10px;"></div>
 
@@ -4757,7 +4786,7 @@ const minDeadline =
         ).getTime() / 1000
     );
 
-if (deadline < minDeadline) {
+if (deadline <= minDeadline) {
 
     showToast(
         "⚠️ End date too early.",
