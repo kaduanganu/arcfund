@@ -94,6 +94,10 @@ let currentSearch = "";
 let selectedCategory = "general";
 let selectedCategory2 = "general";
 
+const CAMPAIGNS_PER_PAGE = 1;
+
+let campaignsVisible = CAMPAIGNS_PER_PAGE;
+
 const USDC_ABI = [
   "function transfer(address to, uint amount) returns (bool)",
   "function balanceOf(address owner) view returns (uint256)",
@@ -1033,6 +1037,8 @@ if (userAddress) {
         );
 }
 
+campaignsVisible = CAMPAIGNS_PER_PAGE;
+
 loadCampaigns();
 hideLoading()
 
@@ -1484,15 +1490,15 @@ const targetformated = formatUSDC(target);
 
 nomere++;
 
-if (displayedCount > 0) {
+if (displayedCount < campaignsVisible) {
 
-    html += `
+    if (displayedCount > 0) {
 
+        html += `
 <div style="height:10px;"></div>
-
 `;
 
-}
+    }
 
 html += `
 <div
@@ -1523,6 +1529,7 @@ html += `
             </div>
 
         `;
+  }
 
         displayedCount++;
 
@@ -1545,6 +1552,28 @@ html += `
 
 } else {
 
+if (displayedCount > campaignsVisible) {
+
+    html += `
+
+<div style="height:10px;"></div>
+
+<div style="text-align:center;">
+
+<button
+class="btn_op_rev2"
+onclick="loadMoreCampaigns()">
+
+load more
+
+</button>
+
+</div>
+
+`;
+
+} else {
+
     html += `
 
 <div style="height:10px;"></div>
@@ -1560,6 +1589,8 @@ html += `
 
 }
 
+}
+
 campaignList.innerHTML = html;
 
 const cards = document.querySelectorAll(".campaign-card");
@@ -1571,6 +1602,14 @@ cards.forEach((card, index) => {
 });
 
 }
+
+window.loadMoreCampaigns = function () {
+
+    campaignsVisible += CAMPAIGNS_PER_PAGE;
+
+    loadCampaigns();
+
+};
 
 function setCampaignFilter(filter) {
 
