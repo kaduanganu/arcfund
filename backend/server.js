@@ -105,69 +105,6 @@ const factory = new ethers.Contract(
   wallet
 );
 
-app.get("/api/campaigns", async (req, res) => {
-
-    try {
-
-        const page =
-            Number(req.query.page || 1);
-
-        const limit = 5;
-
-        const offset =
-            (page - 1) * limit;
-
-        const result =
-            await db.query(
-
-`
-SELECT
-campaignAddress,
-creator,
-title,
-description,
-category,
-targetAmount,
-deadline,
-createdAt,
-currentAmount,
-withdrawn,
-contributorCount
-FROM campaigns
-ORDER BY createdAt DESC
-LIMIT $1
-OFFSET $2;
-`,
-
-            [limit, offset]
-
-        );
-
-        res.json({
-
-            success: true,
-
-            campaigns:
-                result.rows
-
-        });
-
-    } catch (e) {
-
-        console.error(e);
-
-        res.status(500).json({
-
-            success: false,
-
-            error: e.message
-
-        });
-
-    }
-
-});
-
 /*
 (async () => {
   try {
@@ -2431,6 +2368,69 @@ app.get("/api/leaderboard", async (req, res) => {
 
 });
 /* smart-contract*/
+
+app.get("/api/campaigns", async (req, res) => {
+
+    try {
+
+        const page =
+            Number(req.query.page || 1);
+
+        const limit = 5;
+
+        const offset =
+            (page - 1) * limit;
+
+        const result =
+            await db.query(
+
+`
+SELECT
+campaignAddress,
+creator,
+title,
+description,
+category,
+targetAmount,
+deadline,
+createdAt,
+currentAmount,
+withdrawn,
+contributorCount
+FROM campaigns
+ORDER BY createdAt DESC
+LIMIT $1
+OFFSET $2;
+`,
+
+            [limit, offset]
+
+        );
+
+        res.json({
+
+            success: true,
+
+            campaigns:
+                result.rows
+
+        });
+
+    } catch (e) {
+
+        console.error(e);
+
+        res.status(500).json({
+
+            success: false,
+
+            error: e.message
+
+        });
+
+    }
+
+});
 
 app.get('/ping', (req, res) => {
 res.json(

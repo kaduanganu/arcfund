@@ -859,33 +859,47 @@ const provider = new ethers.JsonRpcProvider(
 const campaigns = [...await factory.getCampaigns()].reverse();
 */
 
-const response = await fetch(
-    `${CONFIG.backendUrl}/api/campaigns?page=1`
-);
+try {
 
-const data = await response.json();
+  console.log(CONFIG.backendUrl);
+console.log(`${CONFIG.backendUrl}/api/campaigns?page=1`);
 
-const campaigns = data.campaigns;
+    const response = await fetch(
+        `${CONFIG.backendUrl}/api/campaigns?page=1`
+    );
 
-    const campaignList =
-        document.getElementById(
-            "campaign-list"
-        );
+    const data = await response.json();
 
-if (campaigns.length === 0) {
+    const campaigns = data.campaigns;
 
-    campaignList.innerHTML = `
+    if (campaigns.length === 0) {
 
+        campaignList.innerHTML = `
 <div style="height:10px;"></div>
 
 <div class="readonly2X"
-     style="text-align:center; opacity:1; font-size:1.8rem;">
+style="text-align:center;font-size:1.8rem;">
 { no campaign }
 </div>
-
 `;
 
-hideLoading();
+        hideLoading();
+        return;
+    }
+
+}
+catch(err){
+
+    console.error(err);
+
+    hideLoading();
+
+    campaignList.innerHTML = `
+<div class="readonly2X"
+style="text-align:center;font-size:1.6rem;">
+Unable to load campaigns.
+</div>
+`;
 
     return;
 }
@@ -894,6 +908,29 @@ hideLoading();
 
 favoriteCampaigns = [];
 
+campaignCache =
+    campaigns.map(item => ({
+
+        address: item.campaignaddress,
+
+        details: [
+
+            item.creator,
+            ethers.parseUnits(item.targetamount, 6),
+            ethers.parseUnits(item.currentamount, 6),
+            Number(item.deadline),
+            Number(item.createdat),
+            item.title,
+            item.description,
+            item.withdrawn,
+            Number(item.contributorcount),
+            item.category
+
+        ]
+
+    }));
+
+/*
 campaignCache =
     await Promise.all(
 
@@ -924,6 +961,7 @@ campaignCache =
         })
 
     );
+*/
 
 /*
 campaignCache =
