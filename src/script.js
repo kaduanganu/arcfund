@@ -94,9 +94,10 @@ let currentSearch = "";
 let selectedCategory = "general";
 let selectedCategory2 = "general";
 
-const CAMPAIGNS_PER_PAGE = 1;
+const CAMPAIGNS_PER_PAGE = 3;
 
 let campaignsVisible = CAMPAIGNS_PER_PAGE;
+let currentCampaignPage = 0;
 
 const USDC_ABI = [
   "function transfer(address to, uint amount) returns (bool)",
@@ -1039,6 +1040,7 @@ if (userAddress) {
 
 campaignsVisible = CAMPAIGNS_PER_PAGE;
 
+currentCampaignPage = 0;
 loadCampaigns();
 hideLoading()
 
@@ -1301,6 +1303,13 @@ function loadCampaigns() {
 
     let displayedCount = 0;
     let nomere = 0;
+let totalMatching = 0;
+
+    const pageStart =
+    currentCampaignPage * CAMPAIGNS_PER_PAGE;
+
+    const pageEnd =
+    pageStart + CAMPAIGNS_PER_PAGE;
     
 const now = Math.floor(
     Date.now() / 1000
@@ -1473,6 +1482,8 @@ if (
     continue;
 }
 
+totalMatching++;
+
         //const title = details[5];
 
         const current = ethers.formatUnits(
@@ -1490,9 +1501,12 @@ const targetformated = formatUSDC(target);
 
 nomere++;
 
-if (displayedCount < campaignsVisible) {
+if (
+    displayedCount >= pageStart &&
+    displayedCount < pageEnd
+) {
 
-    if (displayedCount > 0) {
+    if (displayedCount > pageStart) {
 
         html += `
 <div style="height:10px;"></div>
@@ -1552,30 +1566,22 @@ html += `
 
 } else {
 
-if (displayedCount > campaignsVisible) {
-
     html += `
 
 <div style="height:10px;"></div>
 
-<div style="text-align:center;">
-
-<button
-class="btn_op_rev2"
-onclick="loadMoreCampaigns()">
-
-load more
-
-</button>
-
+<div class="divider-container" id="hr_xxxxxx1">
+  <span class="divider-icon">●</span>
 </div>
+
+<div style="height:10px;"></div>
+
+<div style="text-align:center; display:flex; justify-content:center; gap:10px;">
 
 `;
 
-} else {
-
-    html += `
-
+if (displayedCount <= CAMPAIGNS_PER_PAGE) {
+  html += `
 <div style="height:10px;"></div>
 
 <div class="readonly2X"
@@ -1584,10 +1590,48 @@ load more
 </div>
 
 <div style="height:0px;"></div>
+`;
+}
+
+    if (currentCampaignPage > 0) {
+
+        html += `
+
+<button
+class="btn_op_rev2"
+style="font-size:1.1rem;"
+onclick="previousCampaignPage()">
+
+previous
+
+</button>
 
 `;
 
-}
+    }
+
+    if (totalMatching > pageEnd) {
+
+        html += `
+
+<button
+class="btn_op_rev2"
+style="font-size:1.1rem;"
+onclick="nextCampaignPage()">
+
+next
+
+</button>
+
+`;
+
+    }
+
+    html += `
+
+</div>
+
+`;
 
 }
 
@@ -1606,6 +1650,23 @@ cards.forEach((card, index) => {
 window.loadMoreCampaigns = function () {
 
     campaignsVisible += CAMPAIGNS_PER_PAGE;
+
+    loadCampaigns();
+
+};
+
+window.nextCampaignPage = function () {
+
+    currentCampaignPage++;
+
+    loadCampaigns();
+
+};
+
+window.previousCampaignPage = function () {
+
+    if (currentCampaignPage > 0)
+        currentCampaignPage--;
 
     loadCampaigns();
 
@@ -1647,6 +1708,7 @@ function setCampaignFilter(filter) {
       document.getElementById("allCBtn").classList.add("active");
     }
 
+    currentCampaignPage = 0;
     loadCampaigns();
 }
 
@@ -1656,6 +1718,7 @@ function setCategoryFilter(category) {
 
     currentCategory = category;
 
+    currentCampaignPage = 0;
     loadCampaigns();
 
 }
@@ -4770,6 +4833,7 @@ window.showCreateCampaignScreen = function () {
 };
 
 function showHomeScreenRefresh() {
+    currentCampaignPage = 0;
     loadCampaigns();
 
     showHomeScreen();
@@ -4778,6 +4842,7 @@ window.showHomeScreenRefresh = showHomeScreenRefresh;
 
 function showHomeScreenRefreshTotal() {
     refreshCampaignCache()
+    currentCampaignPage = 0;
     loadCampaigns();
 
     showHomeScreen();
@@ -5693,6 +5758,7 @@ window.showPencarian = function (chain) {
         .trim()
         .toLowerCase();
 
+      currentCampaignPage = 0;
       loadCampaigns();
 };
 
