@@ -2603,11 +2603,12 @@ for (const log of receipt.logs) {
             });
         }
 
-        const expected =
-            ethers.parseUnits(
-                amount,
-                6
-            );
+        const expected = BigInt(amount);
+        //const expected =
+            //ethers.parseUnits(
+                //amount,
+                //6
+            //);
 
 console.log(
 

@@ -859,10 +859,16 @@ const provider = new ethers.JsonRpcProvider(
 const campaigns = [...await factory.getCampaigns()].reverse();
 */
 
-try {
+    const campaignList =
+        document.getElementById(
+            "campaign-list"
+        );
 
-  console.log(CONFIG.backendUrl);
-console.log(`${CONFIG.backendUrl}/api/campaigns?page=1`);
+    campaignList.innerHTML = "";
+
+    let campaigns = [];
+
+try {
 
     const response = await fetch(
         `${CONFIG.backendUrl}/api/campaigns?page=1`
@@ -870,7 +876,9 @@ console.log(`${CONFIG.backendUrl}/api/campaigns?page=1`);
 
     const data = await response.json();
 
-    const campaigns = data.campaigns;
+    campaigns = data.campaigns;
+
+    console.log(campaigns);
 
     if (campaigns.length === 0) {
 
@@ -908,6 +916,21 @@ Unable to load campaigns.
 
 favoriteCampaigns = [];
 
+campaignCache = campaigns.map(item => ({
+    address: item.campaignaddress,
+    creator: item.creator,
+    title: item.title,
+    description: item.description,
+    category: item.category,
+    targetAmount: Number(item.targetamount),
+    currentAmount: Number(item.currentamount),
+    deadline: Number(item.deadline),
+    createdAt: Number(item.createdat),
+    withdrawn: item.withdrawn,
+    contributorCount: Number(item.contributorcount)
+}));
+
+/*
 campaignCache =
     campaigns.map(item => ({
 
@@ -929,6 +952,10 @@ campaignCache =
         ]
 
     }));
+
+console.log(campaignCache[0]);
+console.log(Object.keys(campaigns[0]));
+*/
 
 /*
 campaignCache =
@@ -1443,12 +1470,12 @@ if (
         //const title = details[5];
 
         const current = ethers.formatUnits(
-            details[2],
+            currentAmount, //details[2],
             6
         );
 
         const target = ethers.formatUnits(
-            details[1],
+            targetAmount, //details[1],
             6
         );
 
@@ -1771,15 +1798,31 @@ const provider = new ethers.JsonRpcProvider(
         await campaign.getDetails();
 */
 
-campaignCache = campaigns;
+//campaignCache = campaigns;
+const item = campaignCache.find(
+    c => c.address.toLowerCase() === campaignAddress.toLowerCase()
+);
 
-    const creatorAddress = details[0]
+if (!item) {
+    showToast("Campaign not found.", 3000, 0);
+    return;
+}
+
+console.log(item);
+
+const details = item.details;
+
+    const creatorAddress = item.creator; //details[0]
     const shortAddress = creatorAddress ? `${creatorAddress.slice(0,6)}...${creatorAddress.slice(-4)}` : "";
 
-    const yanggoalraw = details[1];
-    const yangraisedraw = details[2];
+    const yanggoalraw = BigInt(
+        item.targetAmount
+    ); //details[1];
+    const yangraisedraw = BigInt(
+        item.currentAmount
+    ); //details[2];
 
-    const withdrawn = details[7];
+    const withdrawn = item.withdrawn; //details[7];
 
     selectedCampaign =
         campaignAddress;
@@ -1790,11 +1833,11 @@ campaignCache = campaigns;
 
     document.getElementById(
         "detail-title"
-    ).innerText = details[5];
+    ).innerText = item.title; //details[5];
 
     document.getElementById(
         "detail-description"
-    ).innerText = details[6];
+    ).innerText = item.description; //details[6];
 
     document.getElementById(
         "detail-goal"
@@ -1819,7 +1862,7 @@ campaignCache = campaigns;
 
     const deadline =
         new Date(
-            Number(details[3]) * 1000
+            item.deadline * 1000 //Number(details[3]) * 1000
         );
 
     document.getElementById(
@@ -5279,6 +5322,24 @@ const provider = new ethers.JsonRpcProvider(
 
 );
 
+const campaignData = campaignCache.find(
+    c => c.address.toLowerCase() === selectedCampaign.toLowerCase()
+);
+
+if (!campaignData) {
+
+    showToast(
+        "❌ Campaign not found.",
+        3000,
+        0
+    );
+
+    return;
+}
+
+const targetAmount = campaignData.targetAmount;
+const currentAmount = campaignData.currentAmount;
+
 /*
 const campaign = new ethers.Contract(
 
@@ -5293,8 +5354,8 @@ const campaign = new ethers.Contract(
 const details = await campaign.getDetails();
 */
 
-const yanggoalraw = Number(ethers.formatUnits(details[1],6));
-const yangraisedraw = Number(ethers.formatUnits(details[2],6)
+const yanggoalraw = Number(ethers.formatUnits(targetAmount,6)); //details[1]
+const yangraisedraw = Number(ethers.formatUnits(currentAmount,6) //details[2]
 
 );
 
@@ -5397,7 +5458,7 @@ if (amount > (yanggoalraw - yangraisedraw)) {
                         campaignAddress:
                             selectedCampaign,
 
-                        amount,
+                        amount: parsedAmount.toString(),
 
                         userAddress,
 
