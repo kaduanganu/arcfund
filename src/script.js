@@ -888,7 +888,7 @@ try {
     if (campaigns.length === 0) {
 
         campaignList.innerHTML = `
-<div style="height:10px;"></div>
+<div style="height:0px;"></div>
 
 <div class="readonly2X"
 style="text-align:center;font-size:1.8rem;">
@@ -1521,7 +1521,13 @@ html += `
 >
 
       <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
-        <span>#${nomere}:</span><span>${title}</span>
+    <button id="fund-campaign-button"
+      class="btn_op_rev2_bundertenan"
+      onclick="hidemainbutton(); hidemainbutton2(); openCampaign('${campaignAddress}')" style="font-size:1.5rem; font-weight: bold; padding-left: 0px; padding-bottom: 2px;">
+      ○
+    </button>
+    
+    <span>#${nomere}: ${title}</span>
       </div>
 
       <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
@@ -1532,6 +1538,7 @@ html += `
         ● target: <span>${currentformated}/${targetformated} $USDC</span>
       </div>
 
+<!--
 <div id="fund-campaign-button" style="align-items:center; text-align:center;">
   <button
     class="btn_op_rev2" style="font-size:1.1rem;"
@@ -1539,6 +1546,7 @@ html += `
         detail</span>
   </button>
 </div>
+-->
 
             </div>
 
@@ -1582,7 +1590,7 @@ html += `
 
 if (displayedCount <= CAMPAIGNS_PER_PAGE) {
   html += `
-<div style="height:10px;"></div>
+<div style="height:0px;"></div>
 
 <div class="readonly2X"
      style="text-align:center; opacity:1; font-size:1.8rem;">
@@ -1593,12 +1601,18 @@ if (displayedCount <= CAMPAIGNS_PER_PAGE) {
 `;
 }
 
+html += `
+
+<div class="campaign-pagination">
+
+`;
+
     if (currentCampaignPage > 0) {
 
         html += `
 
 <button
-class="btn_op_rev2"
+class="btn_op_rev2kk"
 style="font-size:1.1rem;"
 onclick="previousCampaignPage()">
 
@@ -1615,7 +1629,7 @@ previous
         html += `
 
 <button
-class="btn_op_rev2"
+class="btn_op_rev2kk"
 style="font-size:1.1rem;"
 onclick="nextCampaignPage()">
 
@@ -2078,11 +2092,11 @@ document
 
             : "★";
             
-            document
-    .getElementById(
-        "favoriteButton"
-    )
-    .style.color = data.favorited ? "#000000" : "#000000";
+            //document
+    //.getElementById(
+        //"favoriteButton"
+    //)
+    //.style.color = data.favorited ? "#000000" : "#000000";
 
     reset_screen()
 };
@@ -3048,7 +3062,7 @@ const userBalFormatted = formatUSDC(userBal);
         <div style="margin:0" class="readonly33">
          <img src="/logo/judul2 copyfitWHITE.png"
          style="width:${logoWidth}; height:auto; position: relative; top: 0px;"></div>
-        <div onclick="window.open('https://www.google.com', '_blank', 'noopener,noreferrer');" class="btn_op_rev2_bundertenan" style="font-size:1.1rem;">
+        <div onclick="window.open('https://www.google.com', '_blank', 'noopener,noreferrer');" class="btn_op_rev2_bundertenan" style="font-size:1.1rem; padding-right: 1px;">
         ?
         </div>
 
@@ -3771,7 +3785,7 @@ const userBalFormatted = formatUSDC(userBal);
     </button>
 
     <button id="favoriteButton"
-    class="btn_op_rev2P" style="font-size:1.1rem;"
+    class="btn_op_rev2P" style="font-size:1.1rem; color: black"
     onclick="toggleFavorite();">
 
     ★
@@ -4171,7 +4185,7 @@ showLoading();
 
                 : "⭐";
 
-        button.style.color = isFavorite ? "#000000" : "#000000";
+        //button.style.color = isFavorite ? "#000000" : "#000000";
         
     }
     else {
