@@ -5505,6 +5505,13 @@ if (amount > (yanggoalraw - yangraisedraw)) {
 
     } catch (e) {
 
+          if (e.code === "ACTION_REJECTED" || e.code === 4001) {
+
+        hideLoading();
+        return;
+
+    }
+    
         console.error(e);
 
         hideLoading();
