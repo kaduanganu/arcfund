@@ -3536,7 +3536,12 @@ const userBalFormatted = formatUSDC(userBal);
               <div style="height:0px;"></div>
 
       { campaign list }</span>
-
+  <button
+    class="btn_op_rev2" style="font-size:1.1rem;"
+    onclick="hidechainchainbutton(); hidemainbutton(); hidemainbutton2(); showCreateCampaignScreen()">
+        create campaign</span>
+  </button>
+</div>
         <div style="height:0px;"></div>
       </div>
 
