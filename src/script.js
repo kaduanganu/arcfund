@@ -1268,10 +1268,10 @@ const creator =
 const category =
     item.category;
 
-const creator =
+const title =
     item.title;
 
-const category =
+const description =
     item.description;
 
 const searchText =
