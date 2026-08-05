@@ -3044,12 +3044,12 @@ const userBalFormatted = formatUSDC(userBal);
   document.getElementById('root').innerHTML = `
     <div class="container">
 
-      <div style="display:flex;justify-content:flex-start;gap:8px;align-items:center;margin-bottom:8px;">
+      <div style="display:flex;flex: 1;justify-content:flex-start;gap:8px;align-items:center;margin-bottom:8px;">
         <div style="margin:0" class="readonly33">
          <img src="/logo/judul2 copyfitWHITE.png"
          style="width:${logoWidth}; height:auto; position: relative; top: 0px;"></div>
-        <div onclick="window.open('https://www.google.com', '_blank', 'noopener,noreferrer');" class="btn_smol_ns">
-        📚
+        <div onclick="window.open('https://www.google.com', '_blank', 'noopener,noreferrer');" class="btn_op_rev2_bundertenan" style="font-size:1.1rem;">
+        ?
         </div>
 
         <div onclick="disconnectWallet()" class="btn_smol">
@@ -3516,8 +3516,9 @@ const userBalFormatted = formatUSDC(userBal);
   <span class="divider-icon">●</span>
 </div>
 
-<div id="batesan_xxx" style="height:10px;"></div>
+<div id="batesan_xxx" style="height:0px;"></div>
 
+<!--
 <div id="new-campaign-button" style="align-items:center; text-align:center;">
   <button
     class="btn_op_rev2" style="font-size:1.1rem;"
@@ -3531,19 +3532,25 @@ const userBalFormatted = formatUSDC(userBal);
 <div class="divider-container" id="hr_xxx">
   <span class="divider-icon">●</span>
 </div>
+-->
 
-      <div id="campaign-titletitle" class="readonly2X" style="font-size:1.8rem; text-align:center;">
-              <div style="height:0px;"></div>
+<div id="campaign-titletitle"
+     class="readonly2X"
+     style="font-size:1.8rem;">
 
-      { campaign list }</span>
-  <button
-    class="btn_op_rev2" style="font-size:1.1rem;"
-    onclick="hidechainchainbutton(); hidemainbutton(); hidemainbutton2(); showCreateCampaignScreen()">
-        create campaign</span>
-  </button>
+  <div style="display:flex; justify-content:center; align-items:center; gap:16px;">
+
+    <span>{ campaign list }</span>
+
+    <button
+      class="btn_op_rev2_bundertenan"
+      onclick="hidechainchainbutton(); hidemainbutton(); hidemainbutton2(); showCreateCampaignScreen()" style="font-size:1.3rem;">
+      +
+    </button>
+
+  </div>
+
 </div>
-        <div style="height:0px;"></div>
-      </div>
 
   <!-- NEW CAMPAIGN -->
   <div id="create-campaign-screen" style="display:none;">
@@ -4828,7 +4835,7 @@ window.showCreateCampaignScreen = function () {
   document.getElementById("campaign-button").classList.add("hidden");
   document.getElementById("activeSection").classList.add("hidden");
   document.getElementById("endedSection").classList.add("hidden");
-  document.getElementById("new-campaign-button").classList.add("hidden");
+  //document.getElementById("new-campaign-button").classList.add("hidden");
 
   document.getElementById(
     "create-campaign-screen"
@@ -4885,7 +4892,7 @@ window.showHomeScreen = function () {
   document.getElementById("campaign-button").classList.remove("hidden");
   document.getElementById("activeSection").classList.remove("hidden");
   document.getElementById("endedSection").classList.remove("hidden");
-  document.getElementById("new-campaign-button").classList.remove("hidden");
+  //document.getElementById("new-campaign-button").classList.remove("hidden");
   
   showchainchainbutton(); 
   showmainbutton();
@@ -4904,11 +4911,11 @@ window.hidechainchainbutton = function () {
 
 window.showmainbutton = function () {
   document.getElementById("batesan_xxx").classList.remove("hidden");
-  document.getElementById("batesan_xxx2").classList.remove("hidden");
+  //document.getElementById("batesan_xxx2").classList.remove("hidden");
   document.getElementById("batesan_xxx3").classList.remove("hidden");
   document.getElementById("batesan_xxx4").classList.remove("hidden");
   document.getElementById("batesan_xxx5").classList.remove("hidden");
-  document.getElementById("hr_xxx").classList.remove("hidden");
+  //document.getElementById("hr_xxx").classList.remove("hidden");
   document.getElementById("hr_xxx3").classList.remove("hidden");
   document.getElementById("hr_xxx4").classList.remove("hidden");
   document.getElementById("batesan").classList.remove("hidden");
@@ -4919,7 +4926,7 @@ window.showmainbutton = function () {
   document.getElementById("campaign-button").classList.remove("hidden");
   document.getElementById("activeSection").classList.remove("hidden");
   document.getElementById("endedSection").classList.remove("hidden");
-  document.getElementById("new-campaign-button").classList.remove("hidden");
+  //document.getElementById("new-campaign-button").classList.remove("hidden");
 
   document.getElementById("category1").classList.remove("hidden");
   document.getElementById("category2").classList.remove("hidden");
@@ -4935,7 +4942,7 @@ window.hidemainbutton = function () {
   document.getElementById("campaign-button").classList.add("hidden");
   document.getElementById("activeSection").classList.add("hidden");
   document.getElementById("endedSection").classList.add("hidden");
-  document.getElementById("new-campaign-button").classList.add("hidden");
+  //document.getElementById("new-campaign-button").classList.add("hidden");
 
   document.getElementById("category1").classList.add("hidden");
   document.getElementById("category2").classList.add("hidden");
@@ -4944,11 +4951,11 @@ window.hidemainbutton = function () {
 }
 window.hidemainbutton2 = function () {
   document.getElementById("batesan_xxx").classList.add("hidden");
-  document.getElementById("batesan_xxx2").classList.add("hidden");
+  //document.getElementById("batesan_xxx2").classList.add("hidden");
   document.getElementById("batesan_xxx3").classList.add("hidden");
   document.getElementById("batesan_xxx4").classList.add("hidden");
   document.getElementById("batesan_xxx5").classList.add("hidden");
-  document.getElementById("hr_xxx").classList.add("hidden");
+  //document.getElementById("hr_xxx").classList.add("hidden");
   document.getElementById("hr_xxx3").classList.add("hidden");
   document.getElementById("hr_xxx4").classList.add("hidden");
   document.getElementById("batesan").classList.add("hidden");
@@ -6197,6 +6204,13 @@ function disableBetControls() {
     btn.style.opacity = "0.6";
     btn.style.cursor = "not-allowed";
   });
+  const optionBtnsX3bundertenan = document.querySelectorAll('.btn_op_rev2_bundertenan');
+  optionBtnsX3bundertenan.forEach(btn => {
+    btn.disabled = true;
+    btn.style.pointerEvents = 'none';
+    btn.style.opacity = "0.6";
+    btn.style.cursor = "not-allowed";
+  });
 
   const optionBtnsX1 = document.querySelectorAll('.btn_smol_ns');
   optionBtnsX1.forEach(btn => {
@@ -6308,6 +6322,13 @@ function enableBetControls() {
 
   const optionBtnsX3P = document.querySelectorAll('.btn_op_rev2P');
   optionBtnsX3.forEach(btn => {
+    btn.disabled = false;
+    btn.style.pointerEvents = 'auto';
+    btn.style.opacity = "1";
+    btn.style.cursor = "pointer";
+  });
+  const optionBtnsX3bundertenan = document.querySelectorAll('.btn_op_rev2_bundertenan');
+  optionBtnsX3bundertenan.forEach(btn => {
     btn.disabled = false;
     btn.style.pointerEvents = 'auto';
     btn.style.opacity = "1";
