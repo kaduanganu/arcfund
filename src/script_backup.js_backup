@@ -849,7 +849,6 @@ const provider = new ethers.JsonRpcProvider(
     CONFIG.main_rpc
 );
 
-/*
     const factory = new ethers.Contract(
         FACTORY_ADDRESS,
         FACTORY_ABI,
@@ -857,15 +856,6 @@ const provider = new ethers.JsonRpcProvider(
     );
 
 const campaigns = [...await factory.getCampaigns()].reverse();
-*/
-
-const response = await fetch(
-    `${CONFIG.backendUrl}/api/campaigns?page=1`
-);
-
-const data = await response.json();
-
-const campaigns = data.campaigns;
 
     const campaignList =
         document.getElementById(
@@ -897,38 +887,6 @@ favoriteCampaigns = [];
 campaignCache =
     await Promise.all(
 
-        campaigns.map(async (item) => {
-
-            const campaignAddress =
-                item.campaignaddress;
-
-            const campaign =
-                new ethers.Contract(
-                    campaignAddress,
-                    CAMPAIGN_ABI,
-                    provider
-                );
-
-            const details =
-                await campaign.getDetails();
-
-            return {
-
-                address:
-                    campaignAddress,
-
-                details
-
-            };
-
-        })
-
-    );
-
-/*
-campaignCache =
-    await Promise.all(
-
     campaigns.map(async (campaignAddress) => {
 
         const campaign = new ethers.Contract(
@@ -947,7 +905,6 @@ campaignCache =
     })
 
 );
-*/
 
 if (userAddress) {
 
@@ -1242,7 +1199,7 @@ for (const item of campaignCache) {
 
     const campaignAddress = item.address;
 
-    //const details = item.details;
+    const details = item.details;
 
         //const campaign = new ethers.Contract(
             //campaignAddress,
@@ -1256,23 +1213,11 @@ for (const item of campaignCache) {
 
 //const details = await campaign.getDetails();
 
-//const creator = details[0];
-//const category = details[9];
+const creator = details[0];
+const category = details[9];
 
-//const title = details[5];
-//const description = details[6];
-
-const creator =
-    item.creator;
-
-const category =
-    item.category;
-
-const creator =
-    item.title;
-
-const category =
-    item.description;
+const title = details[5];
+const description = details[6];
 
 const searchText =
 
@@ -1296,37 +1241,25 @@ if (
 
 }
 
-const targetAmount =
-    Number(item.targetAmount);
+const targetAmount = Number(
+    ethers.formatUnits(
+        details[1],
+        6
+    )
+);
 
-const currentAmount =
-    Number(item.currentAmount);
+const currentAmount = Number(
+    ethers.formatUnits(
+        details[2],
+        6
+    )
+);
 
-const deadline =
-    Number(item.deadline);
+const deadline = Number(
+    details[3]
+);
 
-const withdrawn =
-    item.withdrawn;
-
-//const targetAmount = Number(
-    //ethers.formatUnits(
-        //details[1],
-        //6
-    //)
-//);
-
-//const currentAmount = Number(
-    //ethers.formatUnits(
-        //details[2],
-        //6
-    //)
-//);
-
-//const deadline = Number(
-    //details[3]
-//);
-
-//const withdrawn = details[7];
+const withdrawn = details[7];
 
 const isEnded =
 
@@ -1718,7 +1651,6 @@ const provider = new ethers.JsonRpcProvider(
     CONFIG.main_rpc
 );
 
-/*
     const campaign =
         new ethers.Contract(
 
@@ -1731,9 +1663,6 @@ const provider = new ethers.JsonRpcProvider(
 
     const details =
         await campaign.getDetails();
-*/
-
-campaignCache = campaigns;
 
     const creatorAddress = details[0]
     const shortAddress = creatorAddress ? `${creatorAddress.slice(0,6)}...${creatorAddress.slice(-4)}` : "";
@@ -5241,7 +5170,6 @@ const provider = new ethers.JsonRpcProvider(
 
 );
 
-/*
 const campaign = new ethers.Contract(
 
     selectedCampaign,
@@ -5253,7 +5181,6 @@ const campaign = new ethers.Contract(
 );
 
 const details = await campaign.getDetails();
-*/
 
 const yanggoalraw = Number(ethers.formatUnits(details[1],6));
 const yangraisedraw = Number(ethers.formatUnits(details[2],6)
