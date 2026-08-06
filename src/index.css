@@ -14,8 +14,9 @@
   --mbunder: 9999px;
   --mbunder_tenan: 50%;
   --warna_background: rgb(0, 75, 125);
-  --warna_backgroundalt: rgba(255, 255, 255, 0.25);
-  --warna_backgroundalt2: rgba(255, 255, 255, 0.1);
+  --warna_backgroundalt: rgba(0, 75, 125, 0.05);
+  --warna_backgroundalt2: rgba(0, 75, 125, 0.07);
+  --warna_backgroundalt3: rgba(0, 75, 125, 0.09);
 }
 
 .main-container {
@@ -33,23 +34,25 @@
   gap: 30px;
 }
 
+/*
 .campaign-card.odd {
         background: linear-gradient(
         90deg,
         var(--warna_background),
         var(--warna_backgroundalt2),
         var(--warna_background)
-    ),
-        url("/logo/judul2 copyfitWHITE.png");
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    )
 }
 
 .campaign-card.even {
-    background: var(--warna_background);
+        background: linear-gradient(
+        90deg,
+        var(--warna_background),
+        var(--warna_backgroundalt2),
+        var(--warna_background)
+    )
 }
+*/
 
 .campaign-card {
     opacity: 0;

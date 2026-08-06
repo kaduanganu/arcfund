@@ -1519,10 +1519,37 @@ if (
 
     }
 
+let bg = "/image/general.png";
+
+if (category === "general") bg = "/image/general.png";
+else if (category === "medical") bg = "/image/medical.png";
+else if (category === "education") bg = "/image/education.png";
+else if (category === "food") bg = "/image/food.png";
+else if (category === "tech") bg = "/image/tech.png";
+else if (category === "travel") bg = "/image/travel.png";
+else if (category === "fun") bg = "/image/headphone.png";
+else if (category === "other") bg = "/image/glasses.png";
+else bg = "/image/general.png";
+
 html += `
 <div
     class="campaign-card ${cls}"
-    style="animation-delay:${Math.min(displayedCount * 0.05, 0.5)}s;"
+    style="animation-delay:${Math.min(displayedCount * 0.05, 0.5)}s; 
+    
+    
+    background: linear-gradient(
+        90deg,
+        var(--warna_background),
+        var(--warna_backgroundalt2),
+        var(--warna_backgroundalt3),
+        var(--warna_backgroundalt2),
+        var(--warna_background)
+    ),
+        url('${bg}');
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;"
 >
 
       <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
@@ -1680,6 +1707,8 @@ window.nextCampaignPage = function () {
 
     loadCampaigns();
 
+    focusing2()
+
 };
 
 window.previousCampaignPage = function () {
@@ -1688,6 +1717,8 @@ window.previousCampaignPage = function () {
         currentCampaignPage--;
 
     loadCampaigns();
+
+    focusing2()
 
 };
 
@@ -3295,6 +3326,35 @@ const userBalFormatted = formatUSDC(userBal);
 </div>
 
 <div
+    id="foodCategoryBtn" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn"
+    onclick="setCategory('food')">
+    food
+</div>
+
+<div
+    id="techCategoryBtn" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn"
+    onclick="setCategory('tech')">
+    tech
+</div>
+
+<div
+    id="travelCategoryBtn" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn"
+    onclick="setCategory('travel')">
+    travel
+</div>
+
+<div
+    id="funCategoryBtn" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn"
+    onclick="setCategory('fun')">
+    fun
+</div>
+
+
+<div
     id="otherCategoryBtn" style = "font-size:1.3rem;"
     class="option-btn-circle category-btn"
     onclick="setCategory('other')">
@@ -3380,6 +3440,34 @@ const userBalFormatted = formatUSDC(userBal);
     class="option-btn-circle category-btn2"
     onclick="setCategory2('education')">
     education
+</div>
+
+<div
+    id="foodCategoryBtn2" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn2"
+    onclick="setCategory2('food')">
+    food
+</div>
+
+<div
+    id="techCategoryBtn2" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn2"
+    onclick="setCategory2('tech')">
+    tech
+</div>
+
+<div
+    id="travelCategoryBtn2" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn2"
+    onclick="setCategory2('travel')">
+    travel
+</div>
+
+<div
+    id="funCategoryBtn2" style = "font-size:1.3rem;"
+    class="option-btn-circle category-btn2"
+    onclick="setCategory2('fun')">
+    fun
 </div>
 
 <div
@@ -4896,6 +4984,15 @@ function focusing() {
             });
 }
 window.focusing = focusing;
+function focusing2() {
+        document
+            .getElementById("batesan_xxx3")
+            ?.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+}
+window.focusing2 = focusing2;
 
 window.showHomeScreen = function () {
   document.getElementById(
