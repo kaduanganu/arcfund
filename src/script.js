@@ -5530,7 +5530,7 @@ if (amount > (yanggoalraw - yangraisedraw)) {
 
 //console.log(amount);
 //console.log(typeof amount);
-
+        const humanAmount = amount;
         const parsedAmount =
             ethers.parseUnits(
 
@@ -5587,7 +5587,7 @@ if (amount > (yanggoalraw - yangraisedraw)) {
 
                         campaignAddress:
                             selectedCampaign,
-
+                        humanAmount,
                         amount: parsedAmount.toString(),
 
                         userAddress,

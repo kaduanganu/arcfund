@@ -2517,6 +2517,7 @@ app.post("/api/deposit", async (req, res) => {
         const {
 
             campaignAddress,
+            humanAmount,
             amount,
             userAddress,
             chain,
@@ -2700,7 +2701,7 @@ console.log("expected =", expected.toString());
 
                     },
 
-                    amount,
+                    humanAmount,
 
                     token: "USDC"
 
