@@ -2703,7 +2703,7 @@ console.log("expected =", expected.toString());
 
                     },
 
-                    humanAmount,
+                    amount: humanAmount,
 
                     token: "USDC"
 
