@@ -2669,6 +2669,10 @@ console.log(
                 "Bridging to Arc..."
             );
 
+console.log("amount =", amount);
+console.log("typeof amount =", typeof amount);
+console.log("expected =", expected.toString());
+
             const bridgeResult =
                 await kit.bridge({
 

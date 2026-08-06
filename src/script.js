@@ -1920,7 +1920,7 @@ const item = campaignCache.find(
 );
 
 if (!item) {
-    showToast("Campaign not found.", 3000, 0);
+    showToast("❌ Campaign not found.", 3000, 0);
     return;
 }
 
@@ -5635,6 +5635,12 @@ if (amount > (yanggoalraw - yangraisedraw)) {
 
     } catch (e) {
 
+         const msg =
+        e?.error?.data?.originalError?.message ||
+        e?.error?.message ||
+        e?.message ||
+        "";
+
           if (e.code === "ACTION_REJECTED" || e.code === 4001) {
 
         hideLoading();
@@ -5642,6 +5648,23 @@ if (amount > (yanggoalraw - yangraisedraw)) {
 
     }
     
+    if (
+            msg.includes("404") ||
+            msg.includes("eth_blockNumber")
+       ) {
+
+        hideLoading();
+                  return showToast(
+
+            "❌ RPC failed.",
+
+            3000,
+
+            0
+        );
+
+    }
+
         console.error(e);
 
         hideLoading();
