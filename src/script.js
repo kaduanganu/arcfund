@@ -5538,7 +5538,7 @@ if (amount > (yanggoalraw - yangraisedraw)) {
 
                 6
             );
-
+//console.log(parsedAmount);
         const usdc =
             new ethers.Contract(
 
