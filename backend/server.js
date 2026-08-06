@@ -2671,7 +2671,9 @@ console.log(
             );
 
 console.log("amount =", amount);
+console.log("humanAmount =", humanAmount);
 console.log("typeof amount =", typeof amount);
+console.log("typeof humanAmount =", typeof humanAmount);
 console.log("expected =", expected.toString());
 
             const bridgeResult =
