@@ -94,7 +94,7 @@ let currentSearch = "";
 let selectedCategory = "general";
 let selectedCategory2 = "general";
 
-const CAMPAIGNS_PER_PAGE = 3;
+const CAMPAIGNS_PER_PAGE = 5;
 
 let campaignsVisible = CAMPAIGNS_PER_PAGE;
 let currentCampaignPage = 0;
@@ -1506,6 +1506,11 @@ if (
     displayedCount < pageEnd
 ) {
 
+      const cls =
+        displayedCount % 2 === 0
+            ? "odd"
+            : "even";
+
     if (displayedCount > pageStart) {
 
         html += `
@@ -1516,7 +1521,7 @@ if (
 
 html += `
 <div
-    class="campaign-card"
+    class="campaign-card ${cls}"
     style="animation-delay:${Math.min(displayedCount * 0.05, 0.5)}s;"
 >
 
@@ -1895,6 +1900,8 @@ window.openCampaign = async function (
             //window.ethereum
         //);
 
+reset_screen()
+
 const provider = new ethers.JsonRpcProvider(
     CONFIG.main_rpc
 );
@@ -2098,7 +2105,7 @@ document
     //)
     //.style.color = data.favorited ? "#000000" : "#000000";
 
-    reset_screen()
+    //reset_screen()
 };
 
 window.changeChain = async function(chainKey) {
@@ -3200,15 +3207,15 @@ const userBalFormatted = formatUSDC(userBal);
       </div>
 
       <div id="hyperevm-testnetchainbutton" 
-        class="option-btn-circle cheeeinbutton"
-        onclick="changeChainAndClose('hyperevm-testnet')"
+        class="option-btn-circle-unsupported cheeeinbutton"
+        onclick="event.stopPropagation(); gekunsupported();"
       >
         <img src="/logo/hype_logo_small.png" width="32" style="position: relative; top: 1px;">
       </div>
 
       <div id="ink-sepoliachainbutton" 
-        class="option-btn-circle cheeeinbutton"
-        onclick="changeChainAndClose('ink-sepolia')"
+        class="option-btn-circle-unsupported cheeeinbutton"
+        onclick="event.stopPropagation(); gekunsupported();"
       >
         <img src="/logo/ink_logo_small.png" width="32" style="position: relative; top: 1px;">
       </div>
@@ -4859,7 +4866,7 @@ window.showCreateCampaignScreen = function () {
 };
 
 function showHomeScreenRefresh() {
-    currentCampaignPage = 0;
+    //currentCampaignPage = 0;
     loadCampaigns();
 
     showHomeScreen();

@@ -3,6 +3,7 @@
   --warna_border: #ff8800;
   --warna_tombol_penting: #ff8800;
   --warna_text: rgb(255, 255, 255);
+  --warna_textalt: #ff8800;
   --warna_text2: rgb(0, 0, 0);
   --warna_textdisabled: rgb(125, 125, 125);
   --warna_text_dasar: rgb(255, 255, 255);
@@ -13,6 +14,8 @@
   --mbunder: 9999px;
   --mbunder_tenan: 50%;
   --warna_background: rgb(0, 75, 125);
+  --warna_backgroundalt: rgba(255, 255, 255, 0.25);
+  --warna_backgroundalt2: rgba(255, 255, 255, 0.1);
 }
 
 .main-container {
@@ -28,6 +31,24 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
+}
+
+.campaign-card.odd {
+        background: linear-gradient(
+        90deg,
+        var(--warna_background),
+        var(--warna_backgroundalt2),
+        var(--warna_background)
+    ),
+        url("/logo/judul2 copyfitWHITE.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.campaign-card.even {
+    background: var(--warna_background);
 }
 
 .campaign-card {
