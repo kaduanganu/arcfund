@@ -7027,6 +7027,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             await showScreen2();
 
+            await reset_screen_main();
+
             await refreshCampaignCache();
 
             await openCampaignFromUrl();
