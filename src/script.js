@@ -1476,6 +1476,17 @@ if (
 }
 
 if (
+
+    currentCampaignFilter === "mine" &&
+
+    !isMine
+
+) {
+
+    continue;
+}
+
+if (
     currentCampaignFilter === "ready" &&
     !(
         isDitarik &&
