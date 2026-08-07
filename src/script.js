@@ -1476,24 +1476,12 @@ if (
 }
 
 if (
-
-    currentCampaignFilter === "mine" &&
-
-    !isMine
-
-) {
-
-    continue;
-}
-
-if (
-
     currentCampaignFilter === "ready" &&
-
-    !isDitarik || !isMine
-
+    !(
+        isDitarik &&
+        isMine
+    )
 ) {
-
     continue;
 }
 
