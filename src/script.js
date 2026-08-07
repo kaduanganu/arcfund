@@ -3149,7 +3149,7 @@ const userBalFormatted = formatUSDC(userBal);
         <div style="margin:0" class="readonly33">
          <img src="/logo/judul2 copyfitWHITE.png"
          style="width:${logoWidth}; height:auto; position: relative; top: 0px;"></div>
-        <div onclick="window.open('https://www.google.com', '_blank', 'noopener,noreferrer');" class="btn_op_rev2_bundertenan" style="font-size:1.1rem; padding-right: 1px;">
+        <div onclick="window.open('https://x.com/easterxianother/status/2085644239095079208?s=20', '_blank', 'noopener,noreferrer');" class="btn_op_rev2_bundertenan" style="font-size:1.1rem; padding-right: 1px;">
         ?
         </div>
 
@@ -4389,7 +4389,7 @@ async function showScreen2NEXT() {
         <div style="margin:0" class="readonly33">
          <img src="/logo/logo_judul_333XX1.png"
          style="width:${logoWidth}; height:auto; position: relative; top: 0px;"></div>
-        <div onclick="window.location.href='https://x.com/easterxianother/status/2085644239095079208?s=20';" class="btn_smol_ns">
+        <div onclick="window.location.href='https://www.google.com';" class="btn_smol_ns">
         📖
         </div>
 
