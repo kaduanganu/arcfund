@@ -1858,9 +1858,11 @@ async function connectWallet() {
     0
     );
 
-    await showScreen2();
+            await showScreen2();
 
-    await refreshCampaignCache(); //loadCampaigns();
+            await reset_screen_main();
+
+            await refreshCampaignCache();
     
   } catch (e) {
     console.error(e);
