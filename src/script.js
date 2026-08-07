@@ -1413,6 +1413,18 @@ const withdrawn =
 
 //const withdrawn = details[7];
 
+const isDitarik =
+
+    !withdrawn && (
+
+    currentAmount >= targetAmount ||
+
+    deadline <= now);
+
+const x1 = !withdrawn
+const x2 = currentAmount >= targetAmount
+const x3 = currentAmount >= targetAmount
+
 const isEnded =
 
     withdrawn ||
@@ -1468,6 +1480,17 @@ if (
     currentCampaignFilter === "mine" &&
 
     !isMine
+
+) {
+
+    continue;
+}
+
+if (
+
+    currentCampaignFilter === "ready" &&
+
+    !isDitarik || !isMine
 
 ) {
 
@@ -1747,6 +1770,7 @@ function setCampaignFilter(filter) {
     document.getElementById("endedCBtn").classList.remove("active");
     document.getElementById("favCBtn").classList.remove("active");
     document.getElementById("myCBtn").classList.remove("active");
+    document.getElementById("withdrawnCBtn").classList.remove("active");
 
     if (currentCampaignFilter == "all") {
       document.getElementById("allCBtn").classList.add("active");
@@ -1762,6 +1786,9 @@ function setCampaignFilter(filter) {
     }
     else if (currentCampaignFilter == "mine") {
       document.getElementById("myCBtn").classList.add("active");
+    }
+    else if (currentCampaignFilter == "ready") {
+      document.getElementById("withdrawnCBtn").classList.add("active");
     }
     else {
       document.getElementById("allCBtn").classList.add("active");
@@ -1851,7 +1878,7 @@ async function connectWallet() {
 function showScreen1() {
   document.getElementById('root').innerHTML = `
     <div class="container" style="display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:0px;background:transparent;padding:0px"; padding-top:40px>
-      <img src="/logo/mascot2 copyfitWHITE.png"
+      <img src="/logo/mascot2 copyfitWHITE2.png"
            alt="sumbangsih_mascot" 
            style="margin-top:40px; margin-bottom:30px; max-width:480px; width:90%; height:auto;">
       
@@ -3579,6 +3606,12 @@ const userBalFormatted = formatUSDC(userBal);
     class="option-btn-circle" id="myCBtn" style="font-size:1.3rem;"
     onclick="setCampaignFilter('mine')">
     mine</span>
+  </div>
+
+  <div
+    class="option-btn-circle" id="withdrawnCBtn" style="font-size:1.3rem;"
+    onclick="setCampaignFilter('ready')">
+    ready</span>
   </div>
 
     </div>
