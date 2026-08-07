@@ -2007,8 +2007,8 @@ const details = item.details;
     const shortAddress = creatorAddress ? `${creatorAddress.slice(0,6)}...${creatorAddress.slice(-4)}` : "";
     
     let shortTitle = item.title;
-    if (shortTitle.length >= 13) {
-    shortTitle = item.title ? `${item.title.slice(0,13)}...`: "";
+    if (shortTitle.length >= 18) {
+    shortTitle = item.title ? `${item.title.slice(0,18)}...`: "";
 }
 
     const yanggoalraw = BigInt(
