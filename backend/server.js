@@ -2396,8 +2396,10 @@ deadline,
 createdAt,
 currentAmount,
 withdrawn,
-contributorCount
+contributorCount,
+hideit
 FROM campaigns
+WHERE hideit != 1
 ORDER BY createdAt DESC
 LIMIT $1
 OFFSET $2;

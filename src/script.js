@@ -1351,6 +1351,11 @@ const category =
 const title =
     item.title;
 
+let shortTitle = title;
+if (shortTitle.length >= 13) {
+shortTitle = title ? `${title.slice(0,13)}...`: "";
+}
+
 const description =
     item.description;
 
@@ -1377,10 +1382,10 @@ if (
 }
 
 const targetAmount =
-    Number(item.targetAmount);
+    BigInt(item.targetAmount);
 
 const currentAmount =
-    Number(item.currentAmount);
+    BigInt(item.currentAmount);
 
 const deadline =
     Number(item.deadline);
@@ -1519,7 +1524,7 @@ if (
 
     }
 
-let bg = "/image/general.png";
+let bg = "/image/headphone.png";
 
 if (category === "general") bg = "/image/general.png";
 else if (category === "medical") bg = "/image/medical.png";
@@ -1527,9 +1532,9 @@ else if (category === "education") bg = "/image/education.png";
 else if (category === "food") bg = "/image/food.png";
 else if (category === "tech") bg = "/image/tech.png";
 else if (category === "travel") bg = "/image/travel.png";
-else if (category === "fun") bg = "/image/headphone.png";
-else if (category === "other") bg = "/image/glasses.png";
-else bg = "/image/general.png";
+else if (category === "fun") bg = "/image/fun.png";
+else if (category === "other") bg = "/image/other.png";
+else bg = "/image/headphone.png";
 
 html += `
 <div
@@ -1559,7 +1564,11 @@ html += `
       ○
     </button>
     
-    <span>#${nomere}: ${title}</span>
+    <div class="readonly2XX"
+     style="display:flex; font-size:1.5rem;">
+    <span>● ${shortTitle}</span>
+    </div>
+    
       </div>
 
       <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
@@ -1968,6 +1977,11 @@ const details = item.details;
 
     const creatorAddress = item.creator; //details[0]
     const shortAddress = creatorAddress ? `${creatorAddress.slice(0,6)}...${creatorAddress.slice(-4)}` : "";
+    
+    let shortTitle = item.title;
+    if (shortTitle.length >= 13) {
+    shortTitle = item.title ? `${item.title.slice(0,13)}...`: "";
+}
 
     const yanggoalraw = BigInt(
         item.targetAmount
@@ -1987,7 +2001,7 @@ const details = item.details;
 
     document.getElementById(
         "detail-title"
-    ).innerText = item.title; //details[5];
+    ).innerText = shortTitle; //details[5];
 
     document.getElementById(
         "detail-description"
@@ -2068,7 +2082,14 @@ const isCreator = userAddress?.toLowerCase() ===
 const goalReached =
     yangraisedraw >= yanggoalraw;
 
-if (goalReached) {
+const now = Math.floor(
+    Date.now() / 1000
+);
+
+const meetdeadline =
+    deadline < Date.now();
+
+if (goalReached || meetdeadline) {
 
     depositButtonC.classList.add(
         "hidden"
@@ -3674,7 +3695,7 @@ const userBalFormatted = formatUSDC(userBal);
 
       <div style="display:flex; flex-direction: column; align-items:center; gap:10px; margin:10px 0 6px 0;">
         <input type="text"
-        maxlength="40"
+        maxlength="18"
         placeholder="catchy title here"
         id="campaign-title"
         class="inputan"
@@ -3833,7 +3854,7 @@ const userBalFormatted = formatUSDC(userBal);
       <div class="divider-container" id="hr_xxxxxx4">
         <span class="divider-icon">●</span>
       </div>
-      <div class="readonly2" style="text-align:center;">
+      <div class="readonly2" style="text-align:left;">
         <span id="detail-description"></span>
       </div>
       <div class="divider-container" id="hr_xxxxxx5">
@@ -4079,7 +4100,7 @@ function formatCurrencyInputX(e) {
 
 function formatCurrencyInput(e) {
   let raw = e.target.value;
-  raw = raw.slice(0, 19);
+  raw = raw.slice(0, 7);
 
   // Remove everything except digits, dots, commas
   raw = raw.replace(/[^\d.,]/g, '');
@@ -5739,7 +5760,7 @@ if (amount > (yanggoalraw - yangraisedraw)) {
 
     } catch (e) {
 
-         const msg =
+        const msg =
         e?.error?.data?.originalError?.message ||
         e?.error?.message ||
         e?.message ||
@@ -5761,6 +5782,22 @@ if (amount > (yanggoalraw - yangraisedraw)) {
                   return showToast(
 
             "❌ RPC failed.",
+
+            3000,
+
+            0
+        );
+
+    }
+
+        if (
+            msg.includes("transfer amount exceeds balance")
+       ) {
+
+        hideLoading();
+                  return showToast(
+
+            "❌ Not enough balance.",
 
             3000,
 
