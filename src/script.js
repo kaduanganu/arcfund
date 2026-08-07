@@ -4389,7 +4389,7 @@ async function showScreen2NEXT() {
         <div style="margin:0" class="readonly33">
          <img src="/logo/logo_judul_333XX1.png"
          style="width:${logoWidth}; height:auto; position: relative; top: 0px;"></div>
-        <div onclick="window.location.href='https://www.google.com';" class="btn_smol_ns">
+        <div onclick="window.location.href='https://x.com/easterxianother/status/2085644239095079208?s=20';" class="btn_smol_ns">
         📖
         </div>
 
