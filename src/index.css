@@ -85,14 +85,14 @@
     opacity: 0;
     transition: opacity 0.2s ease;
 
-    background: rgba(0, 0, 0, 0.35);
+    background: transparent;
     border-radius: inherit;
 
     pointer-events: none;
 
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: white;
+    font-size: 1.8rem;
+    color: var(--warna_text);
+    text-shadow: var(--warna_bayangan_text);
 }
 
 .campaign-card:hover .campaign-card-hover-text {

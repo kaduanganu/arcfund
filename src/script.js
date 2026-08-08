@@ -1389,6 +1389,8 @@ const currentAmount =
 
 const deadline =
     Number(item.deadline);
+const deadlineDate =
+    new Date(deadline * 1000);
 
 const withdrawn =
     item.withdrawn;
@@ -1582,7 +1584,7 @@ html += `
     <div class="campaign-card-hover-text">
         { view detail }
     </div>
-    
+
       <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
     <button id="fund-campaign-button"
       class="btn_op_rev2_bundertenan"
@@ -1596,13 +1598,17 @@ html += `
     </div>
     
       </div>
-
+<!--
       <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
         ● category: <span>${category}</span>
       </div>
-
+-->
       <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
         ● target: <span>${currentformated}/${targetformated} $USDC</span>
+      </div>
+
+      <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
+        ● end at: <span>${deadlineDate.toLocaleString()}</span>
       </div>
 
 <!--
@@ -2038,6 +2044,10 @@ const details = item.details;
     document.getElementById(
         "detail-description"
     ).innerText = item.description; //details[6];
+
+    document.getElementById(
+        "detail-category"
+    ).innerText = item.category; //details[6];
 
     document.getElementById(
         "detail-goal"
@@ -3352,7 +3362,7 @@ const userBalFormatted = formatUSDC(userBal);
   >
 
       <div class="readonly2" style="font-size:1.3rem; text-align:center;">
-        { pick category }</span>
+        { pick purpose }</span>
       </div>
 
     <div class="flex-row" style="flex-direction: column;">
@@ -3462,7 +3472,7 @@ const userBalFormatted = formatUSDC(userBal);
   >
 
       <div class="readonly2" style="font-size:1.3rem; text-align:center;">
-        { pick category }</span>
+        { pick purpose }</span>
       </div>
 
     <div class="flex-row" style="flex-direction: column;">
@@ -3775,7 +3785,7 @@ const userBalFormatted = formatUSDC(userBal);
     <div 
       class="readonly2" style="font-size:1.1rem; flex: 1;"
     >
-      ● category:
+      ● purpose:
     </div>
 
     <button id="showcategorybutton"
@@ -3900,13 +3910,16 @@ const userBalFormatted = formatUSDC(userBal);
       </div>
       
       <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
+        ● purpose: <span id="detail-category"></span>
+      </div>
+      <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
         ● target: <span> <span id="detail-raised"></span>/<span id="detail-goal"></span> $USDC</span>
       </div>
       <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
-        ● created by: <span id="detail-creator"></span>
+        ● end at: <span id="detail-deadline"></span>
       </div>
       <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
-        ● end at: <span id="detail-deadline"></span>
+        ● created by: <span id="detail-creator"></span>
       </div>
 
       <div style="display:flex; flex-direction: column; align-items:center; gap:10px; margin:10px 0 6px 0;">
@@ -3982,7 +3995,7 @@ const userBalFormatted = formatUSDC(userBal);
     <div 
       class="readonly2" style="font-size:1.1rem; flex: 1;"
     >
-      ● category filter:
+      ● purpose filter:
     </div>
     <button id="showcategorybuttonfilter"
       class="btn_op_rev2" style="font-size:1.1rem; margin-left: 0px;"
