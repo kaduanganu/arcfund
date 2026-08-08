@@ -1586,28 +1586,31 @@ html += `
     </div>
 
       <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
-    <button id="fund-campaign-button"
+    
+    <div class="readonly2XX"
+     style="font-size:1.5rem;
+     margin:0;
+     padding:0;
+     text-align:left;">
+    <span>● ${shortTitle}</span>
+    </div>
+    
+        <button id="fund-campaign-button"
       class="btn_op_rev2_bundertenan"
       onclick="event.stopPropagation(); hidemainbutton(); hidemainbutton2(); openCampaign('${campaignAddress}')" style="font-size:1.5rem; font-weight: bold; padding-left: 0px; padding-bottom: 2px;">
       ○
     </button>
-    
-    <div class="readonly2XX"
-     style="display:flex; font-size:1.5rem;">
-    <span>● ${shortTitle}</span>
-    </div>
-    
       </div>
 <!--
       <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
         ● category: <span>${category}</span>
       </div>
 -->
-      <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
+      <div class="readonly2nopadding" style="display:flex; justify-content:space-between; align-items:center;">
         ● target: <span>${currentformated}/${targetformated} $USDC</span>
       </div>
 
-      <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
+      <div class="readonly2nopadding2" style="display:flex; justify-content:space-between; align-items:center;">
         ● end at: <span>${deadlineDate.toLocaleString()}</span>
       </div>
 
@@ -1973,6 +1976,8 @@ window.openCampaign = async function (
     campaignAddress
 ) {
 
+  focusingtop();
+  
     //const provider =
         //new ethers.BrowserProvider(
             //window.ethereum
@@ -3161,7 +3166,7 @@ const userBalFormatted = formatUSDC(userBal);
 
       <div style="display:flex;flex: 1;justify-content:flex-start;gap:8px;align-items:center;margin-bottom:8px;">
         <div style="margin:0" class="readonly33">
-         <img src="/logo/judul2 copyfitWHITE.png"
+         <img id="thejudul" src="/logo/judul2 copyfitWHITE.png"
          style="width:${logoWidth}; height:auto; position: relative; top: 0px;"></div>
         <div onclick="window.open('https://x.com/easterxianother/status/2085644239095079208?s=20', '_blank', 'noopener,noreferrer');" class="btn_op_rev2_bundertenan" style="font-size:1.1rem; padding-right: 1px;">
         ?
@@ -3251,8 +3256,8 @@ const userBalFormatted = formatUSDC(userBal);
     "
   >
 
-      <div class="readonly2" style="font-size:1.3rem; text-align:center;">
-        { pick chain }</span>
+      <div class="readonly2" style="font-size:1.8rem; color:var(--warna_text2); text-align:center;">
+        { pick a chain }</span>
       </div>
 
     <div class="flex-row" style="flex-direction: column;">
@@ -3361,8 +3366,8 @@ const userBalFormatted = formatUSDC(userBal);
     "
   >
 
-      <div class="readonly2" style="font-size:1.3rem; text-align:center;">
-        { pick purpose }</span>
+      <div class="readonly2" style="font-size:1.8rem; color:var(--warna_text2); text-align:center;">
+        { choose a purpose }</span>
       </div>
 
     <div class="flex-row" style="flex-direction: column;">
@@ -3471,8 +3476,8 @@ const userBalFormatted = formatUSDC(userBal);
     "
   >
 
-      <div class="readonly2" style="font-size:1.3rem; text-align:center;">
-        { pick purpose }</span>
+      <div class="readonly2" style="font-size:1.8rem; color:var(--warna_text2); text-align:center;">
+        { choose a purpose }</span>
       </div>
 
     <div class="flex-row" style="flex-direction: column;">
@@ -3587,8 +3592,8 @@ const userBalFormatted = formatUSDC(userBal);
     "
   >
 
-      <div class="readonly2" style="font-size:1.3rem; text-align:center;">
-        { pick filter }</span>
+      <div class="readonly2" style="font-size:1.8rem; color:var(--warna_text2); text-align:center;">
+        { pick a filter }</span>
       </div>
 
     <div id="campaign-button" class="flex-row" style="flex-direction: column;">
@@ -4404,7 +4409,7 @@ async function showScreen2NEXT() {
     <div class="container">
       <div style="display:flex;justify-content:flex-start;gap:8px;align-items:center;margin-bottom:8px;">
         <div style="margin:0" class="readonly33">
-         <img src="/logo/logo_judul_333XX1.png"
+         <img id="thejudul" src="/logo/logo_judul_333XX1.png"
          style="width:${logoWidth}; height:auto; position: relative; top: 0px;"></div>
         <div onclick="window.location.href='https://www.google.com';" class="btn_smol_ns">
         📖
@@ -5009,7 +5014,8 @@ let isPredictionStarted = false;
 
 window.showCreateCampaignScreen = function () {
 
-    reset_screen() 
+  focusingtop();
+  reset_screen() 
 
   //document.getElementById("home-screen").style.display = "none";
 
@@ -5065,6 +5071,15 @@ function focusing2() {
             });
 }
 window.focusing2 = focusing2;
+function focusingtop() {
+        document
+            .getElementById("thejudul")
+            ?.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+}
+window.focusingtop = focusingtop;
 
 window.showHomeScreen = function () {
   document.getElementById(
