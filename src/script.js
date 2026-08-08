@@ -1560,7 +1560,7 @@ else bg = "/image/headphone.png";
 
 html += `
 <div
-    class="campaign-card ${cls}"
+    class="campaign-card"
     onclick="hidemainbutton(); hidemainbutton2(); openCampaign('${campaignAddress}')"
     style="animation-delay:${Math.min(displayedCount * 0.05, 0.5)}s; 
     
