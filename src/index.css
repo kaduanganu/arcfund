@@ -71,8 +71,13 @@
 }
 
 .campaign-card:hover {
-    transform: scale(1.01);
+    text-shadow: 1px 1px 2px var(--warna_bayangan_sorot); box-shadow: 0 8px 16px 0 var(--warna_bayangan_sorot);
 }
+
+.campaign-card::active {
+  transform: scale(1.01);
+}
+
 
 @keyframes campaignAppear {
 
