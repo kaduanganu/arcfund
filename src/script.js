@@ -1561,6 +1561,7 @@ else bg = "/image/headphone.png";
 html += `
 <div
     class="campaign-card ${cls}"
+    onclick="openCampaign('${campaignAddress}')"
     style="animation-delay:${Math.min(displayedCount * 0.05, 0.5)}s; 
     
     
@@ -1582,7 +1583,7 @@ html += `
       <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
     <button id="fund-campaign-button"
       class="btn_op_rev2_bundertenan"
-      onclick="hidemainbutton(); hidemainbutton2(); openCampaign('${campaignAddress}')" style="font-size:1.5rem; font-weight: bold; padding-left: 0px; padding-bottom: 2px;">
+      onclick="event.stopPropagation(); hidemainbutton(); hidemainbutton2(); openCampaign('${campaignAddress}')" style="font-size:1.5rem; font-weight: bold; padding-left: 0px; padding-bottom: 2px;">
       ○
     </button>
     

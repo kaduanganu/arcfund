@@ -66,6 +66,14 @@
     animation: campaignAppear 0.4s ease forwards;
 }
 
+.campaign-card {
+    cursor: pointer;
+}
+
+.campaign-card:hover {
+    transform: scale(1.01);
+}
+
 @keyframes campaignAppear {
 
     from {
