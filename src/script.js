@@ -1579,7 +1579,10 @@ html += `
     background-position: center;
     background-repeat: no-repeat;"
 >
-
+    <div class="campaign-card-hover-text">
+        { view detail }
+    </div>
+    
       <div class="readonly2" style="display:flex; justify-content:space-between; align-items:center;">
     <button id="fund-campaign-button"
       class="btn_op_rev2_bundertenan"
