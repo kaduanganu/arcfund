@@ -95,6 +95,7 @@ let selectedCategory = "general";
 let selectedCategory2 = "general";
 
 const CAMPAIGNS_PER_PAGE = 5;
+let nomereGlobal = 0;
 
 let campaignsVisible = CAMPAIGNS_PER_PAGE;
 let currentCampaignPage = 0;
@@ -1303,6 +1304,7 @@ function loadCampaigns() {
 
     let displayedCount = 0;
     let nomere = 0;
+    //let nomereGlobal = 0;
 let totalMatching = 0;
 
     const pageStart =
@@ -1529,6 +1531,7 @@ const currentformated = formatUSDC(current);
 const targetformated = formatUSDC(target);
 
 nomere++;
+nomereGlobal = nomere;
 
 if (
     displayedCount >= pageStart &&
@@ -4358,7 +4361,21 @@ showLoading();
                 : "⭐";
 
         //button.style.color = isFavorite ? "#000000" : "#000000";
-        
+
+if (endpoint === "unfavorite") {
+    showToast(
+      `✅ Campaign removed from ⭐.`,
+      3000,
+      0
+    );
+}
+else {
+    showToast(
+      `✅ Campaign added to ⭐.`,
+      3000,
+      0
+    );
+}
     }
     else {
     hideLoading();
@@ -5032,8 +5049,23 @@ window.showCreateCampaignScreen = function () {
 };
 
 function showHomeScreenRefresh() {
-    //currentCampaignPage = 0;
+    let sisanebefore = nomereGlobal % CAMPAIGNS_PER_PAGE;
+
     loadCampaigns();
+
+    //let sisaneafter = nomereGlobal % CAMPAIGNS_PER_PAGE;
+    //let halamane = Math.floor(nomereGlobal/CAMPAIGNS_PER_PAGE);
+
+    //alert(sisanebefore)
+    //alert(sisaneafter)
+    if (sisanebefore === 1) {
+    if (sisaneafter === 0) {
+      previousCampaignPage()
+    //if (currentCampaignPage > 0) {
+      //currentCampaignPage--
+    //}
+    }
+    }
 
     showHomeScreen();
 }
