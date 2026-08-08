@@ -1545,6 +1545,29 @@ input[readonly_txt2] {
   .btn_op_rev2kk {
     margin-left: 2px !important;
   }
+
+.campaign-card:hover .campaign-card-hover-text {opacity: 0;}
+.btn:hover {transform: scale(1);}
+.btn_green:hover {transform: scale(1);}
+.btn_red:hover {transform: scale(1);}
+.btn_rev:hover {transform: scale(1);}
+.btn_op_rev:hover {transform: scale(1);}
+.btn_op_rev2:hover {transform: scale(1);}
+.btn_op_rev2kk:hover {transform: scale(1);}
+.btn_op_rev2_bundertenan:hover {transform: scale(1);}
+.btn_op_rev2P:hover {transform: scale(1);}
+.btn_smol_ns:hover {transform: scale(1);}
+.btn_smol:hover {transform: scale(1);}
+.btn_smol_M:hover {transform: scale(1);}
+.option-btn:hover {transform: scale(1);}
+.option-btn-circle:hover {transform: scale(1);}
+.option-btn-circle-unsupported:hover {transform: scale(1);}
+.option-btn-circle:hover {transform: scale(1);}
+.option-btn-circle-unsupported:hover {transform: scale(1);}
+.option-btn-circle2:hover {transform: scale(1);}
+.option-btn-circle-tenanan:hover {transform: scale(1);}
+select.rounded-select:hover {transform: scale(1);}
+
 }
 
 .campaign-pagination{
