@@ -2120,6 +2120,10 @@ const withdrawButtonC =
     document.getElementById(
         "withdrawbutton"
     );
+const chargetext =
+    document.getElementById(
+        "chargetext"
+    );
 
 const donationamountC =
     document.getElementById(
@@ -2153,15 +2157,25 @@ if (goalReached || meetdeadline) {
     withdrawButtonC.classList.remove(
         "hidden"
     );
+    chargetext.classList.remove(
+        "hidden"
+    );
 
     if (withdrawn) {
     withdrawButtonC.classList.add(
         "hidden"
-    );}
+    );
+    chargetext.classList.add(
+        "hidden"
+    );
+    }
 
     } else {
 
     withdrawButtonC.classList.add(
+        "hidden"
+    );
+    chargetext.classList.add(
         "hidden"
     );
     }
@@ -2175,6 +2189,9 @@ if (goalReached || meetdeadline) {
         "hidden"
     );
     withdrawButtonC.classList.add(
+        "hidden"
+    );
+    chargetext.classList.add(
         "hidden"
     );
 }
@@ -3876,6 +3893,10 @@ const userBalFormatted = formatUSDC(userBal);
     </button>
   </div>
 
+        <div id ="chargetextnew" class="readonly2" style="display:flex; justify-content:center; align-items:center; color: yellow; font-size:0.9rem;">
+        *5% fee will be charged on withdrawing.</span>
+      </div>
+
   </div>
   <!-- NEW CAMPAIGN -->
 
@@ -3974,6 +3995,10 @@ const userBalFormatted = formatUSDC(userBal);
       close
     </button>
   </div>
+
+        <div id ="chargetext" class="readonly2" style="display:flex; justify-content:center; align-items:center; color: yellow; font-size:0.9rem;">
+        *5% fee will be charged on withdrawing.</span>
+      </div>
 
 </div>
 <!-- CAMPAIGN DETAILS -->
@@ -5593,6 +5618,11 @@ body: JSON.stringify({
                 0
 
             );
+    showToast(
+      `✅ 5% fee applied.`,
+      3000,
+      1000
+    );
 
         } else {
 
@@ -5605,7 +5635,11 @@ body: JSON.stringify({
                 0
 
             );
-
+    showToast(
+      `✅ 5% fee applied.`,
+      3000,
+      1000
+    );
         }
 
         reset_screen_main();
