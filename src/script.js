@@ -3188,7 +3188,7 @@ const userBalFormatted = formatUSDC(userBal);
         <div style="margin:0" class="readonly33">
          <img id="thejudul" src="/logo/judul2 copyfitWHITE.png"
          style="width:${logoWidth}; height:auto; position: relative; top: 0px;"></div>
-        <div onclick="window.open('https://x.com/easterxianother/status/2085644239095079208?s=20', '_blank', 'noopener,noreferrer');" class="btn_op_rev2_bundertenan" style="font-size:1.1rem; padding-right: 1px;">
+        <div onclick="window.open('https://docs.google.com/presentation/d/e/2PACX-1vRLJsvhZyPTu7bU1RK7UNbl6yJRxqzcyDqZLcnmY-OXbFjgc_yNv-P5UN_1wdyVcnxpYqIM9QpRfvJT/pub?start=true&loop=false&delayms=15000', '_blank', 'noopener,noreferrer');" class="btn_op_rev2_bundertenan" style="font-size:1.1rem; padding-right: 1px;">
         ?
         </div>
 
