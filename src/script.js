@@ -100,6 +100,17 @@ let nomereGlobal = 0;
 let campaignsVisible = CAMPAIGNS_PER_PAGE;
 let currentCampaignPage = 0;
 
+let currentPage = "";
+let currentPageBefore = "";
+let beforePage = "";
+
+campaignAddress
+
+if (!history.state) {
+    history.replaceState({ index: 0 }, '');
+}
+let historyIndex = history.state ? history.state.index : 0;
+
 const USDC_ABI = [
   "function transfer(address to, uint amount) returns (bool)",
   "function balanceOf(address owner) view returns (uint256)",
@@ -1566,7 +1577,7 @@ else bg = "/image/headphone.png";
 html += `
 <div
     class="campaign-card"
-    onclick="hidemainbutton(); hidemainbutton2(); openCampaign('${campaignAddress}')"
+    onclick="openCampaignGROUP('${campaignAddress}')"
     style="animation-delay:${Math.min(displayedCount * 0.05, 0.5)}s; 
     
     
@@ -1600,7 +1611,7 @@ html += `
     
         <button id="fund-campaign-button"
       class="btn_op_rev2_bundertenan"
-      onclick="event.stopPropagation(); hidemainbutton(); hidemainbutton2(); openCampaign('${campaignAddress}')" style="font-size:1.5rem; font-weight: bold; padding-left: 0px; padding-bottom: 2px;">
+      onclick="event.stopPropagation(); openCampaignGROUP('${campaignAddress}');" style="font-size:1.5rem; font-weight: bold; padding-left: 0px; padding-bottom: 2px;">
       ○
     </button>
       </div>
@@ -1621,7 +1632,7 @@ html += `
 <div id="fund-campaign-button" style="align-items:center; text-align:center;">
   <button
     class="btn_op_rev2" style="font-size:1.1rem;"
-    onclick="hidemainbutton(); hidemainbutton2(); openCampaign('${campaignAddress}')">
+    onclick="openCampaignGROUP('${campaignAddress}');">
         detail</span>
   </button>
 </div>
@@ -1975,9 +1986,141 @@ window.copyCampaignLink = async function () {
 
 };
 
+window.firstHistory = async function (cempen) {
+beforePage = currentPage;
+currentPage = cempen;
+historyIndex++;
+//history.pushState(
+    //{ page: cempen, index: historyIndex },
+    //"",
+    //""
+//);
+};
+
+window.addEventListener(
+    "popstate",
+    function (event) {
+
+        //const page =
+        //event.state?.page;
+
+        const nextIndex = event.state.index;
+
+          if (nextIndex < historyIndex) { //BACK
+          this.alert("BACK <<< before - "+beforePage+" xxxxxx now - "+currentPage+" xxxxxx now - "+(historyIndex));
+
+          if (currentPage === "gekLoading") {
+            history.forward();
+            return;
+          }
+
+          else if (currentPage === "createCampaign") {
+            firstHistory("");
+            showHomeScreenINDEX();
+          }
+          else if (currentPage === "viewCampaign") {
+            firstHistory("");
+            showHomeScreenRefresh(); //showmainbutton();
+          }
+
+          } else if (nextIndex > historyIndex) { //FORWARD
+          this.alert("FORWARD >>> before - "+beforePage+" xxxxxx now - "+currentPage+" xxxxxx now - "+(historyIndex));
+          
+          if (currentPage === "gekLoading") {
+            history.back();
+            return;
+          }
+        
+          else if (beforePage === "createCampaign") {
+            firstHistory("");
+            showCreateCampaignScreenGROUP();
+          }
+          else if (currentPage === "viewCampaign") {
+            firstHistory("");
+            openCampaignGROUP(campaignAddress);
+          }
+
+          }
+          
+          historyIndex = nextIndex;
+          return;
+
+        //if (nextIndex < historyIndex) { //BACK
+          //this.alert("BACK <<< before - "+beforePage+" xxxxxx now - "+currentPage+" xxxxxx now - "+(historyIndex));
+
+
+
+          /*
+          if (currentPage === "gekLoading") {
+            history.forward();
+            return;
+          }
+
+          else if (currentPage === "createCampaign") {
+            firstHistory("");
+            showHomeScreenINDEX();
+          }
+          else if (currentPage === "viewCampaign") {
+            firstHistory("");
+            showHomeScreenRefresh(); //showmainbutton();
+          }
+          else if (currentPage === "showChain") {
+            firstHistory("");
+            hideChainlist();
+          }
+          else if (currentPage === "showChainviewCampaign") {
+            firstHistory("viewCampaign");
+            hideChainlist();
+          }
+          else if (currentPage === "showCategory") {
+            firstHistory("createCampaign");
+            hideCategorylist();
+          }
+          else if (currentPage === "showCategory2") {
+            firstHistory("");
+            hideCategorylist2();
+          }
+          else if (currentPage === "showCategory3") {
+            firstHistory("");
+            hideCategorylist3();
+          }
+          else {
+          }
+        /*
+        } else if (nextIndex > historyIndex) { //FORWARD
+          this.alert("FORWARD >>> before - "+beforePage+" xxxxxx now - "+currentPage+" xxxxxx now - "+(historyIndex));
+          if (currentPage === "gekLoading") {
+            history.back();
+            return;
+          }
+
+          //else if (beforePage === "createCampaign") {
+            //showCreateCampaignScreenGROUP();
+          //}
+          else {
+            return;
+          }
+        }
+        */
+
+        // Update the pointer
+        //historyIndex = nextIndex;
+      }
+
+);
+
 window.openCampaign = async function (
     campaignAddress
 ) {
+
+      beforePage = currentPage;
+      currentPage = "viewCampaign";
+      historyIndex++;
+      history.pushState(
+        { page: "viewCampaign", index: historyIndex },
+        "",
+        ""
+      );
 
   focusingtop();
   
@@ -2226,6 +2369,10 @@ document
 
     //reset_screen()
 };
+
+window.openCampaignGROUP = async function(campaignAddress) {
+hidemainbutton(); hidemainbutton2(); openCampaign(campaignAddress)
+}
 
 window.changeChain = async function(chainKey) {
 
@@ -3345,7 +3492,7 @@ const userBalFormatted = formatUSDC(userBal);
 <div class="flex-row" style="flex-direction: column;">
   <button
     class="btn_op_rev2"
-    onclick="hideChainlist()"
+    onclick="history.back()"
     style = "font-size:1.3rem;"
   >
     back
@@ -3387,7 +3534,7 @@ const userBalFormatted = formatUSDC(userBal);
   >
 
       <div class="readonly2" style="font-size:1.8rem; color:var(--warna_text2); text-align:center;">
-        { choose a purpose }</span>
+        { purpose }</span>
       </div>
 
     <div class="flex-row" style="flex-direction: column;">
@@ -3456,7 +3603,7 @@ const userBalFormatted = formatUSDC(userBal);
 <div class="flex-row" style="flex-direction: column;">
   <button
     class="btn_op_rev2"
-    onclick="hideCategorylist()"
+    onclick="history.back()"
     style = "font-size:1.3rem;"
   >
     back
@@ -3497,7 +3644,7 @@ const userBalFormatted = formatUSDC(userBal);
   >
 
       <div class="readonly2" style="font-size:1.8rem; color:var(--warna_text2); text-align:center;">
-        { choose a purpose }</span>
+        { purpose }</span>
       </div>
 
     <div class="flex-row" style="flex-direction: column;">
@@ -3572,7 +3719,7 @@ const userBalFormatted = formatUSDC(userBal);
 <div class="flex-row" style="flex-direction: column;">
   <button
     class="btn_op_rev2"
-    onclick="hideCategorylist2()"
+    onclick="history.back()"
     style = "font-size:1.3rem;"
   >
     back
@@ -3661,7 +3808,7 @@ const userBalFormatted = formatUSDC(userBal);
 <div class="flex-row" style="flex-direction: column;">
   <button
     class="btn_op_rev2"
-    onclick="hideCategorylist3()"
+    onclick="history.back()"
     style = "font-size:1.3rem;"
   >
     back
@@ -3747,7 +3894,7 @@ const userBalFormatted = formatUSDC(userBal);
 
     <button
       class="btn_op_rev2_bundertenan"
-      onclick="hidechainchainbutton(); hidemainbutton(); hidemainbutton2(); showCreateCampaignScreen()" style="font-size:1.3rem;">
+      onclick="showCreateCampaignScreenGROUP()" style="font-size:1.3rem;">
       +
     </button>
 
@@ -3887,7 +4034,7 @@ const userBalFormatted = formatUSDC(userBal);
 
     <button
       class="btn_op_rev2" style="font-size:1.1rem;"
-      onclick="showHomeScreen()"
+      onclick="showHomeScreenINDEX();"
     >
       close
     </button>
@@ -3990,7 +4137,7 @@ const userBalFormatted = formatUSDC(userBal);
 
     <button id="homebutton"
       class="btn_op_rev2P" style="font-size:1.1rem;"
-      onclick="showHomeScreenRefresh(); showmainbutton()"
+      onclick="showHomeScreenRefresh();"
     >
       close
     </button>
@@ -4589,7 +4736,7 @@ async function showScreen2NEXT() {
 <div class="flex-row" style="flex-direction: column;">
   <button
     class="btn_op_rev2"
-    onclick="hideChainlist()"
+    onclick="history.back();"
     style = "font-size:1.3rem;"
   >
     back
@@ -5055,7 +5202,6 @@ let livePriceInterval = null;
 let isPredictionStarted = false;
 
 window.showCreateCampaignScreen = function () {
-
   focusingtop();
   reset_screen() 
 
@@ -5072,6 +5218,19 @@ window.showCreateCampaignScreen = function () {
 
   //reset_screen() 
 };
+
+window.showCreateCampaignScreenGROUP = function () {
+      beforePage = currentPage;
+      currentPage = "createCampaign";
+      historyIndex++;
+      history.pushState(
+        { page: "createCampaign", index: historyIndex },
+        "",
+        ""
+      );
+
+hidechainchainbutton(); hidemainbutton(); hidemainbutton2(); showCreateCampaignScreen();
+}
 
 function showHomeScreenRefresh() {
     let sisanebefore = nomereGlobal % CAMPAIGNS_PER_PAGE;
@@ -5093,6 +5252,7 @@ function showHomeScreenRefresh() {
     }
 
     showHomeScreen();
+    focusing2;
 }
 window.showHomeScreenRefresh = showHomeScreenRefresh;
 
@@ -5161,6 +5321,18 @@ window.showHomeScreen = function () {
 
   focusing();
 };
+
+window.showHomeScreenINDEX = function () {
+      //beforePage = currentPage;
+      //currentPage = "";
+      //historyIndex++;
+      //history.pushState(
+        //{ page: "", index: historyIndex },
+        //"",
+        //""
+      //);
+  showHomeScreen();
+}
 
 window.showchainchainbutton = function () {
   //document.getElementById("pickachain").classList.remove("hidden");
@@ -5379,7 +5551,8 @@ showToast(
 
     await refreshCampaignCache(); //loadCampaigns();
 
-    showHomeScreen();
+    //showHomeScreen();
+    history.back()
 
   } catch (err) {
 
@@ -5646,7 +5819,8 @@ body: JSON.stringify({
 
         await refreshCampaignCache(); //loadCampaigns();
 
-        showHomeScreen();
+        //showHomeScreen();
+        history.back()
 
     } catch (e) {
 
@@ -5888,7 +6062,8 @@ if (amount > (yanggoalraw - yangraisedraw)) {
 
         await refreshCampaignCache(); //loadCampaigns();
 
-        showHomeScreen();
+        //showHomeScreen();
+        history.back()
 
     } catch (e) {
 
@@ -5955,6 +6130,7 @@ if (amount > (yanggoalraw - yangraisedraw)) {
     }
 };
 
+/*
 function showChainlist() {
 
   document.getElementById(
@@ -6006,7 +6182,7 @@ function hideCategorylist() {
 function hideCategorylist2() {
 
   document.getElementById(
-    "filterModal"
+    "categoryModal2"
   ).style.display = "none";
 
 }
@@ -6014,16 +6190,18 @@ function hideCategorylist2() {
 function hideCategorylist3() {
 
   document.getElementById(
-    "categoryModal2"
+    "filterModal"
   ).style.display = "none";
 
 }
+*/
 
 function changeChainAndClose(chain) {
 
   changeChain(chain);
 
-  hideChainlist();
+  //hideChainlist();
+  history.back();
 
 }
 
@@ -6038,39 +6216,110 @@ function gekunsupported() {
   }
 
 window.showChainlist = function () {
+
+  if (currentPage === "viewCampaign") {
+
+      beforePage = currentPage;
+      currentPage = "showChainviewCampaign";
+      historyIndex++;
+      history.pushState(
+        { page: "showChainviewCampaign", index: historyIndex },
+        "",
+        ""
+      );
+  }
+  else {
+
+      beforePage = currentPage;
+      currentPage = "showChain";
+      historyIndex++;
+      history.pushState(
+        { page: "showChain", index: historyIndex },
+        "",
+        ""
+      );
+  }
+
+  document.body.classList.add("modal-open");
+  document.documentElement.classList.add("modal-open");
   document.getElementById("chainModal").style.display = "flex";
 };
 
 window.hideChainlist = function () {
   closeAllToasts();
   document.getElementById("chainModal").style.display = "none";
+  document.body.classList.remove("modal-open");
+  document.documentElement.classList.remove("modal-open");
 };
 
 window.showCategorylist = function () {
+
+      beforePage = currentPage;
+      currentPage = "showCategory";
+      historyIndex++;
+      history.pushState(
+        { page: "showCategory", index: historyIndex },
+        "",
+        ""
+      );
+
+  document.body.classList.add("modal-open");
+  document.documentElement.classList.add("modal-open");
   document.getElementById("categoryModal").style.display = "flex";
 };
 
 window.hideCategorylist = function () {
   closeAllToasts();
   document.getElementById("categoryModal").style.display = "none";
+  document.body.classList.remove("modal-open");
+  document.documentElement.classList.remove("modal-open");
 };
 
 window.showCategorylist2 = function () {
+
+      beforePage = currentPage;
+      currentPage = "showCategory2";
+      historyIndex++;
+      history.pushState(
+        { page: "showCategory2", index: historyIndex },
+        "",
+        ""
+      );
+
+  document.body.classList.add("modal-open");
+  document.documentElement.classList.add("modal-open");
   document.getElementById("categoryModal2").style.display = "flex";
 };
 
 window.hideCategorylist2 = function () {
   closeAllToasts();
   document.getElementById("categoryModal2").style.display = "none";
+  document.body.classList.remove("modal-open");
+  document.documentElement.classList.remove("modal-open");
 };
 
 window.showCategorylist3 = function () {
+
+
+      beforePage = currentPage;
+      currentPage = "showCategory3";
+      historyIndex++;
+      history.pushState(
+        { page: "showCategory3", index: historyIndex },
+        "",
+        ""
+      );
+
+  document.body.classList.add("modal-open");
+  document.documentElement.classList.add("modal-open");
   document.getElementById("filterModal").style.display = "flex";
 };
 
 window.hideCategorylist3 = function () {
   closeAllToasts();
   document.getElementById("filterModal").style.display = "none";
+  document.body.classList.remove("modal-open");
+  document.documentElement.classList.remove("modal-open");
 };
 
 window.showPencarian = function (chain) {
@@ -6089,7 +6338,8 @@ window.showPencarian = showPencarian;
 window.changeChainAndClose = function (chain) {
   closeAllToasts();
   changeChain(chain);
-  hideChainlist();
+  //hideChainlist();
+  history.back();
 };
 
 window.gekunsupported = gekunsupported;
@@ -6235,11 +6485,18 @@ window.selectTime = (t) => { currentBet.time = t; showScreen2(); };
 window.selectDirection = (dir) => { currentBet.direction = dir;};
 
 function showLoading() {
+  currentPageBefore = currentPage
+  currentPage = "gekLoading"
+  document.body.classList.add("modal-open");
+  document.documentElement.classList.add("modal-open");
   document.getElementById('loadingScreen').style.display = 'flex';
 }
 
 function hideLoading() {
+  currentPage = currentPageBefore
   document.getElementById('loadingScreen').style.display = 'none';
+  document.body.classList.remove("modal-open");
+  document.documentElement.classList.remove("modal-open");
 }
 
 // ==================== PAYMENT & GAME FLOW ====================
