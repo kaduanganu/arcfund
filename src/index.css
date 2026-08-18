@@ -157,6 +157,10 @@ body::before {
   content: none;   /* Removed the logo */
 }
 
+body.modal-open {
+    overflow-y: hidden;
+}
+
 .container {
   position: relative;
   z-index: 1;
