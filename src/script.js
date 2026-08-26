@@ -1938,6 +1938,7 @@ function showScreen1() {
     "",
     ""
   );*/
+  firstHistory("landing");
 
   document.getElementById('root').innerHTML = `
     <div class="container" style="display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:0px;background:transparent;padding:0px"; padding-top:40px>
@@ -2051,14 +2052,14 @@ window.addEventListener(
         const campaignAddressNya = event.state?.campaignAddressNya || campaignAddressBefore;
         const currentCampaignPageNya = event.state.currentCampaignPageNya;
 
-        this.alert(event.state?.page + " - " + currentPage + " - " + campaignAddressNya)
+        //this.alert(event.state?.page + " - " + currentPage + " - " + campaignAddressNya)
         //this.alert("before - "+beforePage+" xxxxxx now - "+currentPage+" xxxxxx now - "+(nextIndex)+" - "+(historyIndex));
 
           if (currentPage === "gekLoading") {
             history.forward();
             return;
           }
-          
+
           if (page === "createCampaign") {
             showCreateCampaignScreenGROUPNOPUSH();
           }
@@ -2072,6 +2073,16 @@ window.addEventListener(
             else if (currentPage === "viewCampaign") {
               showHomeScreenRefreshPLUSNOPUSH(); //showmainbutton();
             }
+            else if (currentPage === "landing") {
+              connectWallet(); //showmainbutton();
+            }
+            else if (currentPage === "home") {
+              showToast("⏳ ...", 1000, 0);
+              return;
+            }
+          }
+          else if (page === "landing") {
+            disconnectWallet();
           }
           
         historyIndex = nextIndex;
@@ -2498,6 +2509,8 @@ hidemainbutton(); hidemainbutton2(); openCampaign(campaignAddress)
 }
 window.openCampaignGROUPNOPUSH = async function(campaignAddress) {
 ///firstHistory("viewCampaign");
+  beforePage = currentPage;
+  currentPage = "viewCampaign";
 hidemainbutton(); hidemainbutton2(); openCampaign(campaignAddress)
 }
 
@@ -5362,6 +5375,8 @@ hidechainchainbutton(); hidemainbutton(); hidemainbutton2(); showCreateCampaignS
 }
 window.showCreateCampaignScreenGROUPNOPUSH = function () {
 ///firstHistory("createCampaign");
+  beforePage = currentPage;
+  currentPage = "createCampaign";
 hidechainchainbutton(); hidemainbutton(); hidemainbutton2(); showCreateCampaignScreen();
 }
 
@@ -5478,6 +5493,8 @@ window.showHomeScreenINDEXNOPUSH = function () {
         //""
       //);
   ///firstHistory("home");
+  beforePage = currentPage;
+  currentPage = "home";
   showHomeScreen();
 }
 
@@ -6448,6 +6465,8 @@ window.showHomeScreenRefreshPLUS = function () {
 }
 window.showHomeScreenRefreshPLUSNOPUSH = function () {
   ///firstHistory("home");
+  beforePage = currentPage;
+  currentPage = "home";
   showHomeScreenRefresh();
 }
 
