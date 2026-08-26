@@ -107,7 +107,7 @@ let beforePage = "";
 let campaignAddressBefore = "";
 
 if (!history.state) {
-    history.replaceState({ page: "home", index: 0 },
+    history.replaceState({ page: "", index: 0 },
         "",
         ""
       );
@@ -1305,7 +1305,6 @@ async function openCampaignFromUrl() {
     await hidemainbutton();
     await hidemainbutton2(); 
     await openCampaign(campaignFromUrl);
-    firstHistory("viewCampaign");
 
 }
 
@@ -1848,7 +1847,6 @@ function setCampaignFilter(filter) {
 
     currentCampaignPage = 0;
     loadCampaigns();
-    hideCategorylist3PLUS();
 }
 
 window.setCampaignFilter = setCampaignFilter;
@@ -1917,8 +1915,6 @@ async function connectWallet() {
             await reset_screen_main();
 
             await refreshCampaignCache();
-
-            firstHistory("home");
     
   } catch (e) {
     console.error(e);
@@ -2026,7 +2022,7 @@ beforePage = currentPage;
 currentPage = cempen;
 historyIndex++;
 history.pushState(
-    { page: cempen, index: historyIndex, currentCampaignPageNya: currentCampaignPage, campaignAddressNya: campaignAddressBefore },
+    { page: cempen, index: historyIndex, currentCampaignPageNya: currentCampaignPage },
     "",
     ""
 );
@@ -2048,30 +2044,81 @@ window.addEventListener(
 
         const page = event.state.page;
         const nextIndex = event.state.index;
-        const campaignAddressNya = event.state?.campaignAddressNya || campaignAddressBefore;
+        const campaignAddressNya = event.state.campaignAddressNya;
         const currentCampaignPageNya = event.state.currentCampaignPageNya;
 
-        this.alert(event.state?.page + " - " + currentPage + " - " + campaignAddressNya)
+        //this.alert(event.state?.page + " - " + event.state.page)
         //this.alert("before - "+beforePage+" xxxxxx now - "+currentPage+" xxxxxx now - "+(nextIndex)+" - "+(historyIndex));
 
           if (currentPage === "gekLoading") {
             history.forward();
             return;
           }
-          
           if (page === "createCampaign") {
-            showCreateCampaignScreenGROUPNOPUSH();
+            showCreateCampaignScreenGROUP();
           }
           else if (page === "viewCampaign") {
-            openCampaignGROUPNOPUSH(campaignAddressNya);
+            openCampaignGROUP(campaignAddressNya);
           }
-          else if (page === "home") {
+
+          else if (page === "showChain") {
+            hideMODAL();
+            showChainlistPLUS();
+          }
+          else if (page === "showChainviewCampaign") {
+            hideMODAL();
+            showChainlistPLUSPLUS();
+          }
+          else if (page === "showCategory") {
+            hideMODAL();
+            showCategorylistPLUS();
+          }
+          else if (page === "showCategory2") {
+            hideMODAL();
+            showCategorylist2PLUS();
+          }
+          else if (page === "showCategory3") {
+            hideMODAL();
+            showCategorylist3PLUS();
+          }
+          else if (page === "" || page === undefined || page === null || page === "home") {
             if (currentPage === "createCampaign") {
-              showHomeScreenINDEXNOPUSH();
+              //firstHistory("");
+              showHomeScreenINDEX();
             }
             else if (currentPage === "viewCampaign") {
-              showHomeScreenRefreshPLUSNOPUSH(); //showmainbutton();
+              showHomeScreenRefreshPLUS(); //showmainbutton();
             }
+            else if (currentPage === "showChain") {
+              hideChainlistPLUS();
+            }
+            else if (currentPage === "showChainviewCampaign") {
+              hideChainlistPLUS();
+            }
+            else if (currentPage === "showCategory") {
+              hideCategorylistPLUS();
+            }
+            else if (currentPage === "showCategory2") {
+              ///firstHistory("");
+              hideCategorylist2PLUS();
+            }
+            else if (currentPage === "showCategory3") {
+              ///firstHistory("");
+              hideCategorylist3PLUS();
+            }
+            else if (currentPage === "home") {
+              ///firstHistory("home");
+              currentCampaignPage = currentCampaignPageNya;
+              if (currentCampaignPage === undefined) {
+                return;
+              }
+              loadCampaigns();
+
+              focusing2()
+            }
+          }
+          else if (page === "landing") {
+            showScreen1();
           }
           
         historyIndex = nextIndex;
@@ -2492,11 +2539,6 @@ document
 };
 
 window.openCampaignGROUP = async function(campaignAddress) {
-///
-firstHistory("viewCampaign");
-hidemainbutton(); hidemainbutton2(); openCampaign(campaignAddress)
-}
-window.openCampaignGROUPNOPUSH = async function(campaignAddress) {
 ///firstHistory("viewCampaign");
 hidemainbutton(); hidemainbutton2(); openCampaign(campaignAddress)
 }
@@ -4426,8 +4468,6 @@ function setCategory(category) {
     document
         .getElementById(category + "CategoryBtn")
         .classList.add("active");
-
-    hideCategorylistPLUS();
 }
 
 window.setCategory = setCategory;
@@ -4445,8 +4485,7 @@ function setCategory2(category) {
         .getElementById(category + "CategoryBtn2")
         .classList.add("active");
 
-    setCategoryFilter(category);
-    hideCategorylist2PLUS();
+    setCategoryFilter(category)
 }
 
 window.setCategory2 = setCategory2;
@@ -5356,11 +5395,6 @@ window.showCreateCampaignScreen = function () {
 };
 
 window.showCreateCampaignScreenGROUP = function () {
-///
-firstHistory("createCampaign");
-hidechainchainbutton(); hidemainbutton(); hidemainbutton2(); showCreateCampaignScreen();
-}
-window.showCreateCampaignScreenGROUPNOPUSH = function () {
 ///firstHistory("createCampaign");
 hidechainchainbutton(); hidemainbutton(); hidemainbutton2(); showCreateCampaignScreen();
 }
@@ -5456,19 +5490,6 @@ window.showHomeScreen = function () {
 };
 
 window.showHomeScreenINDEX = function () {
-      //beforePage = currentPage;
-      //currentPage = "";
-      //historyIndex++;
-      //history.pushState(
-        //{ page: "", index: historyIndex, currentCampaignPageNya: currentCampaignPage },
-        //"",
-        //""
-      //);
-  ///
-  firstHistory("home");
-  showHomeScreen();
-}
-window.showHomeScreenINDEXNOPUSH = function () {
       //beforePage = currentPage;
       //currentPage = "";
       //historyIndex++;
@@ -5995,22 +6016,6 @@ body: JSON.stringify({
 
     }
 
-            if (
-            e.code === -32603
-       ) {
-
-        hideLoading();
-                  return showToast(
-
-            "❌ Cancelled.",
-
-            3000,
-
-            0
-        );
-
-    }
-    
     /*
     finally {
 
@@ -6276,22 +6281,6 @@ if (amount > (yanggoalraw - yangraisedraw)) {
 
     }
 
-        if (
-            e.code === -32603
-       ) {
-
-        hideLoading();
-                  return showToast(
-
-            "❌ Cancelled.",
-
-            3000,
-
-            0
-        );
-
-    }
-    
         console.error(e);
 
         hideLoading();
@@ -6442,11 +6431,6 @@ window.showChainlistPLUSPLUS = function () {
 }
 
 window.showHomeScreenRefreshPLUS = function () {
-  ///
-  firstHistory("home");
-  showHomeScreenRefresh();
-}
-window.showHomeScreenRefreshPLUSNOPUSH = function () {
   ///firstHistory("home");
   showHomeScreenRefresh();
 }
@@ -7632,8 +7616,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             await reset_screen_main();
 
             await refreshCampaignCache();
-
-            firstHistory("home");
 
             await openCampaignFromUrl();
 
