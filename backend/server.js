@@ -175,7 +175,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const DEFAULTCHAIN = "Arc_Testnet";
+const DEFAULTCHAIN = "Arc"; //"Arc_Testnet";
 
 const CHAINS = {
   "arc-testnet": { rpc: process.env.ARC_RPC, usdc: process.env.ARC_TESTNET_USDC, decimals: 6 },
@@ -201,14 +201,14 @@ const providers = {
 };
 
 const CHAIN_MAP = {
-  "arc-testnet": "Arc_Testnet",
-  "base-sepolia": "Base_Sepolia",
-  "eth-sepolia": "Ethereum_Sepolia",
-  "ink-sepolia": "Ink_Sepolia",
-  "arbitrum-sepolia": "Arbitrum_Sepolia",
-  "avalanche-fuji" : "Avalanche_Fuji",
-  "hyperevm-testnet" : "HyperEVM_Testnet",
-  "unichain-sepolia" : "Unichain_Sepolia"
+  "arc-testnet": "Arc", //"Arc_Testnet",
+  "base-sepolia": "Base", //"Base_Sepolia",
+  "eth-sepolia": "Ethereum", //"Ethereum_Sepolia",
+  "ink-sepolia": "Ink", //"Ink_Sepolia",
+  "arbitrum-sepolia": "Arbitrum", //"Arbitrum_Sepolia",
+  "avalanche-fuji" : "Avalanche", //"Avalanche_Fuji",
+  "hyperevm-testnet" : "HyperEVM", //"HyperEVM_Testnet",
+  "unichain-sepolia" : "Unichain", //"Unichain_Sepolia"
 };
 
 const CHAIN_CONFIG = {
@@ -1124,7 +1124,7 @@ app.post('/api/bridge-to-arc', async (req, res) => {
 
       to: {
         adapter,
-        chain: "Arc_Testnet",
+        chain: "Arc", //"Arc_Testnet",
         recipientAddress:
           process.env.ARC_TREASURY
       },
@@ -1229,7 +1229,7 @@ app.post('/api/bridge-from-arc', async (req, res) => {
 
       from: {
         adapter,
-        chain: "Arc_Testnet"
+        chain: "Arc" //"Arc_Testnet"
       },
 
       to: {
@@ -1985,7 +1985,7 @@ if (chain === "arc-testnet") {
 
       from: {
         adapter,
-        chain: "Arc_Testnet"
+        chain: "Arc" //"Arc_Testnet"
       },
 
       to: {
@@ -2472,12 +2472,12 @@ app.get('/api/test-bridge-base-to-arc', async (req, res) => {
 
       from: {
         adapter,
-        chain: "Base_Sepolia"
+        chain: "Base" //"Base_Sepolia"
       },
 
       to: {
         adapter,
-        chain: "Arc_Testnet",
+        chain: "Arc", //"Arc_Testnet",
         recipientAddress: process.env.ARC_TREASURY
       },
 
@@ -2697,7 +2697,7 @@ console.log("expected =", expected.toString());
                         adapter,
 
                         chain:
-                            "Arc_Testnet",
+                            "Arc", //"Arc_Testnet",
 
                         recipientAddress:
                             process.env
@@ -2986,7 +2986,7 @@ WHERE campaignAddress = $1
 
                         adapter,
 
-                        chain: "Arc_Testnet"
+                        chain: "Arc" //"Arc_Testnet"
 
                     },
 

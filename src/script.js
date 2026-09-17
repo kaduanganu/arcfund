@@ -3447,14 +3447,14 @@ const userBalFormatted = formatUSDC(userBal);
   "unichain-sepolia": "/logo/uni_logo_small_testnet.png"
   };
   const displayname = {
-  "arc-testnet": "arctestnet",
-  "base-sepolia": "basesepolia",
-  "ink-sepolia": "inksepolia",
-  "arbitrum-sepolia": "arbitrumsepolia",
-  "eth-sepolia": "ethereumsepolia",
-  "avalanche-fuji": "avalanchefuji",
-  "hyperevm-testnet": "hyperevmtestnet",
-  "unichain-sepolia": "unichainsepolia"
+  "arc-testnet": "arc",
+  "base-sepolia": "base",
+  "ink-sepolia": "ink",
+  "arbitrum-sepolia": "arbitrum",
+  "eth-sepolia": "ethereum",
+  "avalanche-fuji": "avalanche",
+  "hyperevm-testnet": "hyperevm",
+  "unichain-sepolia": "unichain"
   };
 
   const logoWidth = window.innerWidth <= 768 ? '80%' : '50%';
