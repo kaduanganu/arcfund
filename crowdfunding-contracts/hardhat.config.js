@@ -13,26 +13,16 @@ module.exports = {
     }
   },
 
-  // Don't use the Etherscan-compatible route
   etherscan: {
-    enabled: false
-  },
-
-  // Optional: disable so we only test Blockscout
-  sourcify: {
-    enabled: false
-  },
-
-  blockscout: {
-    enabled: true,
-
+    apiKey: {
+      arc: "proapi_GLHMWKBb6Cmk6NdLqLF7byt5Yd5DItotyYsp2dC57XsDNBQVRsiIG36op5Etd1eO_dhp952" // Blockscout ignores the value, but Hardhat requires one
+    },
     customChains: [
       {
         network: "arc",
         chainId: 5042,
-
         urls: {
-          apiURL: "https://explorer.arc.io/api",
+          apiURL: "https://api.blockscout.com/v2/api?chain_id=5042",
           browserURL: "https://explorer.arc.io"
         }
       }

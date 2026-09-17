@@ -3598,22 +3598,22 @@ const userBalFormatted = formatUSDC(userBal);
       </div>
 
       <div id="arbitrum-sepoliachainbutton" 
-        class="option-btn-circle cheeeinbutton"
-        onclick="changeChainAndClose('arbitrum-sepolia')"
+        class="option-btn-circle-unsupported cheeeinbutton"
+        onclick="event.stopPropagation(); gekunsupported();"
       >
         <img src="/logo/arb_logo_small.png" width="32" style="position: relative; top: 1px;">
       </div>
 
       <div id="unichain-sepoliachainbutton" 
-        class="option-btn-circle cheeeinbutton"
-        onclick="changeChainAndClose('unichain-sepolia')"
+        class="option-btn-circle-unsupported cheeeinbutton"
+        onclick="event.stopPropagation(); gekunsupported();"
       >
         <img src="/logo/uni_logo_small_testnet.png" width="32" style="position: relative; top: 1px;">
       </div>
 
       <div id="avalanche-fujichainbutton" 
-        class="option-btn-circle cheeeinbutton"
-        onclick="changeChainAndClose('avalanche-fuji')"
+        class="option-btn-circle-unsupported cheeeinbutton"
+        onclick="event.stopPropagation(); gekunsupported();"
       >
         <img src="/logo/avax_logo_small.png" width="32" style="position: relative; top: 1px;">
       </div>
