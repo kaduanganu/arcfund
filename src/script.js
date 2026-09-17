@@ -4,7 +4,7 @@ import { ERC20_ABI } from "../crowdfunding-contracts/abis/ERC20ABI.js";
 
 window.ethers = ethers;
 
-const FACTORY_ADDRESS = "0x52B83f4E9C3a362f4C403AC0AC96943489b98C76"
+const FACTORY_ADDRESS = "0x74C4503D52bF1faDD8E8047398E32B5122d6f2D4"
 
 const CREATION_FEE = "1";
 
@@ -126,8 +126,8 @@ const USDC_ABI = [
 const BACKEND_URL =
 import.meta.env.VITE_BACKEND_URL;
 
-const SYSTEM_WALLET_X = "0x9068d4a1edcea0e553525e8ca5edbe57dfe900b6"; 
-const TREASURY_ADDRESS = "0x9068d4a1edcea0e553525e8ca5edbe57dfe900b6";
+const SYSTEM_WALLET_X = "0x70b9299eB1916D5E1E9acb6225835dCcD41f932d"; 
+const TREASURY_ADDRESS = "0x70b9299eB1916D5E1E9acb6225835dCcD41f932d";
 
 const VAULT_ADDRESS =
   import.meta.env.VITE_VAULT_ADDRESS;
